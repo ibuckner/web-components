@@ -1,0 +1,12 @@
+{
+ "search.exclude": {
+    "**/node_modules": true,
+  },
+  "files.exclude": {
+    "**/node_modules": false,
+  },
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "tslint.ignoreDefinitionFiles": true,
+  "typescript.tsdk": "node_modules\\typescript\\lib"
+}

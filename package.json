@@ -1,0 +1,45 @@
+{
+  "name": "@buckneri/web-components",
+  "version": "0.0.2",
+  "description": "Web components using Stencil",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "es2015": "dist/esm/index.mjs",
+  "es2017": "dist/esm/index.mjs",
+  "types": "dist/types/index.d.ts",
+  "collection": "dist/collection/collection-manifest.json",
+  "collection:main": "dist/collection/index.js",
+  "unpkg": "dist/web-components/web-components.js",
+  "files": [
+    "dist/",
+    "loader/"
+  ],
+  "scripts": {
+    "build": "stencil build --docs",
+    "start": "stencil build --dev --watch --serve",
+    "test": "stencil test --spec --e2e",
+    "test.watch": "stencil test --spec --e2e --watchAll",
+    "generate": "stencil generate",
+    "upload": "npm publish --access public",
+    "upload.test": "npm publish --dry-run --access public"
+  },
+  "devDependencies": {
+    "@stencil/core": "1.4.0",
+    "@types/jest": "^24.0.18",
+    "@types/puppeteer": "1.19.1",
+    "jest": "24.8.0",
+    "jest-cli": "24.8.0",
+    "puppeteer": "1.19.0"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@buckneri/js-lib-color": "0.0.4"
+  },
+  "bugs": {
+    "url": "https://github.com/ibuckner/web-components/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ibuckner/web-components.git"
+  }
+}
