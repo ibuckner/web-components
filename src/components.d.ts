@@ -23,6 +23,54 @@ export namespace Components {
     */
     'size': number;
   }
+  interface NelItemCollection {
+    /**
+    * Horizontal alignment of items in collection
+    */
+    'align': "horizontal" | "vertical";
+    'clear': () => Promise<boolean>;
+    /**
+    * Declare if element is disabled
+    */
+    'disabled': boolean;
+    /**
+    * Set whether collection can be resized
+    */
+    'resizable': boolean;
+    /**
+    * Set whether collection is sorted (alphabetically)
+    */
+    'sortable': boolean;
+  }
+  interface NelListItem {
+    /**
+    * List item color
+    */
+    'color': string;
+    /**
+    * Set whether element can be deleted
+    */
+    'deletable': boolean;
+    'delete': () => Promise<boolean>;
+    /**
+    * Declare if element is disabled
+    */
+    'disabled': boolean;
+    /**
+    * Set whether element can be selected
+    */
+    'selectable': boolean;
+  }
+  interface NelModalView {
+    /**
+    * Set the modal alignment
+    */
+    'alignment': "bottom" | "center" | "top";
+    /**
+    * Is the modal view open or closed?
+    */
+    'open': boolean;
+  }
   interface NelNetworkConnection {
     /**
     * If browser can access network resources
@@ -96,6 +144,24 @@ declare global {
     new (): HTMLNelExpandItemElement;
   };
 
+  interface HTMLNelItemCollectionElement extends Components.NelItemCollection, HTMLStencilElement {}
+  var HTMLNelItemCollectionElement: {
+    prototype: HTMLNelItemCollectionElement;
+    new (): HTMLNelItemCollectionElement;
+  };
+
+  interface HTMLNelListItemElement extends Components.NelListItem, HTMLStencilElement {}
+  var HTMLNelListItemElement: {
+    prototype: HTMLNelListItemElement;
+    new (): HTMLNelListItemElement;
+  };
+
+  interface HTMLNelModalViewElement extends Components.NelModalView, HTMLStencilElement {}
+  var HTMLNelModalViewElement: {
+    prototype: HTMLNelModalViewElement;
+    new (): HTMLNelModalViewElement;
+  };
+
   interface HTMLNelNetworkConnectionElement extends Components.NelNetworkConnection, HTMLStencilElement {}
   var HTMLNelNetworkConnectionElement: {
     prototype: HTMLNelNetworkConnectionElement;
@@ -115,6 +181,9 @@ declare global {
   };
   interface HTMLElementTagNameMap {
     'nel-expand-item': HTMLNelExpandItemElement;
+    'nel-item-collection': HTMLNelItemCollectionElement;
+    'nel-list-item': HTMLNelListItemElement;
+    'nel-modal-view': HTMLNelModalViewElement;
     'nel-network-connection': HTMLNelNetworkConnectionElement;
     'nel-text-input': HTMLNelTextInputElement;
     'nel-text-tag': HTMLNelTextTagElement;
@@ -135,6 +204,57 @@ declare namespace LocalJSX {
     * Text mask
     */
     'size'?: number;
+  }
+  interface NelItemCollection extends JSXBase.HTMLAttributes<HTMLNelItemCollectionElement> {
+    /**
+    * Horizontal alignment of items in collection
+    */
+    'align'?: "horizontal" | "vertical";
+    /**
+    * Declare if element is disabled
+    */
+    'disabled'?: boolean;
+    'onErased'?: (event: CustomEvent<any>) => void;
+    'onSorted'?: (event: CustomEvent<any>) => void;
+    /**
+    * Set whether collection can be resized
+    */
+    'resizable'?: boolean;
+    /**
+    * Set whether collection is sorted (alphabetically)
+    */
+    'sortable'?: boolean;
+  }
+  interface NelListItem extends JSXBase.HTMLAttributes<HTMLNelListItemElement> {
+    /**
+    * List item color
+    */
+    'color'?: string;
+    /**
+    * Set whether element can be deleted
+    */
+    'deletable'?: boolean;
+    /**
+    * Declare if element is disabled
+    */
+    'disabled'?: boolean;
+    'onDeleted'?: (event: CustomEvent<any>) => void;
+    'onDeleting'?: (event: CustomEvent<any>) => void;
+    'onSelected'?: (event: CustomEvent<any>) => void;
+    /**
+    * Set whether element can be selected
+    */
+    'selectable'?: boolean;
+  }
+  interface NelModalView extends JSXBase.HTMLAttributes<HTMLNelModalViewElement> {
+    /**
+    * Set the modal alignment
+    */
+    'alignment'?: "bottom" | "center" | "top";
+    /**
+    * Is the modal view open or closed?
+    */
+    'open'?: boolean;
   }
   interface NelNetworkConnection extends JSXBase.HTMLAttributes<HTMLNelNetworkConnectionElement> {
     /**
@@ -204,6 +324,9 @@ declare namespace LocalJSX {
 
   interface IntrinsicElements {
     'nel-expand-item': NelExpandItem;
+    'nel-item-collection': NelItemCollection;
+    'nel-list-item': NelListItem;
+    'nel-modal-view': NelModalView;
     'nel-network-connection': NelNetworkConnection;
     'nel-text-input': NelTextInput;
     'nel-text-tag': NelTextTag;

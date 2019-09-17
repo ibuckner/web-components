@@ -6,6 +6,22 @@
   <title>Web components with Stencil</title>
   <script type="module" src="/build/web-components.esm.js"></script>
   <script nomodule src="/build/web-components.js"></script>
+  <style>
+    .box {
+      border: 1px solid #000;
+      border-radius: 5px;
+      margin: 0.5rem;
+      padding: 0.5rem;
+      text-align: center;
+      width: 3rem
+    }
+    .modal-message {
+      background-color:#fff;
+      height: 200;
+      padding: 2rem;
+      width: 200
+    }
+  </style>
 </head>
 <body>
   <fieldset>
@@ -14,6 +30,64 @@
       <div slot="title">Hello</div>
       <div slot="content">World</div>
     </nel-expand-item>
+  </fieldset>
+
+  <fieldset>
+    <legend><h3>Item Collection</h3></legend>
+    <nel-item-collection id="list-collection" align="vertical" sortable resizable>
+      <div class="box">World</div>
+      <div class="box">Hello</div>
+    </nel-item-collection>
+    <button id="erase">Clear list</button>
+    <script type="text/javascript">
+      var list = document.querySelector("#list-collection");
+      var erase = document.querySelector("#erase");
+      erase.addEventListener("click", function() {
+        list.clear();
+      });
+    </script>
+  </fieldset>
+
+  <fieldset>
+    <legend><h3>List Item</h3></legend>
+    <nel-item-collection align="vertical" sortable resizable>
+      <nel-list-item color="lightgreen" selectable deletable>World</nel-list-item>
+      <nel-list-item color="lightblue" selectable deletable>Hello</nel-list-item>
+    </nel-item-collection>    
+    <script type="text/javascript">
+      [].slice.call(document.querySelectorAll("nel-list-item"))
+        .forEach(function(t) {
+          t.addEventListener("selected", (ev) => {
+            console.log("You selected " + ev.detail.textContent);
+          });
+          t.addEventListener("deleting", (ev) => {
+            console.log("You are deleting " + ev.detail.textContent);
+          });
+          t.addEventListener("deleted", (ev) => {
+            console.log("You have deleted " + ev.detail.textContent);
+          });
+        });
+    </script>
+  </fieldset>
+
+  <fieldset>
+    <legend><h3>Modal View</h3></legend>
+    <nel-modal-view id="modal" alignment="center">
+      <div class="modal-message">
+        Hello world!<br>
+        <button class="showModal">Hide message</button>
+      </div>
+    </nel-modal-view>
+    <button class="showModal">View message</button>
+    <script type="text/javascript">
+      var btns = [].slice.call(document.querySelectorAll(".showModal"));
+      var md = document.querySelector("#modal");
+      btns.forEach(function(b) {
+        b.addEventListener("click", function(ev) {
+          md.open = !md.open;
+        });
+      });
+    </script>
   </fieldset>
 
   <fieldset>

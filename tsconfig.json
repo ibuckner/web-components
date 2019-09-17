@@ -2,10 +2,7 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "allowUnreachableCode": false,
-    "composite": true,
-    "declaration": false,
     "experimentalDecorators": true,
-    "incremental": true,
     "jsx": "react",
     "jsxFactory": "h",
     "lib": [
@@ -16,8 +13,7 @@
     "module": "esnext",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "target": "es2017",
-    "tsBuildInfoFile": ".buildcache/default"
+    "target": "es2017"
   },
   "include": [
     "src",

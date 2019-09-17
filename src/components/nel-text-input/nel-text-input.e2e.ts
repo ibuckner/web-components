@@ -19,7 +19,7 @@ describe("nel-text-input", () => {
 
         component.setProperty("value", "1ll3gal chars");
         await page.waitForChanges();
-        expect((element as any).value).toEqual("");
+        expect((element as any).value).toBeUndefined();
       });
   });
 });

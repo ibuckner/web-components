@@ -13,7 +13,6 @@ log.txt
 *.sublime-project
 *.sublime-workspace
 
-.buildcache/
 .idea/
 .sass-cache/
 .stencil/
