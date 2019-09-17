@@ -6,6 +6,7 @@ import { Component, Element, h, Listen, Prop, Watch } from "@stencil/core";
   shadow: true
 })
 export class TextInput {
+  private _input: HTMLInputElement;
   private _mask: RegExp = /.*/;
 
   @Element() el: HTMLElement;
@@ -51,7 +52,13 @@ export class TextInput {
   }
 
   componentDidLoad(): void {
+    this._input = this.el.shadowRoot.querySelector("input");
     this._mask = new RegExp(this.mask);
+  }
+
+  @Listen("input")
+  handleInput(): void {
+    this.value = this._input.value;
   }
 
   @Listen("keydown")
