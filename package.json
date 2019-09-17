@@ -1,6 +1,6 @@
 {
   "name": "@buckneri/web-components",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "Web components using Stencil",
   "main": "dist/index.js",
   "module": "dist/index.mjs",

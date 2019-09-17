@@ -9,6 +9,30 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 
 
 export namespace Components {
+  interface NelExpandItem {
+    /**
+    * Is element disabled
+    */
+    'disabled': boolean;
+    /**
+    * If element in open state
+    */
+    'open': boolean;
+    /**
+    * Text mask
+    */
+    'size': number;
+  }
+  interface NelNetworkConnection {
+    /**
+    * If browser can access network resources
+    */
+    'available': boolean;
+    /**
+    * Is element disabled
+    */
+    'disabled': boolean;
+  }
   interface NelTextInput {
     /**
     * Declare if element is disabled
@@ -66,6 +90,18 @@ export namespace Components {
 declare global {
 
 
+  interface HTMLNelExpandItemElement extends Components.NelExpandItem, HTMLStencilElement {}
+  var HTMLNelExpandItemElement: {
+    prototype: HTMLNelExpandItemElement;
+    new (): HTMLNelExpandItemElement;
+  };
+
+  interface HTMLNelNetworkConnectionElement extends Components.NelNetworkConnection, HTMLStencilElement {}
+  var HTMLNelNetworkConnectionElement: {
+    prototype: HTMLNelNetworkConnectionElement;
+    new (): HTMLNelNetworkConnectionElement;
+  };
+
   interface HTMLNelTextInputElement extends Components.NelTextInput, HTMLStencilElement {}
   var HTMLNelTextInputElement: {
     prototype: HTMLNelTextInputElement;
@@ -78,12 +114,38 @@ declare global {
     new (): HTMLNelTextTagElement;
   };
   interface HTMLElementTagNameMap {
+    'nel-expand-item': HTMLNelExpandItemElement;
+    'nel-network-connection': HTMLNelNetworkConnectionElement;
     'nel-text-input': HTMLNelTextInputElement;
     'nel-text-tag': HTMLNelTextTagElement;
   }
 }
 
 declare namespace LocalJSX {
+  interface NelExpandItem extends JSXBase.HTMLAttributes<HTMLNelExpandItemElement> {
+    /**
+    * Is element disabled
+    */
+    'disabled'?: boolean;
+    /**
+    * If element in open state
+    */
+    'open'?: boolean;
+    /**
+    * Text mask
+    */
+    'size'?: number;
+  }
+  interface NelNetworkConnection extends JSXBase.HTMLAttributes<HTMLNelNetworkConnectionElement> {
+    /**
+    * If browser can access network resources
+    */
+    'available'?: boolean;
+    /**
+    * Is element disabled
+    */
+    'disabled'?: boolean;
+  }
   interface NelTextInput extends JSXBase.HTMLAttributes<HTMLNelTextInputElement> {
     /**
     * Declare if element is disabled
@@ -141,6 +203,8 @@ declare namespace LocalJSX {
   }
 
   interface IntrinsicElements {
+    'nel-expand-item': NelExpandItem;
+    'nel-network-connection': NelNetworkConnection;
     'nel-text-input': NelTextInput;
     'nel-text-tag': NelTextTag;
   }

@@ -9,6 +9,24 @@
 </head>
 <body>
   <fieldset>
+    <legend><h3>Expand Item</h3></legend>
+    <nel-expand-item size="1.75">
+      <div slot="title">Hello</div>
+      <div slot="content">World</div>
+    </nel-expand-item>
+  </fieldset>
+
+  <fieldset>
+    <legend><h3>Network Connection</h3></legend>
+    Disable the network via DevTools.<br>
+    (On Chrome)<br>
+    F12 Key -> Network tab -> Toggle between Online and offline
+    <nel-network-connection>
+      <div style="color: red">Whoa there, you are offline!</div>
+    </nel-network-connection>
+  </fieldset>  
+
+  <fieldset>
     <legend><h3>Text Input</h3></legend>
     <label>Enter just numbers <nel-text-input mask="\d+" pattern=".*" placeholder="Enter a number" value=""></label>
   </fieldset>  
