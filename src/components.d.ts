@@ -9,6 +9,36 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 
 
 export namespace Components {
+  interface NelTextInput {
+    /**
+    * Declare if element is disabled
+    */
+    'disabled': boolean;
+    /**
+    * Text mask
+    */
+    'mask': string;
+    /**
+    * Maximum length
+    */
+    'maxlength': number;
+    /**
+    * Minimum length
+    */
+    'minlength': number;
+    /**
+    * Text pattern
+    */
+    'pattern': string;
+    /**
+    * Text placeholder
+    */
+    'placeholder': string;
+    /**
+    * Text value
+    */
+    'value': string;
+  }
   interface NelTextTag {
     /**
     * Main color
@@ -36,17 +66,54 @@ export namespace Components {
 declare global {
 
 
+  interface HTMLNelTextInputElement extends Components.NelTextInput, HTMLStencilElement {}
+  var HTMLNelTextInputElement: {
+    prototype: HTMLNelTextInputElement;
+    new (): HTMLNelTextInputElement;
+  };
+
   interface HTMLNelTextTagElement extends Components.NelTextTag, HTMLStencilElement {}
   var HTMLNelTextTagElement: {
     prototype: HTMLNelTextTagElement;
     new (): HTMLNelTextTagElement;
   };
   interface HTMLElementTagNameMap {
+    'nel-text-input': HTMLNelTextInputElement;
     'nel-text-tag': HTMLNelTextTagElement;
   }
 }
 
 declare namespace LocalJSX {
+  interface NelTextInput extends JSXBase.HTMLAttributes<HTMLNelTextInputElement> {
+    /**
+    * Declare if element is disabled
+    */
+    'disabled'?: boolean;
+    /**
+    * Text mask
+    */
+    'mask'?: string;
+    /**
+    * Maximum length
+    */
+    'maxlength'?: number;
+    /**
+    * Minimum length
+    */
+    'minlength'?: number;
+    /**
+    * Text pattern
+    */
+    'pattern'?: string;
+    /**
+    * Text placeholder
+    */
+    'placeholder'?: string;
+    /**
+    * Text value
+    */
+    'value'?: string;
+  }
   interface NelTextTag extends JSXBase.HTMLAttributes<HTMLNelTextTagElement> {
     /**
     * Main color
@@ -74,6 +141,7 @@ declare namespace LocalJSX {
   }
 
   interface IntrinsicElements {
+    'nel-text-input': NelTextInput;
     'nel-text-tag': NelTextTag;
   }
 }

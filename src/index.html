@@ -8,19 +8,27 @@
   <script nomodule src="/build/web-components.js"></script>
 </head>
 <body>
-  The quick brown <nel-text-tag id="mammalTag" selectable deletable color="green" label="Mammal">fox</nel-text-tag>
-  jumped over the gate.
-  <script type="text/javascript">
-    const tt = document.querySelector("nel-text-tag");
-    tt.addEventListener("selected", (ev) => {
-      console.log("You selected " + ev.detail.id);
-    });
-    tt.addEventListener("deleting", (ev) => {
-      console.log("You are deleting " + ev.detail.id);
-    });
-    tt.addEventListener("deleted", (ev) => {
-      console.log("You have deleted " + ev.detail.id);
-    });
-  </script>
+  <fieldset>
+    <legend><h3>Text Input</h3></legend>
+    <label>Enter just numbers <nel-text-input mask="\d+" pattern=".*" placeholder="Enter a number" value=""></label>
+  </fieldset>  
+
+  <fieldset>
+    <legend><h3>Text Tag</h3></legend>
+    The quick brown <nel-text-tag id="mammalTag" selectable deletable color="green" label="Mammal">fox</nel-text-tag>
+    jumped over the gate.
+    <script type="text/javascript">
+      const tt = document.querySelector("nel-text-tag");
+      tt.addEventListener("selected", (ev) => {
+        console.log("You selected " + ev.detail.id);
+      });
+      tt.addEventListener("deleting", (ev) => {
+        console.log("You are deleting " + ev.detail.id);
+      });
+      tt.addEventListener("deleted", (ev) => {
+        console.log("You have deleted " + ev.detail.id);
+      });
+    </script>
+  </fieldset>
 </body>
 </html>
