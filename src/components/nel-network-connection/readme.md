@@ -7,10 +7,9 @@
 
 ## Properties
 
-| Property    | Attribute   | Description                             | Type      | Default |
-| ----------- | ----------- | --------------------------------------- | --------- | ------- |
-| `available` | `available` | If browser can access network resources | `boolean` | `true`  |
-| `disabled`  | `disabled`  | Is element disabled                     | `boolean` | `false` |
+| Property    | Attribute   | Description                                    | Type      | Default |
+| ----------- | ----------- | ---------------------------------------------- | --------- | ------- |
+| `available` | `available` | If true, content within element remains hidden | `boolean` | `true`  |
 
 
 ----------------------------------------------

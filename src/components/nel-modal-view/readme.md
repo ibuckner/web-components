@@ -7,10 +7,10 @@
 
 ## Properties
 
-| Property    | Attribute   | Description                       | Type                            | Default    |
-| ----------- | ----------- | --------------------------------- | ------------------------------- | ---------- |
-| `alignment` | `alignment` | Set the modal alignment           | `"bottom" \| "center" \| "top"` | `"center"` |
-| `open`      | `open`      | Is the modal view open or closed? | `boolean`                       | `false`    |
+| Property    | Attribute   | Description                                            | Type                            | Default    |
+| ----------- | ----------- | ------------------------------------------------------ | ------------------------------- | ---------- |
+| `alignment` | `alignment` | Aligns child elements. Defaults to center of viewport. | `"bottom" \| "center" \| "top"` | `"center"` |
+| `open`      | `open`      | If true, displays the modal element                    | `boolean`                       | `false`    |
 
 
 ----------------------------------------------

@@ -7,15 +7,15 @@
 
 ## Properties
 
-| Property      | Attribute     | Description                    | Type      | Default |
-| ------------- | ------------- | ------------------------------ | --------- | ------- |
-| `disabled`    | `disabled`    | Declare if element is disabled | `boolean` | `false` |
-| `mask`        | `mask`        | Text mask                      | `string`  | `""`    |
-| `maxlength`   | `maxlength`   | Maximum length                 | `number`  | `-1`    |
-| `minlength`   | `minlength`   | Minimum length                 | `number`  | `-1`    |
-| `pattern`     | `pattern`     | Text pattern                   | `string`  | `""`    |
-| `placeholder` | `placeholder` | Text placeholder               | `string`  | `""`    |
-| `value`       | `value`       | Text value                     | `string`  | `""`    |
+| Property      | Attribute     | Description                                                             | Type      | Default |
+| ------------- | ------------- | ----------------------------------------------------------------------- | --------- | ------- |
+| `disabled`    | `disabled`    | If false, element is partly greyed out and not responding to user input | `boolean` | `false` |
+| `mask`        | `mask`        | Sets a regular expression to restrict data entry to allowed characters  | `string`  | `""`    |
+| `maxlength`   | `maxlength`   | Maximum length of text entry                                            | `number`  | `-1`    |
+| `minlength`   | `minlength`   | Minimum length of text entry                                            | `number`  | `-1`    |
+| `pattern`     | `pattern`     | Sets a regular expression to validate text                              | `string`  | `""`    |
+| `placeholder` | `placeholder` | Sets a visual text prompt as a palceholder within text box              | `string`  | `""`    |
+| `value`       | `value`       | Sets the value of the text box                                          | `string`  | `""`    |
 
 
 ----------------------------------------------

@@ -7,22 +7,35 @@
 
 ## Properties
 
-| Property     | Attribute    | Description                                      | Type      | Default  |
-| ------------ | ------------ | ------------------------------------------------ | --------- | -------- |
-| `color`      | `color`      | Main color                                       | `string`  | `"#aaa"` |
-| `deletable`  | `deletable`  | Declare if tag responds to delete/backspace keys | `boolean` | `false`  |
-| `disabled`   | `disabled`   | Declare if tag is disabled                       | `boolean` | `false`  |
-| `label`      | `label`      | Text label                                       | `string`  | `""`     |
-| `selectable` | `selectable` | Declare if tag can be selected                   | `boolean` | `false`  |
+| Property     | Attribute    | Description                                                             | Type      | Default     |
+| ------------ | ------------ | ----------------------------------------------------------------------- | --------- | ----------- |
+| `color`      | `color`      | Sets the background color of the element                                | `string`  | `"#eeeeee"` |
+| `deletable`  | `deletable`  | If true, allows the element to be delete using keyboard                 | `boolean` | `false`     |
+| `disabled`   | `disabled`   | If false, element is partly greyed out and not responding to user input | `boolean` | `false`     |
+| `label`      | `label`      | Sets the text label  to be applied to the element                       | `string`  | `""`        |
+| `selectable` | `selectable` | If true, allows the element to receive focus                            | `boolean` | `false`     |
 
 
 ## Events
 
-| Event      | Description | Type               |
-| ---------- | ----------- | ------------------ |
-| `deleted`  |             | `CustomEvent<any>` |
-| `deleting` |             | `CustomEvent<any>` |
-| `selected` |             | `CustomEvent<any>` |
+| Event      | Description                               | Type               |
+| ---------- | ----------------------------------------- | ------------------ |
+| `deleted`  | Raised after element is removed from DOM  | `CustomEvent<any>` |
+| `deleting` | Raised before element is removed from DOM | `CustomEvent<any>` |
+| `selected` | Raised after element receives focus       | `CustomEvent<any>` |
+
+
+## Methods
+
+### `delete() => Promise<boolean>`
+
+Removes element from DOM
+
+#### Returns
+
+Type: `Promise<boolean>`
+
+
 
 
 ----------------------------------------------

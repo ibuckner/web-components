@@ -1,22 +1,22 @@
-import { Component, Element, h, Listen, Prop } from "@stencil/core";
+import {
+  Component, ComponentInterface, Element, h, Listen, Prop
+} from "@stencil/core";
 
+/**
+ * Displays content when network connectivity is interrupted
+ */
 @Component({
   tag: "nel-network-connection",
   styleUrl: "nel-network-connection.css",
   shadow: true
 })
-export class NetworkConnection {
+export class NetworkConnection implements ComponentInterface {
   @Element() el: HTMLElement;
 
   /**
-   * If browser can access network resources
+   * If true, content within element remains hidden
    */
   @Prop({ reflect: true }) available: boolean = true;
-
-  /**
-   * Is element disabled
-   */
-  @Prop({ reflect: true }) disabled: boolean = false;
 
   @Listen("online", { target: "window" })
   handleOnline(): void {

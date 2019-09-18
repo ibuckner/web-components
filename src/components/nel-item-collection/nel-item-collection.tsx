@@ -1,34 +1,37 @@
-import { Component, Element, Event, EventEmitter, h, Method, Prop, Watch } from "@stencil/core";
+import {
+  Component, ComponentInterface, Element, Event, EventEmitter, h,
+  Method, Prop, Watch
+} from "@stencil/core";
 
+/**
+ * Organises child elements vertically or horizontally
+ */
 @Component({
   tag: "nel-item-collection",
   styleUrl: "nel-item-collection.css",
   shadow: true
 })
-export class ItemCollection {
-  private _observerConfig: any = {
-    attributes: false, childList: true, subtree: false
-  };
-
+export class ItemCollection implements ComponentInterface {
   @Element() el: HTMLElement;
 
   /**
-   * Horizontal alignment of items in collection
+   * Aligns child elements within collection. Defaults to vertical list.
    */
   @Prop({ reflect: true }) align: "horizontal" | "vertical" = "vertical";
 
   /**
-   * Declare if element is disabled
+   * If false, element is partly greyed out and not responding to user input
    */
   @Prop({ reflect: true }) disabled: boolean = false;
 
   /**
-   * Set whether collection can be resized
+   * Displays the element resize handle (bottom right corner) if true
    */
   @Prop({ reflect: true }) resizable: boolean = false;
 
   /**
-   * Set whether collection is sorted (alphabetically)
+   * New elements added to the collection will cause all child elements
+   * to be sorted alphabetically
    */
   @Prop({ reflect: true }) sortable: boolean = false;
 
@@ -40,35 +43,25 @@ export class ItemCollection {
   @Watch("sortable")
   validateSortable(newValue: string): void {
     if (Boolean(newValue)) {
-      this._sort();
+      this.sort();
     }
   }
 
+  /**
+   * Raised after child elements are removed via clear() method
+   */
   @Event() erased: EventEmitter;
+
+  /**
+   * Raised after child elements are sorted
+   */
   @Event() sorted: EventEmitter;
 
-  public componentWillLoad(): void {
-    const obs: MutationObserver = new MutationObserver(list => {
-      let addedNodes: number = 0;
-      obs.disconnect();
-      for (let mutation of list) {
-        if (mutation.type === "childList") { // add/remove node
-          if (mutation.addedNodes.length > 0 && this.sortable) {
-            ++addedNodes;
-          }
-        }
-      }
-      if (addedNodes > 0) {
-        this._sort();
-        addedNodes = 0;
-      }
-      obs.observe(this.el, this._observerConfig);
-    });
-    obs.observe(this.el, this._observerConfig);
-  }
-
+  /**
+   * Clears out all child elements from collection
+   */
   @Method()
-  async clear(): Promise<boolean> {
+  public async clear(): Promise<boolean> {
     for (let el of Array.from(this.el.children)) {
       this.el.removeChild(el);
     }
@@ -76,13 +69,22 @@ export class ItemCollection {
     return Promise.resolve(true);
   }
 
-  private _sort(): void {
+  /**
+   * Sorts child elements in collection based on text content
+   * @param {boolean} reverse - default is false (A-Z sort order)
+   */
+  @Method()
+  public async sort(reverse?: boolean | undefined): Promise<boolean> {
+    reverse = reverse || false;
     const sorted: Node[] = Array.from(this.el.children)
-      .sort((a: Node, b: Node) => (a.textContent || "") > (b.textContent || "") ? 1 : -1);
+      .sort(reverse
+        ? (a: Node, b: Node) => (a.textContent || "") > (b.textContent || "") ? -1 : 1
+        : (a: Node, b: Node) => (a.textContent || "") > (b.textContent || "") ? 1 : -1);
     Array.from(this.el.children)
       .map(el => this.el.removeChild(el));
     sorted.map(el => this.el.appendChild(el));
     this.sorted.emit(this.el);
+    return Promise.resolve(true);
   }
 
   render(): any {

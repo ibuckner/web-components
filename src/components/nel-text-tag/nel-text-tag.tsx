@@ -1,44 +1,61 @@
-import { Component, Element, Event, EventEmitter, h, Listen, Prop } from "@stencil/core";
+import {
+  Component, ComponentInterface, Element, Event, EventEmitter,
+  h, Listen, Method, Prop
+} from "@stencil/core";
 import { RGB } from "@buckneri/js-lib-color";
 
+/**
+ * Similar in function to mark element
+ */
 @Component({
   tag: "nel-text-tag",
   styleUrl: "nel-text-tag.css",
   shadow: true
 })
-export class TextTag {
+export class TextTag implements ComponentInterface {
   @Element() el: HTMLElement;
 
   /**
-   * Main color
+   * Sets the background color of the element
    */
-  @Prop({ reflect: true }) color: string = "#aaa";
+  @Prop({ reflect: true }) color: string = "#eeeeee";
 
   /**
-   * Declare if tag responds to delete/backspace keys
+   * If true, allows the element to be delete using keyboard
    */
   @Prop({ reflect: true }) deletable: boolean = false;
 
   /**
-   * Declare if tag is disabled
+   * If false, element is partly greyed out and not responding to user input
    */
   @Prop({ reflect: true }) disabled: boolean = false;
 
   /**
-   * Text label
+   * Sets the text label  to be applied to the element
    */
   @Prop({ reflect: true }) label: string = "";
 
   /**
-   * Declare if tag can be selected
+   * If true, allows the element to receive focus
    */
   @Prop({ reflect: true }) selectable: boolean = false;
 
+  /**
+   * Raised before element is removed from DOM
+   */
   @Event({
     eventName: "deleting", composed: true,
     cancelable: true, bubbles: true
   }) deleting: EventEmitter;
+
+  /**
+   * Raised after element is removed from DOM
+   */
   @Event() deleted: EventEmitter;
+
+  /**
+   * Raised after element receives focus
+   */
   @Event() selected: EventEmitter;
 
   @Listen("click")
@@ -57,8 +74,7 @@ export class TextTag {
 
   @Listen("keydown")
   handleKeyDown(ev: KeyboardEvent): void {
-    if (this.disabled || !this.selectable
-        || ev.isComposing || ev.keyCode === 229) {
+    if (this.disabled || !this.selectable || ev.keyCode === 229) {
       ev.preventDefault();
       return;
     }
@@ -71,15 +87,19 @@ export class TextTag {
   @Listen("deleting")
   handleDeleting(): void {
     this.deleted.emit(this.el);
-    this._delete();
+    this.delete();
   }
 
-  private _delete(): void {
-    if (this.disabled || !this.deletable) { return; }
+  /**
+   * Removes element from DOM
+   */
+  @Method()
+  async delete(): Promise<boolean> {
     const parent: any = this.el.parentNode;
     this.el.insertAdjacentText("beforebegin", this.el.textContent || "");
     parent.removeChild(this.el);
     parent.normalize();
+    return Promise.resolve(true);
   }
 
   render(): any {

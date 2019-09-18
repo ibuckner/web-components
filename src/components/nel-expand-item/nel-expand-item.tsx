@@ -1,5 +1,8 @@
 import { Component, Element, h, Listen, Prop } from "@stencil/core";
 
+/**
+ * Similar in function to detail/summary elements
+ */
 @Component({
   tag: "nel-expand-item",
   styleUrl: "nel-expand-item.css",
@@ -9,17 +12,17 @@ export class ExpandItem {
   @Element() el: HTMLElement;
 
   /**
-   * Is element disabled
+   * If false, element is partly greyed out and not responding to user input
    */
   @Prop({ reflect: true }) disabled: boolean = false;
 
   /**
-   * If element in open state
+   * If true, main contents of element are visible
    */
   @Prop({ reflect: true }) open: boolean = false;
 
   /**
-   * Text mask
+   * Adjusts the size of the marker, using CSS rem units of measurement
    */
   @Prop({ reflect: true }) size: number = 2;
 
@@ -28,9 +31,10 @@ export class ExpandItem {
     if (this.disabled) {
       ev.preventDefault();
       ev.stopPropagation();
-      return;
+      return false;
     }
     this.open = !(this.el as any).open;
+    return true;
   }
 
   @Listen("keydown")
@@ -38,12 +42,15 @@ export class ExpandItem {
     if (this.disabled) {
       ev.preventDefault();
       ev.stopPropagation();
-      return;
+      return false;
     }
-    if (ev.isComposing || ev.keyCode === 229) { return; }
+    if (ev.keyCode === 229) {
+      return false;
+    }
     switch (ev.code) {
       case "Space": this.open = !this.open; break;
     }
+    return true;
   }
 
   render(): any {

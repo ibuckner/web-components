@@ -35,22 +35,42 @@
   <fieldset>
     <legend><h3>Item Collection</h3></legend>
     <nel-item-collection id="list-collection" align="vertical" sortable resizable>
-      <div class="box">World</div>
-      <div class="box">Hello</div>
+      <div class="box">A</div>
+      <div class="box">B</div>
     </nel-item-collection>
     <button id="erase">Clear list</button>
+    <button id="sortAZ">▼ A-Z</button>
+    <button id="sortZA">▲ Z-A</button>
+    <button id="addItem">Add text</button>
+    <input id="addItemText" type="text" placeholder="Letter of alphabet" value="C" maxlength="1" />
     <script type="text/javascript">
       var list = document.querySelector("#list-collection");
-      var erase = document.querySelector("#erase");
-      erase.addEventListener("click", function() {
-        list.clear();
-      });
+      document.querySelector("#erase")
+        .addEventListener("click", function() {
+          list.clear();
+        });
+      document.querySelector("#sortAZ")
+        .addEventListener("click", function() {
+          list.sort();
+        });
+      document.querySelector("#sortZA")
+        .addEventListener("click", function() {
+          list.sort(true);
+        });
+      document.querySelector("#addItem")
+        .addEventListener("click", function() {
+          const t = document.createElement("div");
+          t.classList.add("box");
+          var letter = document.querySelector("#addItemText");
+          t.textContent = letter.value;
+          list.appendChild(t);
+        });
     </script>
   </fieldset>
 
   <fieldset>
     <legend><h3>List Item</h3></legend>
-    <nel-item-collection align="vertical" sortable resizable>
+    <nel-item-collection id="" align="vertical" sortable resizable>
       <nel-list-item color="lightgreen" selectable deletable>World</nel-list-item>
       <nel-list-item color="lightblue" selectable deletable>Hello</nel-list-item>
     </nel-item-collection>    

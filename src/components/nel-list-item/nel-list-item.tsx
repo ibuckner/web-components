@@ -1,38 +1,55 @@
-import { Component, Element, Event, EventEmitter, h, Listen, Method, Prop } from "@stencil/core";
+import {
+  Component, ComponentInterface, Element, Event, EventEmitter, h,
+  Listen, Method, Prop
+} from "@stencil/core";
 
+/**
+ * Similar in behaviour to li element
+ */
 @Component({
   tag: "nel-list-item",
   styleUrl: "nel-list-item.css",
   shadow: true
 })
-export class ListItem {
+export class ListItem implements ComponentInterface {
   @Element() el: HTMLElement;
 
   /**
-   * List item color
+   * Sets the bullet color of the element. Default is #eeeeee
    */
   @Prop({ reflect: true }) color: string = "#eeeeee";
 
   /**
-   * Set whether element can be deleted
+   * If true, allows the element to be delete using keyboard
    */
   @Prop({ reflect: true }) deletable: boolean = false;
 
   /**
-   * Declare if element is disabled
+   * If false, element is partly greyed out and not responding to user input
    */
   @Prop({ reflect: true }) disabled: boolean = false;
 
   /**
-   * Set whether element can be selected
+   * If true, allows the element to receive focus
    */
   @Prop({ reflect: true }) selectable: boolean = false;
 
+  /**
+   * Raised before element is removed from DOM
+   */
   @Event({
     eventName: "deleting", composed: true,
     cancelable: true, bubbles: true
   }) deleting: EventEmitter;
+
+  /**
+   * Raised after element is removed from DOM
+   */
   @Event() deleted: EventEmitter;
+
+  /**
+   * Raised after element receives focus
+   */
   @Event() selected: EventEmitter;
 
   @Listen("click")
@@ -51,8 +68,7 @@ export class ListItem {
 
   @Listen("keydown")
   handleKeyDown(ev: KeyboardEvent): void {
-    if (this.disabled || !this.selectable || !this.deletable
-        || ev.isComposing || ev.keyCode === 229) {
+    if (this.disabled || !this.selectable || !this.deletable || ev.keyCode === 229) {
       ev.preventDefault();
       return;
     }
@@ -67,6 +83,9 @@ export class ListItem {
     this.delete();
   }
 
+  /**
+   * Removes element from DOM
+   */
   @Method()
   async delete(): Promise<boolean> {
     this.deleted.emit(this.el);

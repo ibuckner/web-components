@@ -2,6 +2,7 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "allowUnreachableCode": false,
+    "declaration": false,
     "experimentalDecorators": true,
     "jsx": "react",
     "jsxFactory": "h",
@@ -11,6 +12,9 @@
     ],
     "moduleResolution": "node",
     "module": "esnext",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "target": "es2017"

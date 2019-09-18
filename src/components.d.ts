@@ -11,125 +11,136 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 export namespace Components {
   interface NelExpandItem {
     /**
-    * Is element disabled
+    * If false, element is partly greyed out and not responding to user input
     */
     'disabled': boolean;
     /**
-    * If element in open state
+    * If true, main contents of element are visible
     */
     'open': boolean;
     /**
-    * Text mask
+    * Adjusts the size of the marker, using CSS rem units of measurement
     */
     'size': number;
   }
   interface NelItemCollection {
     /**
-    * Horizontal alignment of items in collection
+    * Aligns child elements within collection. Defaults to vertical list.
     */
     'align': "horizontal" | "vertical";
+    /**
+    * Clears out all child elements from collection
+    */
     'clear': () => Promise<boolean>;
     /**
-    * Declare if element is disabled
+    * If false, element is partly greyed out and not responding to user input
     */
     'disabled': boolean;
     /**
-    * Set whether collection can be resized
+    * Displays the element resize handle (bottom right corner) if true
     */
     'resizable': boolean;
     /**
-    * Set whether collection is sorted (alphabetically)
+    * Sorts child elements in collection based on text content
+    * @param reverse - default is false (A-Z sort order)
+    */
+    'sort': (reverse?: boolean) => Promise<boolean>;
+    /**
+    * New elements added to the collection will cause all child elements to be sorted alphabetically
     */
     'sortable': boolean;
   }
   interface NelListItem {
     /**
-    * List item color
+    * Sets the bullet color of the element. Default is #eeeeee
     */
     'color': string;
     /**
-    * Set whether element can be deleted
+    * If true, allows the element to be delete using keyboard
     */
     'deletable': boolean;
+    /**
+    * Removes element from DOM
+    */
     'delete': () => Promise<boolean>;
     /**
-    * Declare if element is disabled
+    * If false, element is partly greyed out and not responding to user input
     */
     'disabled': boolean;
     /**
-    * Set whether element can be selected
+    * If true, allows the element to receive focus
     */
     'selectable': boolean;
   }
   interface NelModalView {
     /**
-    * Set the modal alignment
+    * Aligns child elements. Defaults to center of viewport.
     */
     'alignment': "bottom" | "center" | "top";
     /**
-    * Is the modal view open or closed?
+    * If true, displays the modal element
     */
     'open': boolean;
   }
   interface NelNetworkConnection {
     /**
-    * If browser can access network resources
+    * If true, content within element remains hidden
     */
     'available': boolean;
-    /**
-    * Is element disabled
-    */
-    'disabled': boolean;
   }
   interface NelTextInput {
     /**
-    * Declare if element is disabled
+    * If false, element is partly greyed out and not responding to user input
     */
     'disabled': boolean;
     /**
-    * Text mask
+    * Sets a regular expression to restrict data entry to allowed characters
     */
     'mask': string;
     /**
-    * Maximum length
+    * Maximum length of text entry
     */
     'maxlength': number;
     /**
-    * Minimum length
+    * Minimum length of text entry
     */
     'minlength': number;
     /**
-    * Text pattern
+    * Sets a regular expression to validate text
     */
     'pattern': string;
     /**
-    * Text placeholder
+    * Sets a visual text prompt as a palceholder within text box
     */
     'placeholder': string;
     /**
-    * Text value
+    * Sets the value of the text box
     */
     'value': string;
   }
   interface NelTextTag {
     /**
-    * Main color
+    * Sets the background color of the element
     */
     'color': string;
     /**
-    * Declare if tag responds to delete/backspace keys
+    * If true, allows the element to be delete using keyboard
     */
     'deletable': boolean;
     /**
-    * Declare if tag is disabled
+    * Removes element from DOM
+    */
+    'delete': () => Promise<boolean>;
+    /**
+    * If false, element is partly greyed out and not responding to user input
     */
     'disabled': boolean;
     /**
-    * Text label
+    * Sets the text label  to be applied to the element
     */
     'label': string;
     /**
-    * Declare if tag can be selected
+    * If true, allows the element to receive focus
     */
     'selectable': boolean;
   }
@@ -193,131 +204,151 @@ declare global {
 declare namespace LocalJSX {
   interface NelExpandItem extends JSXBase.HTMLAttributes<HTMLNelExpandItemElement> {
     /**
-    * Is element disabled
+    * If false, element is partly greyed out and not responding to user input
     */
     'disabled'?: boolean;
     /**
-    * If element in open state
+    * If true, main contents of element are visible
     */
     'open'?: boolean;
     /**
-    * Text mask
+    * Adjusts the size of the marker, using CSS rem units of measurement
     */
     'size'?: number;
   }
   interface NelItemCollection extends JSXBase.HTMLAttributes<HTMLNelItemCollectionElement> {
     /**
-    * Horizontal alignment of items in collection
+    * Aligns child elements within collection. Defaults to vertical list.
     */
     'align'?: "horizontal" | "vertical";
     /**
-    * Declare if element is disabled
+    * If false, element is partly greyed out and not responding to user input
     */
     'disabled'?: boolean;
+    /**
+    * Raised after child elements are removed via clear() method
+    */
     'onErased'?: (event: CustomEvent<any>) => void;
+    /**
+    * Raised after child elements are sorted
+    */
     'onSorted'?: (event: CustomEvent<any>) => void;
     /**
-    * Set whether collection can be resized
+    * Displays the element resize handle (bottom right corner) if true
     */
     'resizable'?: boolean;
     /**
-    * Set whether collection is sorted (alphabetically)
+    * New elements added to the collection will cause all child elements to be sorted alphabetically
     */
     'sortable'?: boolean;
   }
   interface NelListItem extends JSXBase.HTMLAttributes<HTMLNelListItemElement> {
     /**
-    * List item color
+    * Sets the bullet color of the element. Default is #eeeeee
     */
     'color'?: string;
     /**
-    * Set whether element can be deleted
+    * If true, allows the element to be delete using keyboard
     */
     'deletable'?: boolean;
     /**
-    * Declare if element is disabled
+    * If false, element is partly greyed out and not responding to user input
     */
     'disabled'?: boolean;
+    /**
+    * Raised after element is removed from DOM
+    */
     'onDeleted'?: (event: CustomEvent<any>) => void;
+    /**
+    * Raised before element is removed from DOM
+    */
     'onDeleting'?: (event: CustomEvent<any>) => void;
+    /**
+    * Raised after element receives focus
+    */
     'onSelected'?: (event: CustomEvent<any>) => void;
     /**
-    * Set whether element can be selected
+    * If true, allows the element to receive focus
     */
     'selectable'?: boolean;
   }
   interface NelModalView extends JSXBase.HTMLAttributes<HTMLNelModalViewElement> {
     /**
-    * Set the modal alignment
+    * Aligns child elements. Defaults to center of viewport.
     */
     'alignment'?: "bottom" | "center" | "top";
     /**
-    * Is the modal view open or closed?
+    * If true, displays the modal element
     */
     'open'?: boolean;
   }
   interface NelNetworkConnection extends JSXBase.HTMLAttributes<HTMLNelNetworkConnectionElement> {
     /**
-    * If browser can access network resources
+    * If true, content within element remains hidden
     */
     'available'?: boolean;
-    /**
-    * Is element disabled
-    */
-    'disabled'?: boolean;
   }
   interface NelTextInput extends JSXBase.HTMLAttributes<HTMLNelTextInputElement> {
     /**
-    * Declare if element is disabled
+    * If false, element is partly greyed out and not responding to user input
     */
     'disabled'?: boolean;
     /**
-    * Text mask
+    * Sets a regular expression to restrict data entry to allowed characters
     */
     'mask'?: string;
     /**
-    * Maximum length
+    * Maximum length of text entry
     */
     'maxlength'?: number;
     /**
-    * Minimum length
+    * Minimum length of text entry
     */
     'minlength'?: number;
     /**
-    * Text pattern
+    * Sets a regular expression to validate text
     */
     'pattern'?: string;
     /**
-    * Text placeholder
+    * Sets a visual text prompt as a palceholder within text box
     */
     'placeholder'?: string;
     /**
-    * Text value
+    * Sets the value of the text box
     */
     'value'?: string;
   }
   interface NelTextTag extends JSXBase.HTMLAttributes<HTMLNelTextTagElement> {
     /**
-    * Main color
+    * Sets the background color of the element
     */
     'color'?: string;
     /**
-    * Declare if tag responds to delete/backspace keys
+    * If true, allows the element to be delete using keyboard
     */
     'deletable'?: boolean;
     /**
-    * Declare if tag is disabled
+    * If false, element is partly greyed out and not responding to user input
     */
     'disabled'?: boolean;
     /**
-    * Text label
+    * Sets the text label  to be applied to the element
     */
     'label'?: string;
+    /**
+    * Raised after element is removed from DOM
+    */
     'onDeleted'?: (event: CustomEvent<any>) => void;
+    /**
+    * Raised before element is removed from DOM
+    */
     'onDeleting'?: (event: CustomEvent<any>) => void;
+    /**
+    * Raised after element receives focus
+    */
     'onSelected'?: (event: CustomEvent<any>) => void;
     /**
-    * Declare if tag can be selected
+    * If true, allows the element to receive focus
     */
     'selectable'?: boolean;
   }

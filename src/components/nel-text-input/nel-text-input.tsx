@@ -1,48 +1,53 @@
-import { Component, Element, h, Listen, Prop, Watch } from "@stencil/core";
+import {
+  Component, ComponentInterface, Element, h, Listen, Prop, Watch
+} from "@stencil/core";
 
+/**
+ * Similar in behaviour to the input element
+ */
 @Component({
   tag: "nel-text-input",
   styleUrl: "nel-text-input.css",
   shadow: true
 })
-export class TextInput {
+export class TextInput implements ComponentInterface {
   private _input: HTMLInputElement;
   private _mask: RegExp = /.*/;
 
   @Element() el: HTMLElement;
 
   /**
-   * Declare if element is disabled
+   * If false, element is partly greyed out and not responding to user input
    */
   @Prop({ reflect: true }) disabled: boolean = false;
 
   /**
-   * Text mask
+   * Sets a regular expression to restrict data entry to allowed characters
    */
   @Prop({ reflect: true }) mask: string = "";
 
   /**
-   * Maximum length
+   * Maximum length of text entry
    */
   @Prop({ reflect: true }) maxlength: number = -1;
 
   /**
-   * Minimum length
+   * Minimum length of text entry
    */
   @Prop({ reflect: true }) minlength: number = -1;
 
   /**
-   * Text pattern
+   * Sets a regular expression to validate text
    */
   @Prop({ reflect: true }) pattern: string = "";
 
   /**
-   * Text placeholder
+   * Sets a visual text prompt as a palceholder within text box
    */
   @Prop({ reflect: true }) placeholder: string = "";
 
   /**
-   * Text value
+   * Sets the value of the text box
    */
   @Prop({ reflect: true }) value: string = "";
 
@@ -63,12 +68,15 @@ export class TextInput {
 
   @Listen("keydown")
   handleKeyDown(ev: KeyboardEvent): boolean {
-    if (this.disabled || ev.isComposing || ev.keyCode === 229) { return false; }
+    if (this.disabled || ev.keyCode === 229) {
+      return false;
+    }
     if (!this._editKeyPressed(ev) && !this._mask.test(ev.key)) {
       ev.preventDefault();
       ev.stopPropagation();
       return false;
     }
+    return true;
   }
 
   @Listen("paste")
@@ -80,7 +88,9 @@ export class TextInput {
         ev.stopPropagation();
         return false;
       }
+      return true;
     }
+    return false;
   }
 
   private _editKeyPressed(ev: KeyboardEvent): boolean {
