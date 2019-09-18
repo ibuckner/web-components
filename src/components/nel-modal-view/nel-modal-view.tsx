@@ -1,6 +1,7 @@
 import {
-  Component, ComponentInterface, Element, h, Prop
+  Component, ComponentInterface, h, Prop
 } from "@stencil/core";
+import { JSX } from "../../components";
 
 /**
  * Displays a modal background for displaying messages above page content
@@ -11,19 +12,17 @@ import {
   shadow: true
 })
 export class ModalView implements ComponentInterface {
-  @Element() el: HTMLElement;
-
   /**
    * Aligns child elements. Defaults to center of viewport.
    */
-  @Prop({ reflect: true }) alignment: "bottom" | "center" | "top" = "center";
+  @Prop({ reflect: true }) public alignment: "bottom" | "center" | "top" = "center";
 
   /**
    * If true, displays the modal element
    */
-  @Prop({ reflect: true }) open: boolean = false;
+  @Prop({ reflect: true }) public open: boolean = false;
 
-  render(): any {
+  public render(): JSX.NelModalView {
     const mcls: string = `modal-view${this.open ? " open" : ""}`;
     const cls: string = `modal-content ${this.alignment}`;
     return (

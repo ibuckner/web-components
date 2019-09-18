@@ -1,4 +1,7 @@
-import { Component, Element, h, Listen, Prop } from "@stencil/core";
+import {
+  Component, Element, h, Listen, Prop
+} from "@stencil/core";
+import { JSX } from "../../components";
 
 /**
  * Similar in function to detail/summary elements
@@ -9,22 +12,22 @@ import { Component, Element, h, Listen, Prop } from "@stencil/core";
   shadow: true
 })
 export class ExpandItem {
-  @Element() el: HTMLElement;
+  @Element() private host: HTMLElement;
 
   /**
    * If false, element is partly greyed out and not responding to user input
    */
-  @Prop({ reflect: true }) disabled: boolean = false;
+  @Prop({ reflect: true }) public disabled: boolean = false;
 
   /**
    * If true, main contents of element are visible
    */
-  @Prop({ reflect: true }) open: boolean = false;
+  @Prop({ reflect: true }) public open: boolean = false;
 
   /**
    * Adjusts the size of the marker, using CSS rem units of measurement
    */
-  @Prop({ reflect: true }) size: number = 2;
+  @Prop({ reflect: true }) public size: number = 2;
 
   @Listen("click")
   handleClick(ev: MouseEvent): boolean {
@@ -33,7 +36,7 @@ export class ExpandItem {
       ev.stopPropagation();
       return false;
     }
-    this.open = !(this.el as any).open;
+    this.open = !(this.host as any).open;
     return true;
   }
 
@@ -53,7 +56,7 @@ export class ExpandItem {
     return true;
   }
 
-  render(): any {
+  public render(): JSX.NelExpandItem {
     const tab: number = this.disabled ? undefined : 0;
     const contentStyle: any = {
       padding: `0.75rem 0.75rem 0.75rem ${this.size + 1.5}rem`

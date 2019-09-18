@@ -12,27 +12,27 @@ import {
   shadow: true
 })
 export class ListItem implements ComponentInterface {
-  @Element() el: HTMLElement;
+  @Element() public host: HTMLElement;
 
   /**
    * Sets the bullet color of the element. Default is #eeeeee
    */
-  @Prop({ reflect: true }) color: string = "#eeeeee";
+  @Prop({ reflect: true }) public color: string = "#eeeeee";
 
   /**
    * If true, allows the element to be delete using keyboard
    */
-  @Prop({ reflect: true }) deletable: boolean = false;
+  @Prop({ reflect: true }) public deletable: boolean = false;
 
   /**
    * If false, element is partly greyed out and not responding to user input
    */
-  @Prop({ reflect: true }) disabled: boolean = false;
+  @Prop({ reflect: true }) public disabled: boolean = false;
 
   /**
    * If true, allows the element to receive focus
    */
-  @Prop({ reflect: true }) selectable: boolean = false;
+  @Prop({ reflect: true }) public selectable: boolean = false;
 
   /**
    * Raised before element is removed from DOM
@@ -40,17 +40,17 @@ export class ListItem implements ComponentInterface {
   @Event({
     eventName: "deleting", composed: true,
     cancelable: true, bubbles: true
-  }) deleting: EventEmitter;
+  }) private deleting: EventEmitter;
 
   /**
    * Raised after element is removed from DOM
    */
-  @Event() deleted: EventEmitter;
+  @Event() private deleted: EventEmitter;
 
   /**
    * Raised after element receives focus
    */
-  @Event() selected: EventEmitter;
+  @Event() private selected: EventEmitter;
 
   @Listen("click")
   handleClick(ev: MouseEvent): void {
@@ -58,12 +58,12 @@ export class ListItem implements ComponentInterface {
       ev.preventDefault();
       return;
     }
-    if (this.el.classList.contains("selected")) {
-      this.el.classList.remove("selected");
+    if (this.host.classList.contains("selected")) {
+      this.host.classList.remove("selected");
     } else {
-      this.el.classList.add("selected");
+      this.host.classList.add("selected");
     }
-    this.selected.emit(this.el);
+    this.selected.emit(this.host);
   }
 
   @Listen("keydown")
@@ -74,7 +74,7 @@ export class ListItem implements ComponentInterface {
     }
     switch (ev.code) {
       case "Backspace":
-      case "Delete": this.deleting.emit(this.el); break;
+      case "Delete": this.deleting.emit(this.host); break;
     }
   }
 
@@ -87,14 +87,14 @@ export class ListItem implements ComponentInterface {
    * Removes element from DOM
    */
   @Method()
-  async delete(): Promise<boolean> {
-    this.deleted.emit(this.el);
-    const parent: any = this.el.parentNode;
-    parent.removeChild(this.el);
+  public async delete(): Promise<boolean> {
+    this.deleted.emit(this.host);
+    const parent: any = this.host.parentNode;
+    parent.removeChild(this.host);
     return Promise.resolve(true);
   }
 
-  render(): any {
+  public render(): any {
     const tab: number = this.selectable ? 0 : undefined;
     const bcls: string = `bullet${this.selectable && !this.disabled ? " selectable" : ""}`;
     const tcls: string = `text${this.selectable && !this.disabled ? " selectable" : ""}`;

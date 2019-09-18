@@ -2,6 +2,7 @@ import {
   Component, ComponentInterface, Element, Event, EventEmitter, h,
   Method, Prop, Watch
 } from "@stencil/core";
+import { JSX } from "../../components";
 
 /**
  * Organises child elements vertically or horizontally
@@ -12,28 +13,28 @@ import {
   shadow: true
 })
 export class ItemCollection implements ComponentInterface {
-  @Element() el: HTMLElement;
+  @Element() private host: HTMLElement;
 
   /**
    * Aligns child elements within collection. Defaults to vertical list.
    */
-  @Prop({ reflect: true }) align: "horizontal" | "vertical" = "vertical";
+  @Prop({ reflect: true }) public align: "horizontal" | "vertical" = "vertical";
 
   /**
    * If false, element is partly greyed out and not responding to user input
    */
-  @Prop({ reflect: true }) disabled: boolean = false;
+  @Prop({ reflect: true }) public disabled: boolean = false;
 
   /**
    * Displays the element resize handle (bottom right corner) if true
    */
-  @Prop({ reflect: true }) resizable: boolean = false;
+  @Prop({ reflect: true }) public resizable: boolean = false;
 
   /**
    * New elements added to the collection will cause all child elements
    * to be sorted alphabetically
    */
-  @Prop({ reflect: true }) sortable: boolean = false;
+  @Prop({ reflect: true }) public sortable: boolean = false;
 
   @Watch("align")
   validateHAlign(newValue: "horizontal" | "vertical"): void {
@@ -62,10 +63,10 @@ export class ItemCollection implements ComponentInterface {
    */
   @Method()
   public async clear(): Promise<boolean> {
-    for (let el of Array.from(this.el.children)) {
-      this.el.removeChild(el);
+    for (let el of Array.from(this.host.children)) {
+      this.host.removeChild(el);
     }
-    this.erased.emit(this.el);
+    this.erased.emit(this.host);
     return Promise.resolve(true);
   }
 
@@ -76,18 +77,18 @@ export class ItemCollection implements ComponentInterface {
   @Method()
   public async sort(reverse?: boolean | undefined): Promise<boolean> {
     reverse = reverse || false;
-    const sorted: Node[] = Array.from(this.el.children)
+    const sorted: Node[] = Array.from(this.host.children)
       .sort(reverse
         ? (a: Node, b: Node) => (a.textContent || "") > (b.textContent || "") ? -1 : 1
         : (a: Node, b: Node) => (a.textContent || "") > (b.textContent || "") ? 1 : -1);
-    Array.from(this.el.children)
-      .map(el => this.el.removeChild(el));
-    sorted.map(el => this.el.appendChild(el));
-    this.sorted.emit(this.el);
+    Array.from(this.host.children)
+      .map(el => this.host.removeChild(el));
+    sorted.map(el => this.host.appendChild(el));
+    this.sorted.emit(this.host);
     return Promise.resolve(true);
   }
 
-  render(): any {
+  public render(): JSX.NelItemCollection {
     let cls: string = `item-collection ${this.align}`;
     cls += !this.disabled && this.resizable ? ` resize-${this.align}` : "";
     const tab: number = this.disabled ? undefined : 0;

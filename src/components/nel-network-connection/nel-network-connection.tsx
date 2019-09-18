@@ -1,6 +1,7 @@
 import {
-  Component, ComponentInterface, Element, h, Listen, Prop
+  Component, ComponentInterface, h, Listen, Prop
 } from "@stencil/core";
+import { JSX } from "../../components";
 
 /**
  * Displays content when network connectivity is interrupted
@@ -11,12 +12,10 @@ import {
   shadow: true
 })
 export class NetworkConnection implements ComponentInterface {
-  @Element() el: HTMLElement;
-
   /**
    * If true, content within element remains hidden
    */
-  @Prop({ reflect: true }) available: boolean = true;
+  @Prop({ reflect: true }) public available: boolean = true;
 
   @Listen("online", { target: "window" })
   handleOnline(): void {
@@ -28,7 +27,7 @@ export class NetworkConnection implements ComponentInterface {
     this.available = false;
   }
 
-  render(): any {
+  public render(): JSX.NelNetworkConnection {
     return (
       <div hidden={this.available}><slot></slot></div>
     );

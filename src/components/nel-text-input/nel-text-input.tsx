@@ -1,6 +1,7 @@
 import {
   Component, ComponentInterface, Element, h, Listen, Prop, Watch
 } from "@stencil/core";
+import { JSX } from "../../components";
 
 /**
  * Similar in behaviour to the input element
@@ -14,42 +15,42 @@ export class TextInput implements ComponentInterface {
   private _input: HTMLInputElement;
   private _mask: RegExp = /.*/;
 
-  @Element() el: HTMLElement;
+  @Element() private host: HTMLElement;
 
   /**
    * If false, element is partly greyed out and not responding to user input
    */
-  @Prop({ reflect: true }) disabled: boolean = false;
+  @Prop({ reflect: true }) public disabled: boolean = false;
 
   /**
    * Sets a regular expression to restrict data entry to allowed characters
    */
-  @Prop({ reflect: true }) mask: string = "";
+  @Prop({ reflect: true }) public mask: string = "";
 
   /**
    * Maximum length of text entry
    */
-  @Prop({ reflect: true }) maxlength: number = -1;
+  @Prop({ reflect: true }) public maxlength: number = -1;
 
   /**
    * Minimum length of text entry
    */
-  @Prop({ reflect: true }) minlength: number = -1;
+  @Prop({ reflect: true }) public minlength: number = -1;
 
   /**
    * Sets a regular expression to validate text
    */
-  @Prop({ reflect: true }) pattern: string = "";
+  @Prop({ reflect: true }) public pattern: string = "";
 
   /**
    * Sets a visual text prompt as a palceholder within text box
    */
-  @Prop({ reflect: true }) placeholder: string = "";
+  @Prop({ reflect: true }) public placeholder: string = "";
 
   /**
    * Sets the value of the text box
    */
-  @Prop({ reflect: true }) value: string = "";
+  @Prop({ reflect: true }) public value: string = "";
 
   @Watch("mask")
   validateMask(newValue: string): void {
@@ -57,7 +58,7 @@ export class TextInput implements ComponentInterface {
   }
 
   componentDidLoad(): void {
-    this._input = this.el.shadowRoot.querySelector("input");
+    this._input = this.host.shadowRoot.querySelector("input");
     this._mask = new RegExp(this.mask);
   }
 
@@ -99,7 +100,7 @@ export class TextInput implements ComponentInterface {
            ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey;
   }
 
-  render(): any {
+  public render(): JSX.NelTextInput {
     return (
       <input type="search"
         maxlength={this.maxlength}
