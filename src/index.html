@@ -118,7 +118,18 @@
     <nel-network-connection>
       <div style="color: red">Whoa there, you are offline!</div>
     </nel-network-connection>
-  </fieldset>  
+  </fieldset>
+
+  <fieldset>
+    <legend><h3>On Off</h3></legend>
+    <nel-on-off id="onoff" size="3" color="blue"></nel-on-off>
+    <script type="text/javascript">
+      const oo = document.querySelector("#onoff");
+      oo.addEventListener("toggle", (ev) => {
+        console.log("Switch is in " + ev.detail.on + " state");
+      });
+    </script>
+  </fieldset> 
 
   <fieldset>
     <legend><h3>Text Input</h3></legend>

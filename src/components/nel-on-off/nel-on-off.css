@@ -1,0 +1,42 @@
+:host { display: inline-block }
+
+:host([disabled]) {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none;
+  user-select: none
+}
+
+:host([hidden]) {
+  display: none !important
+}
+
+input {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 2rem;
+  cursor: pointer;
+  outline: none;
+  position: relative;
+  transition: background 450ms ease
+}
+
+input:before, input:after {
+  border-radius: 100%;
+  content: "";
+  display: block;
+  position: absolute;
+  transform: translate(-1px,-1px);
+  transition: background 450ms ease, -webkit-transform 450ms ease;
+  transition: background 450ms ease, transform 450ms ease;
+  transition: background 450ms ease, transform 450ms ease, -webkit-transform 450ms ease;
+}
+
+input:before { background-color: #999 }
+
+input:checked:before {
+  transform: translate(99%,-1px)
+}

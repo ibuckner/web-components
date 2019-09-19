@@ -88,6 +88,24 @@ export namespace Components {
     */
     'available': boolean;
   }
+  interface NelOnOff {
+    /**
+    * Sets the foreground color of the element
+    */
+    'color': string;
+    /**
+    * If false, element is partly greyed out and not responding to user input
+    */
+    'disabled': boolean;
+    /**
+    * If true, element is in the 'on' state
+    */
+    'on': boolean;
+    /**
+    * Adjusts the size of the element, using CSS rem units of measurement
+    */
+    'size': number;
+  }
   interface NelTextInput {
     /**
     * If false, element is partly greyed out and not responding to user input
@@ -179,6 +197,12 @@ declare global {
     new (): HTMLNelNetworkConnectionElement;
   };
 
+  interface HTMLNelOnOffElement extends Components.NelOnOff, HTMLStencilElement {}
+  var HTMLNelOnOffElement: {
+    prototype: HTMLNelOnOffElement;
+    new (): HTMLNelOnOffElement;
+  };
+
   interface HTMLNelTextInputElement extends Components.NelTextInput, HTMLStencilElement {}
   var HTMLNelTextInputElement: {
     prototype: HTMLNelTextInputElement;
@@ -196,6 +220,7 @@ declare global {
     'nel-list-item': HTMLNelListItemElement;
     'nel-modal-view': HTMLNelModalViewElement;
     'nel-network-connection': HTMLNelNetworkConnectionElement;
+    'nel-on-off': HTMLNelOnOffElement;
     'nel-text-input': HTMLNelTextInputElement;
     'nel-text-tag': HTMLNelTextTagElement;
   }
@@ -288,6 +313,28 @@ declare namespace LocalJSX {
     */
     'available'?: boolean;
   }
+  interface NelOnOff extends JSXBase.HTMLAttributes<HTMLNelOnOffElement> {
+    /**
+    * Sets the foreground color of the element
+    */
+    'color'?: string;
+    /**
+    * If false, element is partly greyed out and not responding to user input
+    */
+    'disabled'?: boolean;
+    /**
+    * If true, element is in the 'on' state
+    */
+    'on'?: boolean;
+    /**
+    * Toggle event raised after element is toggled
+    */
+    'onToggle'?: (event: CustomEvent<any>) => void;
+    /**
+    * Adjusts the size of the element, using CSS rem units of measurement
+    */
+    'size'?: number;
+  }
   interface NelTextInput extends JSXBase.HTMLAttributes<HTMLNelTextInputElement> {
     /**
     * If false, element is partly greyed out and not responding to user input
@@ -359,6 +406,7 @@ declare namespace LocalJSX {
     'nel-list-item': NelListItem;
     'nel-modal-view': NelModalView;
     'nel-network-connection': NelNetworkConnection;
+    'nel-on-off': NelOnOff;
     'nel-text-input': NelTextInput;
     'nel-text-tag': NelTextTag;
   }

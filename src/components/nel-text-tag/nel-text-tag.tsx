@@ -45,8 +45,10 @@ export class TextTag implements ComponentInterface {
    * Raised before element is removed from DOM
    */
   @Event({
-    eventName: "deleting", composed: true,
-    cancelable: true, bubbles: true
+    eventName: "deleting",
+    composed: true,
+    cancelable: true,
+    bubbles: true
   }) private deleting: EventEmitter;
 
   /**
