@@ -166,6 +166,24 @@ export namespace Components {
     */
     'selectable': boolean;
   }
+  interface NelVizContainer {
+    /**
+    * Sets the element's height
+    */
+    'borderRadius': number;
+    /**
+    * If false, element is partly greyed out and not responding to user input
+    */
+    'disabled': boolean;
+    /**
+    * Sets the element's height
+    */
+    'height': string;
+    /**
+    * Sets the element's width
+    */
+    'width': string;
+  }
 }
 
 declare global {
@@ -218,6 +236,12 @@ declare global {
     prototype: HTMLNelTextTagElement;
     new (): HTMLNelTextTagElement;
   };
+
+  interface HTMLNelVizContainerElement extends Components.NelVizContainer, HTMLStencilElement {}
+  var HTMLNelVizContainerElement: {
+    prototype: HTMLNelVizContainerElement;
+    new (): HTMLNelVizContainerElement;
+  };
   interface HTMLElementTagNameMap {
     'nel-expand-item': HTMLNelExpandItemElement;
     'nel-item-collection': HTMLNelItemCollectionElement;
@@ -227,6 +251,7 @@ declare global {
     'nel-on-off': HTMLNelOnOffElement;
     'nel-text-input': HTMLNelTextInputElement;
     'nel-text-tag': HTMLNelTextTagElement;
+    'nel-viz-container': HTMLNelVizContainerElement;
   }
 }
 
@@ -407,6 +432,24 @@ declare namespace LocalJSX {
     */
     'selectable'?: boolean;
   }
+  interface NelVizContainer extends JSXBase.HTMLAttributes<HTMLNelVizContainerElement> {
+    /**
+    * Sets the element's height
+    */
+    'borderRadius'?: number;
+    /**
+    * If false, element is partly greyed out and not responding to user input
+    */
+    'disabled'?: boolean;
+    /**
+    * Sets the element's height
+    */
+    'height'?: string;
+    /**
+    * Sets the element's width
+    */
+    'width'?: string;
+  }
 
   interface IntrinsicElements {
     'nel-expand-item': NelExpandItem;
@@ -417,6 +460,7 @@ declare namespace LocalJSX {
     'nel-on-off': NelOnOff;
     'nel-text-input': NelTextInput;
     'nel-text-tag': NelTextTag;
+    'nel-viz-container': NelVizContainer;
   }
 }
 

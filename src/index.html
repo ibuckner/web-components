@@ -7,6 +7,19 @@
   <script type="module" src="/build/web-components.esm.js"></script>
   <script nomodule src="/build/web-components.js"></script>
   <style>
+    html, body, input, label, textarea {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .panel {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      width: 45%
+    }
+
+    .panel > label { width: 100px }
+
     .box {
       border: 1px solid #000;
       border-radius: 5px;
@@ -15,6 +28,7 @@
       text-align: center;
       width: 3rem
     }
+
     .modal-message {
       background-color:#fff;
       height: 200;
@@ -158,7 +172,7 @@
         t.mask = msk.value;
       });
     </script>
-  </fieldset>  
+  </fieldset>
 
   <fieldset>
     <legend><h3>Text Tag</h3></legend>
@@ -177,5 +191,39 @@
       });
     </script>
   </fieldset>
+
+  <fieldset>
+    <legend><h2>Viz</h2></legend>
+    <div style="height: 200px; width: 100%">
+      <nel-viz-container id="viz-con" height="100%" width="100%" border-radius="15"
+        style="--bg-color: whitesmoke; --border-color: royalblue">
+      </nel-viz-container>
+    </div>    
+    <h3>Properties</h3>
+    <div class="panel"><label>border-radius</label> <input id="rng-viz-con-rad" type="range" min="0" max="50" value="10" /> <span id="num-viz-con-rad">10</span></div>
+    <div class="panel"><label>height</label> <input id="rng-viz-con-h" type="range" min="0" max="100" value="100" /> <span id="num-viz-con-h">100%</span></div>
+    <div class="panel"><label>width</label> <input id="rng-viz-con-w" type="range" min="0" max="100" value="100" /> <span id="num-viz-con-w">100%</span></div>
+    <script type="text/javascript">
+      var viz = document.querySelector("#viz-con");
+
+      document.querySelector("#rng-viz-con-rad")
+        .addEventListener("change", (ev) => {
+          viz.borderRadius = `${ev.target.value}%`;
+          document.querySelector("#num-viz-con-rad").textContent = `${ev.target.value}%`;
+        });
+
+      document.querySelector("#rng-viz-con-h")
+        .addEventListener("change", (ev) => {
+          viz.height = `${ev.target.value}%`;
+          document.querySelector("#num-viz-con-h").textContent = `${ev.target.value}%`;
+        });
+
+      document.querySelector("#rng-viz-con-w")
+        .addEventListener("change", (ev) => {
+          viz.width = `${ev.target.value}%`;
+          document.querySelector("#num-viz-con-w").textContent = ev.target.value;
+        });
+    </script>
+  </fieldset> 
 </body>
 </html>
