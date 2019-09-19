@@ -110,6 +110,10 @@ export namespace Components {
     /**
     * If false, element is partly greyed out and not responding to user input
     */
+    'cleartext': boolean;
+    /**
+    * If false, element is partly greyed out and not responding to user input
+    */
     'disabled': boolean;
     /**
     * Sets a regular expression to restrict data entry to allowed characters
@@ -336,6 +340,10 @@ declare namespace LocalJSX {
     'size'?: number;
   }
   interface NelTextInput extends JSXBase.HTMLAttributes<HTMLNelTextInputElement> {
+    /**
+    * If false, element is partly greyed out and not responding to user input
+    */
+    'cleartext'?: boolean;
     /**
     * If false, element is partly greyed out and not responding to user input
     */

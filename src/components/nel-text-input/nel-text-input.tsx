@@ -13,9 +13,14 @@ import { JSX } from "../../components";
 })
 export class TextInput implements ComponentInterface {
   private _input: HTMLInputElement;
-  private _mask: RegExp = /.*/;
+  private _mask: RegExp = /.*/gi;
 
   @Element() private host: HTMLElement;
+
+  /**
+   * If false, element is partly greyed out and not responding to user input
+   */
+  @Prop({ reflect: true }) public cleartext: boolean = true;
 
   /**
    * If false, element is partly greyed out and not responding to user input
@@ -96,13 +101,13 @@ export class TextInput implements ComponentInterface {
 
   private _editKeyPressed(ev: KeyboardEvent): boolean {
     return ev.code === "Delete" || ev.code === "Backspace" ||
-           ev.code === "ArrowLeft" || ev.code === "ArrowRight" ||
-           ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey;
+           ev.code === "ArrowLeft" || ev.code === "ArrowRight";
   }
 
   public render(): JSX.NelTextInput {
+    const tp: string = this.cleartext ? "search" : "password";
     return (
-      <input type="search"
+      <input type={tp}
         maxlength={this.maxlength}
         minlength={this.minlength}
         pattern={this.pattern}

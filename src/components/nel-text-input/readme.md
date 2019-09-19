@@ -9,6 +9,7 @@
 
 | Property      | Attribute     | Description                                                             | Type      | Default |
 | ------------- | ------------- | ----------------------------------------------------------------------- | --------- | ------- |
+| `cleartext`   | `cleartext`   | If false, element is partly greyed out and not responding to user input | `boolean` | `true`  |
 | `disabled`    | `disabled`    | If false, element is partly greyed out and not responding to user input | `boolean` | `false` |
 | `mask`        | `mask`        | Sets a regular expression to restrict data entry to allowed characters  | `string`  | `""`    |
 | `maxlength`   | `maxlength`   | Maximum length of text entry                                            | `number`  | `-1`    |

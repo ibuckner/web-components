@@ -38,6 +38,7 @@
       <div class="box">A</div>
       <div class="box">B</div>
     </nel-item-collection>
+    <hr>
     <button id="erase">Clear list</button>
     <button id="sortAZ">▼ A-Z</button>
     <button id="sortZA">▲ Z-A</button>
@@ -133,7 +134,30 @@
 
   <fieldset>
     <legend><h3>Text Input</h3></legend>
-    <label>Enter just numbers <nel-text-input mask="\d+" pattern=".*" placeholder="Enter a number" value=""></label>
+    <label>Text entry <nel-text-input cleartext id="txtEntry" mask="^\d+$" pattern=".*" placeholder="Enter some text" value=""></label>
+    <hr>    
+    <label><input id="txtEntryStandard" type="radio" name="txtEntry" checked /> Standard text</label><br>
+    <label><input id="txtEntryPwd" type="radio" name="txtEntry" /> Password</label><br>
+    <label>Restrict input text to <input id="textEntryMask" type="text" value="^\d+$" /></label>
+    <script type="text/javascript">
+      var t = document.querySelector("#txtEntry");
+      var std = document.querySelector("#txtEntryStandard");
+      var pwd = document.querySelector("#txtEntryPwd");
+      var msk = document.querySelector("#textEntryMask");
+      std.addEventListener("click", function() {
+        t.placeholder = "Enter some text";
+        t.cleartext = true;
+        console.log("cleartext attribute added to text-input");
+      });
+      pwd.addEventListener("click", function() {
+        t.placeholder = "Enter a password";
+        t.cleartext = false;
+        console.log("cleartext attribute removed from text-input");
+      });
+      msk.addEventListener("change", function() {
+        t.mask = msk.value;
+      });
+    </script>
   </fieldset>  
 
   <fieldset>
