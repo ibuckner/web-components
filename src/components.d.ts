@@ -90,10 +90,6 @@ export namespace Components {
   }
   interface NelOnOff {
     /**
-    * Sets the foreground color of the element
-    */
-    'color': string;
-    /**
     * If false, element is partly greyed out and not responding to user input
     */
     'disabled': boolean;
@@ -168,9 +164,21 @@ export namespace Components {
   }
   interface NelVizContainer {
     /**
-    * Sets the element's height
+    * Sets the element's background border radius
     */
     'borderRadius': number;
+    /**
+    * Returns the centered x position
+    */
+    'cx': number;
+    /**
+    * Returns the centered y position
+    */
+    'cy': number;
+    /**
+    * If true, displays visible artefacts for ascertaining position, etc.
+    */
+    'debug': boolean;
     /**
     * If false, element is partly greyed out and not responding to user input
     */
@@ -180,9 +188,39 @@ export namespace Components {
     */
     'height': string;
     /**
+    * Sets the element's padding-bottom
+    */
+    'paddingBottom': number;
+    /**
+    * Sets the element's padding-left
+    */
+    'paddingLeft': number;
+    /**
+    * Sets the element's padding-right
+    */
+    'paddingRight': number;
+    /**
+    * Sets the element's padding-top
+    */
+    'paddingTop': number;
+    /**
+    * Sets the element's relative height
+    */
+    'rh': number;
+    /**
+    * Sets the element's relative width
+    */
+    'rw': number;
+    /**
     * Sets the element's width
     */
     'width': string;
+  }
+  interface NelVizPie {
+    /**
+    * If false, element is partly greyed out and not responding to user input
+    */
+    'disabled': boolean;
   }
 }
 
@@ -242,6 +280,12 @@ declare global {
     prototype: HTMLNelVizContainerElement;
     new (): HTMLNelVizContainerElement;
   };
+
+  interface HTMLNelVizPieElement extends Components.NelVizPie, HTMLStencilElement {}
+  var HTMLNelVizPieElement: {
+    prototype: HTMLNelVizPieElement;
+    new (): HTMLNelVizPieElement;
+  };
   interface HTMLElementTagNameMap {
     'nel-expand-item': HTMLNelExpandItemElement;
     'nel-item-collection': HTMLNelItemCollectionElement;
@@ -252,6 +296,7 @@ declare global {
     'nel-text-input': HTMLNelTextInputElement;
     'nel-text-tag': HTMLNelTextTagElement;
     'nel-viz-container': HTMLNelVizContainerElement;
+    'nel-viz-pie': HTMLNelVizPieElement;
   }
 }
 
@@ -344,10 +389,6 @@ declare namespace LocalJSX {
   }
   interface NelOnOff extends JSXBase.HTMLAttributes<HTMLNelOnOffElement> {
     /**
-    * Sets the foreground color of the element
-    */
-    'color'?: string;
-    /**
     * If false, element is partly greyed out and not responding to user input
     */
     'disabled'?: boolean;
@@ -434,9 +475,21 @@ declare namespace LocalJSX {
   }
   interface NelVizContainer extends JSXBase.HTMLAttributes<HTMLNelVizContainerElement> {
     /**
-    * Sets the element's height
+    * Sets the element's background border radius
     */
     'borderRadius'?: number;
+    /**
+    * Returns the centered x position
+    */
+    'cx'?: number;
+    /**
+    * Returns the centered y position
+    */
+    'cy'?: number;
+    /**
+    * If true, displays visible artefacts for ascertaining position, etc.
+    */
+    'debug'?: boolean;
     /**
     * If false, element is partly greyed out and not responding to user input
     */
@@ -446,9 +499,43 @@ declare namespace LocalJSX {
     */
     'height'?: string;
     /**
+    * Raised after element is rendered in the DOM
+    */
+    'onReady'?: (event: CustomEvent<any>) => void;
+    /**
+    * Sets the element's padding-bottom
+    */
+    'paddingBottom'?: number;
+    /**
+    * Sets the element's padding-left
+    */
+    'paddingLeft'?: number;
+    /**
+    * Sets the element's padding-right
+    */
+    'paddingRight'?: number;
+    /**
+    * Sets the element's padding-top
+    */
+    'paddingTop'?: number;
+    /**
+    * Sets the element's relative height
+    */
+    'rh'?: number;
+    /**
+    * Sets the element's relative width
+    */
+    'rw'?: number;
+    /**
     * Sets the element's width
     */
     'width'?: string;
+  }
+  interface NelVizPie extends JSXBase.HTMLAttributes<HTMLNelVizPieElement> {
+    /**
+    * If false, element is partly greyed out and not responding to user input
+    */
+    'disabled'?: boolean;
   }
 
   interface IntrinsicElements {
@@ -461,6 +548,7 @@ declare namespace LocalJSX {
     'nel-text-input': NelTextInput;
     'nel-text-tag': NelTextTag;
     'nel-viz-container': NelVizContainer;
+    'nel-viz-pie': NelVizPie;
   }
 }
 

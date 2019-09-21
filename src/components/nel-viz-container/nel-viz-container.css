@@ -11,3 +11,17 @@
   fill: var(--bg-color, #ffffff);
   stroke: var(--border-color, #eeeeee)
 }
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 500ms
+}
+
+.visible {
+  opacity: 1;
+  pointer-events: all;
+  transition: opacity 500ms
+}
+
+.small-text { font-size: 0.75rem }

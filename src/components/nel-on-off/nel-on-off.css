@@ -35,8 +35,16 @@ input:before, input:after {
   transition: background 450ms ease, transform 450ms ease, -webkit-transform 450ms ease;
 }
 
-input:before { background-color: #999 }
+input:before {
+  background-color: var(--color-off, #999999)
+}
+
+input:checked {
+  background-color: var(--bg-color-on, #555555); 
+  border-color: var(--color-on, #000000)
+}
 
 input:checked:before {
+  background-color: var(--color-on, #000000);
   transform: translate(99%,-1px)
 }

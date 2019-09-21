@@ -14,8 +14,7 @@
     .panel {
       align-items: center;
       display: flex;
-      justify-content: space-between;
-      width: 45%
+      justify-content: space-between
     }
 
     .panel > label { width: 100px }
@@ -28,6 +27,8 @@
       text-align: center;
       width: 3rem
     }
+
+    .narrow { width: 35% }
 
     .modal-message {
       background-color:#fff;
@@ -59,27 +60,29 @@
     <button id="addItem">Add text</button>
     <input id="addItemText" type="text" placeholder="Letter of alphabet" value="C" maxlength="1" />
     <script type="text/javascript">
-      var list = document.querySelector("#list-collection");
-      document.querySelector("#erase")
-        .addEventListener("click", function() {
-          list.clear();
-        });
-      document.querySelector("#sortAZ")
-        .addEventListener("click", function() {
-          list.sort();
-        });
-      document.querySelector("#sortZA")
-        .addEventListener("click", function() {
-          list.sort(true);
-        });
-      document.querySelector("#addItem")
-        .addEventListener("click", function() {
-          const t = document.createElement("div");
-          t.classList.add("box");
-          var letter = document.querySelector("#addItemText");
-          t.textContent = letter.value;
-          list.appendChild(t);
-        });
+      (function() {
+        var list = document.querySelector("#list-collection");
+        document.querySelector("#erase")
+          .addEventListener("click", function() {
+            list.clear();
+          });
+        document.querySelector("#sortAZ")
+          .addEventListener("click", function() {
+            list.sort();
+          });
+        document.querySelector("#sortZA")
+          .addEventListener("click", function() {
+            list.sort(true);
+          });
+        document.querySelector("#addItem")
+          .addEventListener("click", function() {
+            const t = document.createElement("div");
+            t.classList.add("box");
+            var letter = document.querySelector("#addItemText");
+            t.textContent = letter.value;
+            list.appendChild(t);
+          });
+      })();
     </script>
   </fieldset>
 
@@ -90,18 +93,14 @@
       <nel-list-item color="lightblue" selectable deletable>Hello</nel-list-item>
     </nel-item-collection>    
     <script type="text/javascript">
-      [].slice.call(document.querySelectorAll("nel-list-item"))
-        .forEach(function(t) {
-          t.addEventListener("selected", (ev) => {
-            console.log("You selected " + ev.detail.textContent);
+      (function() {
+        [].slice.call(document.querySelectorAll("nel-list-item"))
+          .forEach(function(t) {
+            t.addEventListener("selected", function(ev) { console.log("You selected " + ev.detail.textContent); });
+            t.addEventListener("deleting", function(ev) { console.log("You are deleting " + ev.detail.textContent); });
+            t.addEventListener("deleted", function(ev) { console.log("You have deleted " + ev.detail.textContent); });
           });
-          t.addEventListener("deleting", (ev) => {
-            console.log("You are deleting " + ev.detail.textContent);
-          });
-          t.addEventListener("deleted", (ev) => {
-            console.log("You have deleted " + ev.detail.textContent);
-          });
-        });
+      })();
     </script>
   </fieldset>
 
@@ -115,13 +114,15 @@
     </nel-modal-view>
     <button class="showModal">View message</button>
     <script type="text/javascript">
-      var btns = [].slice.call(document.querySelectorAll(".showModal"));
-      var md = document.querySelector("#modal");
-      btns.forEach(function(b) {
-        b.addEventListener("click", function(ev) {
-          md.open = !md.open;
+      (function() {
+        var btns = [].slice.call(document.querySelectorAll(".showModal"));
+        var md = document.querySelector("#modal");
+        btns.forEach(function(b) {
+          b.addEventListener("click", function(ev) {
+            md.open = !md.open;
+          });
         });
-      });
+      })();
     </script>
   </fieldset>
 
@@ -137,12 +138,16 @@
 
   <fieldset>
     <legend><h3>On Off</h3></legend>
-    <nel-on-off id="onoff" size="3" color="blue"></nel-on-off>
+    <div class="panel narrow">
+      <nel-on-off id="OnOff" size="3" style="--bg-color-on: lightblue; --color-on: royalblue"></nel-on-off>
+      <label id="lblOnOff" for="onoff">Switch is off</label>
+    </div>
     <script type="text/javascript">
-      const oo = document.querySelector("#onoff");
-      oo.addEventListener("toggle", (ev) => {
-        console.log("Switch is in " + ev.detail.on + " state");
-      });
+      (function() {
+        const oo = document.querySelector("#OnOff");
+        const lbl = document.querySelector("#lblOnOff");
+        oo.addEventListener("toggle", function(ev) { lbl.textContent = "Switch is " + (ev.detail.on ? "on" : "off"); });
+      })();
     </script>
   </fieldset> 
 
@@ -154,23 +159,25 @@
     <label><input id="txtEntryPwd" type="radio" name="txtEntry" /> Password</label><br>
     <label>Restrict input text to <input id="textEntryMask" type="text" value="^\d+$" /></label>
     <script type="text/javascript">
-      var t = document.querySelector("#txtEntry");
-      var std = document.querySelector("#txtEntryStandard");
-      var pwd = document.querySelector("#txtEntryPwd");
-      var msk = document.querySelector("#textEntryMask");
-      std.addEventListener("click", function() {
-        t.placeholder = "Enter some text";
-        t.cleartext = true;
-        console.log("cleartext attribute added to text-input");
-      });
-      pwd.addEventListener("click", function() {
-        t.placeholder = "Enter a password";
-        t.cleartext = false;
-        console.log("cleartext attribute removed from text-input");
-      });
-      msk.addEventListener("change", function() {
-        t.mask = msk.value;
-      });
+      (function() {
+        var t = document.querySelector("#txtEntry");
+        var std = document.querySelector("#txtEntryStandard");
+        var pwd = document.querySelector("#txtEntryPwd");
+        var msk = document.querySelector("#textEntryMask");
+        std.addEventListener("click", function() {
+          t.placeholder = "Enter some text";
+          t.cleartext = true;
+          console.log("cleartext attribute added to text-input");
+        });
+        pwd.addEventListener("click", function() {
+          t.placeholder = "Enter a password";
+          t.cleartext = false;
+          console.log("cleartext attribute removed from text-input");
+        });
+        msk.addEventListener("change", function() {
+          t.mask = msk.value;
+        });
+      })();
     </script>
   </fieldset>
 
@@ -179,50 +186,91 @@
     The quick brown <nel-text-tag id="mammalTag" selectable deletable color="green" label="Mammal">fox</nel-text-tag>
     jumped over the gate.
     <script type="text/javascript">
-      const tt = document.querySelector("nel-text-tag");
-      tt.addEventListener("selected", (ev) => {
-        console.log("You selected " + ev.detail.id);
-      });
-      tt.addEventListener("deleting", (ev) => {
-        console.log("You are deleting " + ev.detail.id);
-      });
-      tt.addEventListener("deleted", (ev) => {
-        console.log("You have deleted " + ev.detail.id);
-      });
+      (function() {
+        const tt = document.querySelector("nel-text-tag");
+        tt.addEventListener("selected", function(ev) { console.log("You selected " + ev.detail.id); });
+        tt.addEventListener("deleting", function(ev) { console.log("You are deleting " + ev.detail.id); });
+        tt.addEventListener("deleted", function(ev) { console.log("You have deleted " + ev.detail.id); });
+      })();
     </script>
   </fieldset>
 
   <fieldset>
     <legend><h2>Viz</h2></legend>
     <div style="height: 200px; width: 100%">
-      <nel-viz-container id="viz-con" height="100%" width="100%" border-radius="15"
-        style="--bg-color: whitesmoke; --border-color: royalblue">
+      <nel-viz-container id="viz-con" debug height="100%" width="100%" border-radius="15"
+        style="--bg-color: #fefefe; --border-color: #000099">
       </nel-viz-container>
     </div>    
     <h3>Properties</h3>
-    <div class="panel"><label>border-radius</label> <input id="rng-viz-con-rad" type="range" min="0" max="50" value="10" /> <span id="num-viz-con-rad">10</span></div>
-    <div class="panel"><label>height</label> <input id="rng-viz-con-h" type="range" min="0" max="100" value="100" /> <span id="num-viz-con-h">100%</span></div>
-    <div class="panel"><label>width</label> <input id="rng-viz-con-w" type="range" min="0" max="100" value="100" /> <span id="num-viz-con-w">100%</span></div>
+    <div class="panel narrow">
+      <label>border-radius</label> <input id="rng-viz-con-rad" type="range" min="0" max="50" value="10" /> <span id="num-viz-con-rad">10</span>
+    </div>
+    <div class="panel narrow">
+      <label>height</label> <input id="rng-viz-con-h" type="range" min="0" max="100" value="100" /> <span id="num-viz-con-h">100%</span>
+    </div>
+    <div class="panel narrow">
+      <label>width</label> <input id="rng-viz-con-w" type="range" min="0" max="100" value="100" /> <span id="num-viz-con-w">100%</span>
+    </div>
+    <div class="panel narrow">
+      <label>Lock h/w ratio</label><input type="checkbox" id="chk-viz-lock-hw" checked /><span>&nbsp;</span>
+    </div>
+    <div class="panel narrow">
+      <label>debug</label><input type="checkbox" id="chk-viz-debug" checked /><span>&nbsp;</span>
+    </div>
+    <h3>Styles</h3>
+    <div class="panel narrow">
+      <label>--bg-color</label> <input id="txt-viz-bgcolor" type="color" value="#fefefe" />
+    </div>
+    <div class="panel narrow">
+      <label>--border-color</label> <input id="txt-viz-bordercolor" type="color" value="#000099" />
+    </div>
     <script type="text/javascript">
-      var viz = document.querySelector("#viz-con");
+      (function() {
+        var viz = document.querySelector("#viz-con");
+        var radius = document.querySelector("#rng-viz-con-rad");
+        var lock = document.querySelector("#chk-viz-lock-hw");
+        var rngHeight = document.querySelector("#rng-viz-con-h");
+        var rngWidth = document.querySelector("#rng-viz-con-w");
+        var lblHeight = document.querySelector("#num-viz-con-h");
+        var lblWidth = document.querySelector("#num-viz-con-w");
+        var bgcolor = document.querySelector("#txt-viz-bgcolor");
+        var bordercolor = document.querySelector("#txt-viz-bordercolor");
+        var debug = document.querySelector("#chk-viz-debug");
 
-      document.querySelector("#rng-viz-con-rad")
-        .addEventListener("change", (ev) => {
-          viz.borderRadius = `${ev.target.value}%`;
-          document.querySelector("#num-viz-con-rad").textContent = `${ev.target.value}%`;
+        debug.addEventListener("change", function() { viz.debug = debug.checked; });
+
+        bordercolor.addEventListener("input", function() { viz.style.setProperty("--border-color", bordercolor.value); });
+        bgcolor.addEventListener("input", function() { viz.style.setProperty("--bg-color", bgcolor.value); });
+
+        radius.addEventListener("input", function(ev) {
+          var v = ev.target.value
+          viz.borderRadius = v;
+          document.querySelector("#num-viz-con-rad").textContent = v;
         });
 
-      document.querySelector("#rng-viz-con-h")
-        .addEventListener("change", (ev) => {
-          viz.height = `${ev.target.value}%`;
-          document.querySelector("#num-viz-con-h").textContent = `${ev.target.value}%`;
+        rngHeight.addEventListener("input", function(ev) {
+          var v = ev.target.value + "%";
+          viz.height = v;
+          lblHeight.textContent = v;
+          if (lock.checked) {
+            viz.width = v;
+            lblWidth.textContent = v;
+            rngWidth.value = ev.target.value;
+          }
         });
 
-      document.querySelector("#rng-viz-con-w")
-        .addEventListener("change", (ev) => {
-          viz.width = `${ev.target.value}%`;
-          document.querySelector("#num-viz-con-w").textContent = ev.target.value;
+        rngWidth.addEventListener("input", function(ev) {
+          var v = ev.target.value + "%";
+          viz.width = v;
+          lblWidth.textContent = v;
+          if (lock.checked) {
+            viz.height = v;
+            lblHeight.textContent = v;
+            rngHeight.value = ev.target.value;
+          }
         });
+      })();
     </script>
   </fieldset> 
 </body>
