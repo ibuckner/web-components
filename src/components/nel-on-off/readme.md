@@ -7,12 +7,11 @@
 
 ## Properties
 
-| Property   | Attribute  | Description                                                             | Type      | Default     |
-| ---------- | ---------- | ----------------------------------------------------------------------- | --------- | ----------- |
-| `color`    | `color`    | Sets the foreground color of the element                                | `string`  | `"#000000"` |
-| `disabled` | `disabled` | If false, element is partly greyed out and not responding to user input | `boolean` | `false`     |
-| `on`       | `on`       | If true, element is in the 'on' state                                   | `boolean` | `false`     |
-| `size`     | `size`     | Adjusts the size of the element, using CSS rem units of measurement     | `number`  | `4`         |
+| Property   | Attribute  | Description                                                             | Type      | Default |
+| ---------- | ---------- | ----------------------------------------------------------------------- | --------- | ------- |
+| `disabled` | `disabled` | If false, element is partly greyed out and not responding to user input | `boolean` | `false` |
+| `on`       | `on`       | If true, element is in the 'on' state                                   | `boolean` | `false` |
+| `size`     | `size`     | Adjusts the size of the element, using CSS rem units of measurement     | `number`  | `4`     |
 
 
 ## Events

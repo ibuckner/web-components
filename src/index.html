@@ -198,13 +198,24 @@
   <fieldset>
     <legend><h2>Viz</h2></legend>
     <div style="height: 200px; width: 100%">
-      <nel-viz-container id="viz-con" debug height="100%" width="100%" border-radius="15"
-        style="--bg-color: #fefefe; --border-color: #000099">
+      <nel-viz-container id="viz-con" debug
+        height="100%" width="100%" border-radius="15" 
+        style="--bg-color: #fefefe; --border-color: #009">
       </nel-viz-container>
-    </div>    
+      <nel-viz-data-model for="viz-con" data-set="[['oranges', 20]]">
+        <nel-viz-data-series type="array" index="0">
+          <nel-viz-data-item label="Fruit" type="string" index="0"></nel-viz-data-item>
+          <nel-viz-data-item label="Sales" type="number" index="1"></nel-viz-data-item>
+        </nel-viz-data-series>
+      </nel-viz-data-model>
+    </div>
+    <button id="btnAddVizCircle">Add a circle</button>
     <h3>Properties</h3>
     <div class="panel narrow">
       <label>border-radius</label> <input id="rng-viz-con-rad" type="range" min="0" max="50" value="10" /> <span id="num-viz-con-rad">10</span>
+    </div>
+    <div class="panel narrow">
+      <label>padding</label> <input id="rng-viz-pad-all" type="range" min="0" max="30" value="10" /> <span id="num-viz-pad-all">10</span>
     </div>
     <div class="panel narrow">
       <label>height</label> <input id="rng-viz-con-h" type="range" min="0" max="100" value="100" /> <span id="num-viz-con-h">100%</span>
@@ -230,6 +241,8 @@
         var viz = document.querySelector("#viz-con");
         var radius = document.querySelector("#rng-viz-con-rad");
         var lock = document.querySelector("#chk-viz-lock-hw");
+        var rngPadding = document.querySelector("#rng-viz-pad-all");
+        var lblPadding = document.querySelector("#num-viz-pad-all");
         var rngHeight = document.querySelector("#rng-viz-con-h");
         var rngWidth = document.querySelector("#rng-viz-con-w");
         var lblHeight = document.querySelector("#num-viz-con-h");
@@ -237,6 +250,12 @@
         var bgcolor = document.querySelector("#txt-viz-bgcolor");
         var bordercolor = document.querySelector("#txt-viz-bordercolor");
         var debug = document.querySelector("#chk-viz-debug");
+        var addVizCircle = document.querySelector("#btnAddVizCircle");
+
+        addVizCircle.addEventListener("click", function() {
+          viz.addElement(`<circle cx="${Math.random() * viz.rw}" 
+            cy="${Math.random() * viz.rh}" r="${Math.random() * 10}" fill="green"></circle>`, ".canvas");
+        });
 
         debug.addEventListener("change", function() { viz.debug = debug.checked; });
 
@@ -247,6 +266,15 @@
           var v = ev.target.value
           viz.borderRadius = v;
           document.querySelector("#num-viz-con-rad").textContent = v;
+        });
+
+        rngPadding.addEventListener("input", function(ev) {
+          var v = ev.target.value;
+          viz.paddingLeft = v;
+          viz.paddingTop = v;
+          viz.paddingRight = v;
+          viz.paddingBottom = v;
+          lblPadding.textContent = v;
         });
 
         rngHeight.addEventListener("input", function(ev) {

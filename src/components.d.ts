@@ -164,6 +164,12 @@ export namespace Components {
   }
   interface NelVizContainer {
     /**
+    * Adds SVG element to container
+    * @param template - string containing valid markup for SVG element
+    * @param parent - node to append new element to. If string, must be valid selector
+    */
+    'addElement': (template: string, parent: string | Node) => Promise<void>;
+    /**
     * Sets the element's background border radius
     */
     'borderRadius': number;
@@ -216,11 +222,19 @@ export namespace Components {
     */
     'width': string;
   }
-  interface NelVizPie {
+  interface NelVizDataModel {
     /**
-    * If false, element is partly greyed out and not responding to user input
+    * JSON data for visualisation
     */
-    'disabled': boolean;
+    'dataSet': any;
+    /**
+    * Binds the data model to a container via container id
+    */
+    'for': string;
+    /**
+    * Displays true, if model is able to verify consistency in data set
+    */
+    'valid': boolean;
   }
 }
 
@@ -281,10 +295,10 @@ declare global {
     new (): HTMLNelVizContainerElement;
   };
 
-  interface HTMLNelVizPieElement extends Components.NelVizPie, HTMLStencilElement {}
-  var HTMLNelVizPieElement: {
-    prototype: HTMLNelVizPieElement;
-    new (): HTMLNelVizPieElement;
+  interface HTMLNelVizDataModelElement extends Components.NelVizDataModel, HTMLStencilElement {}
+  var HTMLNelVizDataModelElement: {
+    prototype: HTMLNelVizDataModelElement;
+    new (): HTMLNelVizDataModelElement;
   };
   interface HTMLElementTagNameMap {
     'nel-expand-item': HTMLNelExpandItemElement;
@@ -296,7 +310,7 @@ declare global {
     'nel-text-input': HTMLNelTextInputElement;
     'nel-text-tag': HTMLNelTextTagElement;
     'nel-viz-container': HTMLNelVizContainerElement;
-    'nel-viz-pie': HTMLNelVizPieElement;
+    'nel-viz-data-model': HTMLNelVizDataModelElement;
   }
 }
 
@@ -531,11 +545,19 @@ declare namespace LocalJSX {
     */
     'width'?: string;
   }
-  interface NelVizPie extends JSXBase.HTMLAttributes<HTMLNelVizPieElement> {
+  interface NelVizDataModel extends JSXBase.HTMLAttributes<HTMLNelVizDataModelElement> {
     /**
-    * If false, element is partly greyed out and not responding to user input
+    * JSON data for visualisation
     */
-    'disabled'?: boolean;
+    'dataSet'?: any;
+    /**
+    * Binds the data model to a container via container id
+    */
+    'for'?: string;
+    /**
+    * Displays true, if model is able to verify consistency in data set
+    */
+    'valid'?: boolean;
   }
 
   interface IntrinsicElements {
@@ -548,7 +570,7 @@ declare namespace LocalJSX {
     'nel-text-input': NelTextInput;
     'nel-text-tag': NelTextTag;
     'nel-viz-container': NelVizContainer;
-    'nel-viz-pie': NelVizPie;
+    'nel-viz-data-model': NelVizDataModel;
   }
 }
 
