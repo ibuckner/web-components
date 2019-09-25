@@ -18,11 +18,11 @@
 
 ## Events
 
-| Event      | Description                               | Type               |
-| ---------- | ----------------------------------------- | ------------------ |
-| `deleted`  | Raised after element is removed from DOM  | `CustomEvent<any>` |
-| `deleting` | Raised before element is removed from DOM | `CustomEvent<any>` |
-| `selected` | Raised after element receives focus       | `CustomEvent<any>` |
+| Event      | Description                              | Type               |
+| ---------- | ---------------------------------------- | ------------------ |
+| `deleted`  | Fired after element is removed from DOM  | `CustomEvent<any>` |
+| `deleting` | Fired before element is removed from DOM | `CustomEvent<any>` |
+| `selected` | Fired after element receives focus       | `CustomEvent<any>` |
 
 
 ## Methods

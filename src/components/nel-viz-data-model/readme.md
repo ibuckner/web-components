@@ -14,6 +14,15 @@
 | `valid`   | `valid`    | Displays true, if model is able to verify consistency in data set | `boolean` | `undefined` |
 
 
+## Events
+
+| Event        | Description                                                     | Type               |
+| ------------ | --------------------------------------------------------------- | ------------------ |
+| `bound`      | Fired when model can bind to visualisation container            | `CustomEvent<any>` |
+| `validated`  | Fired when new data validated. Includes validation success flag | `CustomEvent<any>` |
+| `validating` | Fired when new data applied to element                          | `CustomEvent<any>` |
+
+
 ----------------------------------------------
 
 *Built with [StencilJS](https://stenciljs.com/)*

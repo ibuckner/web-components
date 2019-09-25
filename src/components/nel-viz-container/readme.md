@@ -15,6 +15,8 @@
 | `debug`         | `debug`          | If true, displays visible artefacts for ascertaining position, etc.     | `boolean` | `false`     |
 | `disabled`      | `disabled`       | If false, element is partly greyed out and not responding to user input | `boolean` | `false`     |
 | `height`        | `height`         | Sets the element's height                                               | `string`  | `"100%"`    |
+| `minHeight`     | `min-height`     | Sets the element's minimum height                                       | `number`  | `100`       |
+| `minWidth`      | `min-width`      | Sets the element's minimum width                                        | `number`  | `100`       |
 | `paddingBottom` | `padding-bottom` | Sets the element's padding-bottom                                       | `number`  | `10`        |
 | `paddingLeft`   | `padding-left`   | Sets the element's padding-left                                         | `number`  | `10`        |
 | `paddingRight`  | `padding-right`  | Sets the element's padding-right                                        | `number`  | `10`        |
@@ -26,9 +28,9 @@
 
 ## Events
 
-| Event   | Description                                 | Type               |
-| ------- | ------------------------------------------- | ------------------ |
-| `ready` | Raised after element is rendered in the DOM | `CustomEvent<any>` |
+| Event   | Description                           | Type               |
+| ------- | ------------------------------------- | ------------------ |
+| `ready` | Fired once element is rendered in DOM | `CustomEvent<any>` |
 
 
 ## Methods

@@ -16,9 +16,9 @@
 
 ## Events
 
-| Event    | Description                                  | Type               |
-| -------- | -------------------------------------------- | ------------------ |
-| `toggle` | Toggle event raised after element is toggled | `CustomEvent<any>` |
+| Event    | Description                    | Type               |
+| -------- | ------------------------------ | ------------------ |
+| `toggle` | Fired after element is toggled | `CustomEvent<any>` |
 
 
 ----------------------------------------------

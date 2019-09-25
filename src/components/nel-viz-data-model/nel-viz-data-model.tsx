@@ -29,6 +29,7 @@ export class VizDataModel implements ComponentInterface {
     catch {
       this.valid = false;
     }
+    console.log(this._data);
     this.validated.emit(this.valid);
   }
 
