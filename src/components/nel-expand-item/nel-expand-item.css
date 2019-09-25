@@ -1,6 +1,7 @@
 :host { width: 100% }
 
-:host([disabled]) {
+:host([disabled]), 
+:host([disabled]) > details {
   cursor: not-allowed;
   opacity: 0.5;
   pointer-events: none;

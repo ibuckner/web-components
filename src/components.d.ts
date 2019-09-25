@@ -19,6 +19,10 @@ export namespace Components {
     */
     'open': boolean;
     /**
+    * True when element can correctly respond to external programmatic access
+    */
+    'ready': boolean;
+    /**
     * Adjusts the size of the marker, using CSS rem units of measurement
     */
     'size': number;
@@ -37,6 +41,10 @@ export namespace Components {
     */
     'disabled': boolean;
     /**
+    * True when element can correctly respond to external programmatic access
+    */
+    'ready': boolean;
+    /**
     * Displays the element resize handle (bottom right corner) if true
     */
     'resizable': boolean;
@@ -45,10 +53,6 @@ export namespace Components {
     * @param reverse - default is false (A-Z sort order)
     */
     'sort': (reverse?: boolean) => Promise<boolean>;
-    /**
-    * New elements added to the collection will cause all child elements to be sorted alphabetically
-    */
-    'sortable': boolean;
   }
   interface NelListItem {
     /**
@@ -68,6 +72,10 @@ export namespace Components {
     */
     'disabled': boolean;
     /**
+    * True when element can correctly respond to external programmatic access
+    */
+    'ready': boolean;
+    /**
     * If true, allows the element to receive focus
     */
     'selectable': boolean;
@@ -81,6 +89,10 @@ export namespace Components {
     * If true, displays the modal element
     */
     'open': boolean;
+    /**
+    * True when element can correctly respond to external programmatic access
+    */
+    'ready': boolean;
   }
   interface NelNetworkConnection {
     /**
@@ -193,6 +205,14 @@ export namespace Components {
     * Sets the element's height
     */
     'height': string;
+    /**
+    * Sets the element's minimum height
+    */
+    'minHeight': number;
+    /**
+    * Sets the element's minimum width
+    */
+    'minWidth': number;
     /**
     * Sets the element's padding-bottom
     */
@@ -321,9 +341,25 @@ declare namespace LocalJSX {
     */
     'disabled'?: boolean;
     /**
+    * Fired when element's open property is false either via UI or programmatically
+    */
+    'onClosed'?: (event: CustomEvent<any>) => void;
+    /**
+    * Fired when element can correctly respond to external programmatic access
+    */
+    'onLoaded'?: (event: CustomEvent<any>) => void;
+    /**
+    * Fired when element's open property is true either via UI or programmatically
+    */
+    'onOpened'?: (event: CustomEvent<any>) => void;
+    /**
     * If true, main contents of element are visible
     */
     'open'?: boolean;
+    /**
+    * True when element can correctly respond to external programmatic access
+    */
+    'ready'?: boolean;
     /**
     * Adjusts the size of the marker, using CSS rem units of measurement
     */
@@ -339,21 +375,25 @@ declare namespace LocalJSX {
     */
     'disabled'?: boolean;
     /**
-    * Raised after child elements are removed via clear() method
+    * Fired after child elements are removed via clear() method
     */
-    'onErased'?: (event: CustomEvent<any>) => void;
+    'onCleared'?: (event: CustomEvent<any>) => void;
     /**
-    * Raised after child elements are sorted
+    * Fired when element can correctly respond to external programmatic access
+    */
+    'onLoaded'?: (event: CustomEvent<any>) => void;
+    /**
+    * Fired after child elements are sorted
     */
     'onSorted'?: (event: CustomEvent<any>) => void;
+    /**
+    * True when element can correctly respond to external programmatic access
+    */
+    'ready'?: boolean;
     /**
     * Displays the element resize handle (bottom right corner) if true
     */
     'resizable'?: boolean;
-    /**
-    * New elements added to the collection will cause all child elements to be sorted alphabetically
-    */
-    'sortable'?: boolean;
   }
   interface NelListItem extends JSXBase.HTMLAttributes<HTMLNelListItemElement> {
     /**
@@ -369,17 +409,25 @@ declare namespace LocalJSX {
     */
     'disabled'?: boolean;
     /**
-    * Raised after element is removed from DOM
+    * Fired after element is removed from DOM
     */
     'onDeleted'?: (event: CustomEvent<any>) => void;
     /**
-    * Raised before element is removed from DOM
+    * Fired when delete key pressed on selected element
     */
     'onDeleting'?: (event: CustomEvent<any>) => void;
     /**
-    * Raised after element receives focus
+    * Fired when element can correctly respond to external programmatic access
+    */
+    'onLoaded'?: (event: CustomEvent<any>) => void;
+    /**
+    * Fired after element receives focus
     */
     'onSelected'?: (event: CustomEvent<any>) => void;
+    /**
+    * True when element can correctly respond to external programmatic access
+    */
+    'ready'?: boolean;
     /**
     * If true, allows the element to receive focus
     */
@@ -391,9 +439,25 @@ declare namespace LocalJSX {
     */
     'alignment'?: "bottom" | "center" | "top";
     /**
+    * Fired when element's open property is false either via UI or programmatically
+    */
+    'onClosed'?: (event: CustomEvent<any>) => void;
+    /**
+    * Fired when element can correctly respond to external programmatic access
+    */
+    'onLoaded'?: (event: CustomEvent<any>) => void;
+    /**
+    * Fired when element's open property is true either via UI or programmatically
+    */
+    'onOpened'?: (event: CustomEvent<any>) => void;
+    /**
     * If true, displays the modal element
     */
     'open'?: boolean;
+    /**
+    * True when element can correctly respond to external programmatic access
+    */
+    'ready'?: boolean;
   }
   interface NelNetworkConnection extends JSXBase.HTMLAttributes<HTMLNelNetworkConnectionElement> {
     /**
@@ -411,7 +475,7 @@ declare namespace LocalJSX {
     */
     'on'?: boolean;
     /**
-    * Toggle event raised after element is toggled
+    * Fired after element is toggled
     */
     'onToggle'?: (event: CustomEvent<any>) => void;
     /**
@@ -471,15 +535,15 @@ declare namespace LocalJSX {
     */
     'label'?: string;
     /**
-    * Raised after element is removed from DOM
+    * Fired after element is removed from DOM
     */
     'onDeleted'?: (event: CustomEvent<any>) => void;
     /**
-    * Raised before element is removed from DOM
+    * Fired before element is removed from DOM
     */
     'onDeleting'?: (event: CustomEvent<any>) => void;
     /**
-    * Raised after element receives focus
+    * Fired after element receives focus
     */
     'onSelected'?: (event: CustomEvent<any>) => void;
     /**
@@ -513,7 +577,15 @@ declare namespace LocalJSX {
     */
     'height'?: string;
     /**
-    * Raised after element is rendered in the DOM
+    * Sets the element's minimum height
+    */
+    'minHeight'?: number;
+    /**
+    * Sets the element's minimum width
+    */
+    'minWidth'?: number;
+    /**
+    * Fired once element is rendered in DOM
     */
     'onReady'?: (event: CustomEvent<any>) => void;
     /**
@@ -554,6 +626,18 @@ declare namespace LocalJSX {
     * Binds the data model to a container via container id
     */
     'for'?: string;
+    /**
+    * Fired when model can bind to visualisation container
+    */
+    'onBound'?: (event: CustomEvent<any>) => void;
+    /**
+    * Fired when new data validated. Includes validation success flag
+    */
+    'onValidated'?: (event: CustomEvent<any>) => void;
+    /**
+    * Fired when new data applied to element
+    */
+    'onValidating'?: (event: CustomEvent<any>) => void;
     /**
     * Displays true, if model is able to verify consistency in data set
     */

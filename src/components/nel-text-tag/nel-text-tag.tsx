@@ -42,27 +42,22 @@ export class TextTag implements ComponentInterface {
   @Prop({ reflect: true }) public selectable: boolean = false;
 
   /**
-   * Raised before element is removed from DOM
+   * Fired before element is removed from DOM
    */
-  @Event({
-    eventName: "deleting",
-    composed: true,
-    cancelable: true,
-    bubbles: true
-  }) private deleting: EventEmitter;
+  @Event({ composed: true, cancelable: true, bubbles: true }) deleting: EventEmitter;
 
   /**
-   * Raised after element is removed from DOM
+   * Fired after element is removed from DOM
    */
-  @Event() private deleted: EventEmitter;
+  @Event() deleted: EventEmitter;
 
   /**
-   * Raised after element receives focus
+   * Fired after element receives focus
    */
-  @Event() private selected: EventEmitter;
+  @Event() selected: EventEmitter;
 
   @Listen("click")
-  handleClick(ev: MouseEvent): void {
+  onClick(ev: MouseEvent): void {
     if (this.disabled || !this.selectable) {
       ev.preventDefault();
       return;
@@ -76,7 +71,7 @@ export class TextTag implements ComponentInterface {
   }
 
   @Listen("keydown")
-  handleKeyDown(ev: KeyboardEvent): void {
+  onKeyDown(ev: KeyboardEvent): void {
     if (this.disabled || !this.selectable || ev.keyCode === 229) {
       ev.preventDefault();
       return;
@@ -88,7 +83,7 @@ export class TextTag implements ComponentInterface {
   }
 
   @Listen("deleting")
-  handleDeleting(): void {
+  onDeleting(): void {
     this.deleted.emit(this.host);
     this.delete();
   }

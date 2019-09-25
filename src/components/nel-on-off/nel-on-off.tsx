@@ -33,10 +33,9 @@ export class OnOff implements ComponentInterface {
   @Prop({ reflect: true }) public size: number = 4;
 
   /**
-   * Toggle event raised after element is toggled
+   * Fired after element is toggled
    */
-  @Event({ eventName: "toggle", composed: true, cancelable: true, bubbles: true })
-  private toggle: EventEmitter;
+  @Event({ composed: true, cancelable: true, bubbles: true }) toggle: EventEmitter;
 
   componentWillLoad(): void {
     this.host.setAttribute("aria-checked", `${this.on}`);
@@ -51,7 +50,7 @@ export class OnOff implements ComponentInterface {
   }
 
   @Listen("click")
-  handleClick(): void {
+  onClick(): void {
     this.on = this._input.checked;
     this.toggle.emit(this.host);
   }

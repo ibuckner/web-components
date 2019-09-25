@@ -30,30 +30,42 @@ export class ListItem implements ComponentInterface {
   @Prop({ reflect: true }) public disabled: boolean = false;
 
   /**
+   * True when element can correctly respond to external programmatic access
+   */
+  @Prop({ mutable: true, reflect: false }) public ready: boolean = false;
+
+  /**
    * If true, allows the element to receive focus
    */
   @Prop({ reflect: true }) public selectable: boolean = false;
 
   /**
-   * Raised before element is removed from DOM
+   * Fired when delete key pressed on selected element
    */
-  @Event({
-    eventName: "deleting", composed: true,
-    cancelable: true, bubbles: true
-  }) private deleting: EventEmitter;
+  @Event({ composed: true, cancelable: true, bubbles: true }) deleting: EventEmitter;
 
   /**
-   * Raised after element is removed from DOM
+   * Fired after element is removed from DOM
    */
-  @Event() private deleted: EventEmitter;
+  @Event({ composed: true, cancelable: true, bubbles: true }) deleted: EventEmitter;
 
   /**
-   * Raised after element receives focus
+   * Fired when element can correctly respond to external programmatic access
    */
-  @Event() private selected: EventEmitter;
+  @Event({ composed: true, cancelable: false, bubbles: true }) loaded: EventEmitter;
+
+  /**
+   * Fired after element receives focus
+   */
+  @Event({ composed: true, cancelable: false, bubbles: true }) selected: EventEmitter;
+
+  componentDidLoad(): any {   
+    this.loaded.emit(this.host);
+    this.ready = true;
+  }
 
   @Listen("click")
-  handleClick(ev: MouseEvent): void {
+  onclick(ev: MouseEvent): void {
     if (this.disabled || !this.selectable) {
       ev.preventDefault();
       return;
@@ -67,20 +79,15 @@ export class ListItem implements ComponentInterface {
   }
 
   @Listen("keydown")
-  handleKeyDown(ev: KeyboardEvent): void {
+  onKeyDown(ev: KeyboardEvent): void {
     if (this.disabled || !this.selectable || !this.deletable || ev.keyCode === 229) {
+      ev.stopImmediatePropagation();
       ev.preventDefault();
       return;
     }
     switch (ev.code) {
-      case "Backspace":
       case "Delete": this.deleting.emit(this.host); break;
     }
-  }
-
-  @Listen("deleting")
-  handleDeleting(): void {
-    this.delete();
   }
 
   /**

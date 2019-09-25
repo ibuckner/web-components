@@ -18,12 +18,12 @@ export class NetworkConnection implements ComponentInterface {
   @Prop({ reflect: true }) public available: boolean = true;
 
   @Listen("online", { target: "window" })
-  handleOnline(): void {
+  onOnline(): void {
     this.available = true;
   }
 
   @Listen("offline", { target: "window" })
-  handleOffline(): void {
+  onOffline(): void {
     this.available = false;
   }
 

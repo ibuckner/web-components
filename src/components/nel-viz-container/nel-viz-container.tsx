@@ -3,6 +3,7 @@ import {
   h, Prop, Method
 } from "@stencil/core";
 import { JSX } from "../../components";
+import { install } from "resize-observer";
 
 /**
  * Similar in function to an SVG tag
@@ -48,6 +49,16 @@ export class VizContainer implements ComponentInterface {
   @Prop({ reflect: true }) public height: string = "100%";
 
   /**
+   * Sets the element's minimum height
+   */
+  @Prop({ reflect: false }) public minHeight: number = 100;
+
+  /**
+   * Sets the element's minimum width
+   */
+  @Prop({ reflect: false }) public minWidth: number = 100;
+
+  /**
    * Sets the element's padding-bottom
    */
   @Prop({ reflect: true }) public paddingBottom: number = 10;
@@ -83,35 +94,46 @@ export class VizContainer implements ComponentInterface {
   @Prop({ reflect: true }) public width: string = "100%";
 
   /**
-   * Raised after element is rendered in the DOM
+   * Fired once element is rendered in DOM
    */
-  @Event({
-    eventName: "ready",
-    composed: true,
-    cancelable: true,
-    bubbles: true
-  }) private ready: EventEmitter;
+  @Event({ composed: true, cancelable: true, bubbles: true }) ready: EventEmitter;
+
+  componentWillLoad(): void {
+    if (!(window as any).ResizeObserver) {
+      install();
+    }
+
+    const box: ClientRect = (this.host.parentNode as HTMLElement).getBoundingClientRect();
+    const w: number = box.width < this.minWidth ? this.minWidth : box.width;
+    const ht: number = box.height < this.minHeight ? this.minHeight : box.height;
+    this.cx = w / 2;
+    this.cy = ht / 2;
+    this.rh = ht - this.paddingLeft - this.paddingRight;
+    this.rw = w - this.paddingTop - this.paddingBottom;
+  }
 
   componentDidLoad(): void {
     this._svg = this.host.querySelector("svg");
+
+    const resizeObserver: any = new (window as any).ResizeObserver((entries: any) => {
+      for (let entry of entries) {
+        this.height = entry.contentRect.height;
+        this.width = entry.contentRect.width;
+      }
+    });  
+    resizeObserver.observe(this.host.parentNode);
   }
 
   componentDidRender(): void {
     const container: any = this._svg ? this._svg : this.host.parentNode;
     const box: ClientRect = container.getBoundingClientRect();
-    this.cx = box.width / 2;
-    this.cy = box.height / 2;
-    this.rh = box.height - this.paddingLeft - this.paddingRight;
-    this.rw = box.width - this.paddingTop - this.paddingBottom;
+    const w: number = box.width < this.minWidth ? this.minWidth : box.width;
+    const ht: number = box.height < this.minHeight ? this.minHeight : box.height;
+    this.cx = w / 2;
+    this.cy = ht / 2;
+    this.rh = ht - this.paddingLeft - this.paddingRight;
+    this.rw = w - this.paddingTop - this.paddingBottom;
     this.ready.emit(this.host);
-  }
-
-  componentWillLoad(): void {
-    const box: ClientRect = (this.host.parentNode as HTMLElement).getBoundingClientRect();
-    this.cx = box.width / 2;
-    this.cy = box.height / 2;
-    this.rh = box.height - this.paddingLeft - this.paddingRight;
-    this.rw = box.width - this.paddingTop - this.paddingBottom;
   }
 
   /**
@@ -136,9 +158,11 @@ export class VizContainer implements ComponentInterface {
     const r: number = this.borderRadius;
     const container: any = this._svg ? this._svg : this.host.parentNode;
     const box: ClientRect = container.getBoundingClientRect();
-    const vw: string = `0 0 ${box.width} ${box.height}`;
+    const w: number = box.width < this.minWidth ? this.minWidth : box.width;
+    const ht: number = box.height < this.minHeight ? this.minHeight : box.height;
+    const vw: string = `0 0 ${w} ${ht}`;
     const debugClass: string = this.debug ? "visible" : "hidden";
-    const path: string = `M0,0 h${box.width - r} a${r},${r} 0 0 1 ${r},${r} v${box.height-(r*2)} a${r},${r} 0 0 1 -${r},${r} h-${box.width-(r*2)} a${r},${r} 0 0 1 -${r},-${r} v-${box.height-(r*2)} a${r},${r} 0 0 1 ${r},-${r} z`;
+    const path: string = `M0,0 h${w - r} a${r},${r} 0 0 1 ${r},${r} v${ht-(r*2)} a${r},${r} 0 0 1 -${r},${r} h-${w-(r*2)} a${r},${r} 0 0 1 -${r},-${r} v-${ht-(r*2)} a${r},${r} 0 0 1 ${r},-${r} z`;
     const moveTo: string = `translate(${this.paddingLeft},${this.paddingTop})`;
     const patternStyle: any = { fill: "url(#dash-pattern) #999" };
     return (
@@ -162,25 +186,25 @@ export class VizContainer implements ComponentInterface {
 
           <line class={debugClass} stroke="darkred" stroke-width="1" x1="0" x2={box.width} y1={this.cy} y2={this.cy}></line>
           <line class={debugClass} stroke="darkred" stroke-width="1" x1={this.cx} x2={this.cx} y1="0" y2={box.height}></line>
-          <text class={"small-text " + debugClass} x={this.cx + 4} y={this.cy - 4}>({Math.round(this.cx)}, {Math.round(this.cy)})</text>
+          <text class={debugClass} x={this.cx + 4} y={this.cy - 4}>({Math.round(this.cx)}, {Math.round(this.cy)})</text>
 
           <rect class={debugClass} style={patternStyle} fill-opacity="0.3"
             x={this.paddingLeft} y="0" height={this.paddingTop} width={this.rw}>
           </rect>
-          <text class={debugClass + " center-text small-text"} x={this.cx} y={this.paddingTop + 10}>padding top</text>
+          <text class={debugClass + " center-text"} x={this.cx} y={this.paddingTop + 5}>padding top</text>
 
           <rect class={debugClass} style={patternStyle} fill="#099" fill-opacity="0.3"
             x={this.rw + this.paddingLeft} y={this.paddingTop} height={this.rh} width={this.paddingRight}>
           </rect>
-          <text class={debugClass + " right-text small-text"} x={this.rw} y={this.cy}>padding right</text>
+          <text class={debugClass + " right-text"} x={this.rw + this.paddingRight} y={this.cy}>padding right</text>
 
           <rect class={debugClass} style={patternStyle} fill="#909" fill-opacity="0.3"
             x={this.paddingLeft} y={this.rh + this.paddingTop} height={this.paddingBottom} width={this.rw}></rect>
-          <text class={debugClass + " center-text small-text"} x={this.cx} y={this.rh}>padding bottom</text>
+          <text class={debugClass + " center-text"} x={this.cx} y={this.rh + this.paddingBottom}>padding bottom</text>
 
           <rect class={debugClass} style={patternStyle} fill="#999" fill-opacity="0.3"
             x="0" y={this.paddingTop} height={this.rh} width={this.paddingLeft}></rect>
-          <text class={debugClass +" left-text small-text"} x={this.paddingLeft + 10} y={this.cy}>padding left</text>
+          <text class={debugClass +" left-text"} x={this.paddingLeft} y={this.cy}>padding left</text>
 
           <g class="canvas" transform={moveTo}></g>
         </g>

@@ -11,6 +11,21 @@
       font-family: Arial, Helvetica, sans-serif;
     }
 
+    details { outline: none; width: 95% }
+    details[open] {
+      border: 1px solid #666;
+      border-radius: 10px;
+      margin: 0.5rem;
+      padding: 1rem
+    }
+    label { cursor: pointer }
+    summary {
+      cursor: pointer; 
+      font-size: 1.3rem;
+      outline: none;
+      padding-bottom: 1rem
+    }
+
     .panel {
       align-items: center;
       display: flex;
@@ -39,105 +54,346 @@
   </style>
 </head>
 <body>
-  <fieldset>
-    <legend><h3>Expand Item</h3></legend>
-    <nel-expand-item size="1.75">
+  <details>
+    <summary>Expand Item</summary>
+    <nel-expand-item id="exampleExpandItem" size="1.75">
       <div slot="title">Hello</div>
       <div slot="content">World</div>
     </nel-expand-item>
-  </fieldset>
+    <hr>
+    <h3>Properties</h3>
+    <label><input type="checkbox" id="chkDisableExpand" /> disabled</label>
+    <label><input type="checkbox" id="chkHideExpand" /> hidden</label>
+    <label><input type="checkbox" id="chkToggleExpand" /> open</label>
+    <h3>Events</h3>
+    <label><input type="checkbox" id="chkEventsExpand" checked /> view events (<code>F12</code> opens console)</label>
+    
+    <script type="text/javascript" defer>
+      (function() {
+        var expand = document.getElementById("exampleExpandItem");
 
-  <fieldset>
-    <legend><h3>Item Collection</h3></legend>
-    <nel-item-collection id="list-collection" align="vertical" sortable resizable>
+        expand.addEventListener("opened", function() { toggle.checked = expand.open });
+        expand.addEventListener("closed", function() { toggle.checked = expand.open });
+
+        var disable = document.getElementById("chkDisableExpand");
+        disable.addEventListener("change", function() { expand.disabled = disable.checked });
+
+        var hidden = document.getElementById("chkHideExpand");
+        hidden.addEventListener("change", function() { expand.hidden = hidden.checked });
+
+        var toggle = document.getElementById("chkToggleExpand");
+        toggle.addEventListener("change", function() { expand.open = toggle.checked });
+
+        var events = document.getElementById("chkEventsExpand");        
+        events.addEventListener("change", function() {
+          console.clear();
+          events.checked ? attachConsole() : detachConsole();
+        });
+
+        function init() {
+          disable.checked = expand.disabled;
+          hidden.checked = expand.hidden;
+          toggle.checked = expand.open;
+          attachConsole();
+        }
+        if (!expand.ready) {
+          expand.addEventListener("loaded", init);
+        } else {
+          init();
+        }
+
+        function attachConsole() {
+          expand.addEventListener("opened", onOpen);
+          expand.addEventListener("closed", onClose);
+        }
+
+        function detachConsole() {
+          expand.removeEventListener("opened", onOpen);
+          expand.removeEventListener("closed", onClose);
+        }
+
+        function onClose(ev) { console.log(ev.detail.id + " was closed") }
+        function onOpen(ev) { console.log(ev.detail.id + " was opened") }
+      })();
+    </script>
+  </details>
+
+  <details>
+    <summary>Item Collection</summary>
+    <nel-item-collection id="exampleItemCollection" align="vertical" sortable resizable>
       <div class="box">A</div>
       <div class="box">B</div>
     </nel-item-collection>
     <hr>
-    <button id="erase">Clear list</button>
-    <button id="sortAZ">▼ A-Z</button>
-    <button id="sortZA">▲ Z-A</button>
-    <button id="addItem">Add text</button>
+    <button id="addItemC">Add text</button>
     <input id="addItemText" type="text" placeholder="Letter of alphabet" value="C" maxlength="1" />
-    <script type="text/javascript">
+    <h3>Properties</h3>
+    <label><input type="checkbox" id="chkDisableItemC" /> disabled</label>
+    <label><input type="checkbox" id="chkHideItemC" /> hidden</label>
+    <label><input type="checkbox" id="chkResizeItemC" /> resizable</label><br>
+    <label><input type="radio" id="radAlignItemCVert" name="radAlignItemCollection" value="vertical" checked /> vertical</label>
+    <label><input type="radio" id="radAlignItemCHori" name="radAlignItemCollection" value="horizontal" /> horizontal</label>
+    <h3>Events</h3>
+    <label><input type="checkbox" id="chkEventsItemC" checked /> view events (<code>F12</code> opens console)</label>
+    <h3>Methods</h3>
+    <button id="eraseItemC">clear() list</button>
+    <button id="sortAZItemC">▼ A-Z sort()</button>
+    <button id="sortZAItemC">▲ Z-A sort()</button>
+    
+    <script type="text/javascript" defer>
       (function() {
-        var list = document.querySelector("#list-collection");
-        document.querySelector("#erase")
-          .addEventListener("click", function() {
-            list.clear();
-          });
-        document.querySelector("#sortAZ")
-          .addEventListener("click", function() {
-            list.sort();
-          });
-        document.querySelector("#sortZA")
-          .addEventListener("click", function() {
-            list.sort(true);
-          });
-        document.querySelector("#addItem")
-          .addEventListener("click", function() {
-            const t = document.createElement("div");
-            t.classList.add("box");
-            var letter = document.querySelector("#addItemText");
-            t.textContent = letter.value;
-            list.appendChild(t);
-          });
+        var list = document.getElementById("exampleItemCollection");
+
+        var disable = document.getElementById("chkDisableItemC");
+        disable.addEventListener("change", function() { list.disabled = disable.checked });
+
+        var hidden = document.getElementById("chkHideItemC");
+        hidden.addEventListener("change", function() { list.hidden = hidden.checked });
+
+        var alignV = document.getElementById("radAlignItemCVert");
+        alignV.addEventListener("change", function() { if (alignV.checked) { list.align = "vertical"; } });
+
+        var alignH = document.getElementById("radAlignItemCHori");
+        alignH.addEventListener("change", function() { if (alignH.checked) { list.align = "horizontal"; } });
+
+        var resizable = document.getElementById("chkResizeItemC");
+        resizable.addEventListener("change", function() { list.resizable = resizable.checked });
+
+        var events = document.getElementById("chkEventsItemC");        
+        events.addEventListener("change", function() {
+          console.clear();
+          events.checked ? attachConsole() : detachConsole();
+        });
+
+        var clear = document.getElementById("eraseItemC");
+        clear.addEventListener("click", function() { list.clear() });
+
+        var sortAZ = document.getElementById("sortAZItemC");
+        sortAZ.addEventListener("click", function() { list.sort() });
+
+        var sortZA = document.getElementById("sortZAItemC");
+        sortZA.addEventListener("click", function() { list.sort(true) });
+
+        var addItem = document.getElementById("addItemC");
+        addItem.addEventListener("click", function() {
+          const t = document.createElement("div");
+          t.classList.add("box");
+          var letter = document.querySelector("#addItemText");
+          t.textContent = letter.value;
+          list.appendChild(t);
+        });
+
+        function init() {
+          disable.checked = list.disabled;
+          hidden.checked = list.hidden;
+          alignV.checked = list.align === "vertical" ? true : false;
+          alignH.checked = list.align === "horizontal" ? true : false;
+          resizable.checked = list.resizable;
+          attachConsole();
+        }
+        if (!list.ready) {
+          list.addEventListener("loaded", init);
+        } else {
+          init();
+        }
+
+        function attachConsole() {
+          list.addEventListener("cleared", onClear);
+          list.addEventListener("sorted", onSort);
+        }
+
+        function detachConsole() {
+          list.removeEventListener("cleared", onClear);
+          list.removeEventListener("sorted", onSort);
+        }
+
+        function onClear(ev) { console.log(ev.detail.id + " was cleared") }
+        function onSort(ev) { console.log(ev.detail.id + " was sorted") }
       })();
     </script>
-  </fieldset>
+  </details>
 
-  <fieldset>
-    <legend><h3>List Item</h3></legend>
-    <nel-item-collection id="" align="vertical" sortable resizable>
-      <nel-list-item color="lightgreen" selectable deletable>World</nel-list-item>
-      <nel-list-item color="lightblue" selectable deletable>Hello</nel-list-item>
-    </nel-item-collection>    
-    <script type="text/javascript">
+  <details>
+    <summary>List Item</summary>
+    <nel-item-collection id="exampleListItemCollection" align="vertical">
+      <nel-list-item id="itemWorld" color="#33ff86" selectable deletable>World</nel-list-item>
+      <nel-list-item id="itemHello" color="#4466ff" selectable deletable>Hello</nel-list-item>
+    </nel-item-collection>
+    <hr>
+    <h3>Properties</h3>
+    <label><input type="color" id="chkColorListItem" disabled /> color</label>
+    <label><input type="checkbox" id="chkDeleteListItem" disabled /> deletable</label>
+    <label><input type="checkbox" id="chkDisableListItem" disabled /> disabled</label>
+    <label><input type="checkbox" id="chkHideListItem" disabled /> hidden</label>
+    <label><input type="checkbox" id="chkSelectListItem" disabled /> selectable</label><br>
+    <h3>Events</h3>
+    <label><input type="checkbox" id="chkEventsListItem" checked /> view events (<code>F12</code> opens console)</label>
+    <h3>Methods</h3>
+    <button id="deleteListItem" disabled>delete() item</button>
+
+    <script type="text/javascript" defer>
       (function() {
-        [].slice.call(document.querySelectorAll("nel-list-item"))
-          .forEach(function(t) {
-            t.addEventListener("selected", function(ev) { console.log("You selected " + ev.detail.textContent); });
-            t.addEventListener("deleting", function(ev) { console.log("You are deleting " + ev.detail.textContent); });
-            t.addEventListener("deleted", function(ev) { console.log("You have deleted " + ev.detail.textContent); });
-          });
+        var list = document.getElementById("exampleListItemCollection");
+        var item;
+
+        var color = document.getElementById("chkColorListItem");
+        color.addEventListener("change", function() {
+          if (item) { item.disabled = color.value }
+        });
+
+        var deletable = document.getElementById("chkDeleteListItem");
+        deletable.addEventListener("change", function() {
+          if (item) { item.deletable = deletable.checked }
+        });
+
+        var disable = document.getElementById("chkDisableListItem");
+        disable.addEventListener("change", function() {
+          if (item) { item.disabled = disable.checked }
+        });
+
+        var hidden = document.getElementById("chkHideListItem");
+        hidden.addEventListener("change", function() {
+          if (item) { item.hidden = hidden.checked }
+        });
+
+        var selectable = document.getElementById("chkSelectListItem");
+        selectable.addEventListener("change", function() {
+          if (item) { item.selectable = selectable.checked }
+        });
+
+        var del = document.getElementById("deleteListItem");
+        del.addEventListener("click", function() {
+          if (item) {
+            item.delete();
+            item = null;
+          }
+        });
+
+        var events = document.getElementById("chkEventsListItem");        
+        events.addEventListener("change", function() {
+          console.clear();
+          [].slice.call(document.querySelectorAll("nel-list-item"))
+            .forEach(function(im) {
+              events.checked ? attachConsole(im) : detachConsole(im);
+            });
+        });
+
+        function init() {
+          [].slice.call(document.querySelectorAll("nel-list-item"))
+            .forEach(function(im) {
+              attachConsole(im);
+              im.addEventListener("selected", function(ev) {
+                item = ev.detail;
+                color.disabled = false;
+                color.value = ev.detail.color;
+                deletable.disabled = false;
+                deletable.checked = ev.detail.deletable;
+                disable.disabled = false;
+                disable.checked = ev.detail.disabled;
+                hidden.disabled = false;
+                hidden.checked = ev.detail.hidden;
+                selectable.disabled = false;
+                selectable.checked = ev.detail.selectable;
+                del.disabled = false;
+              });
+            });
+        }
+        if (!list.ready) {
+          list.addEventListener("loaded", init);
+        } else {
+          init();
+        }
+
+        function attachConsole(m) {
+          m.addEventListener("deleting", onDeleting);
+          m.addEventListener("deleted", onDeleted);
+          m.addEventListener("selected", onSelected);
+        }
+
+        function detachConsole(m) {
+          m.removeEventListener("deleting", onDeleting);
+          m.removeEventListener("deleted", onDeleted);
+          m.removeEventListener("selected", onSelected);
+        }
+
+        function onDeleting(ev) {
+          console.log(ev.detail.id + " is deleting");
+          ev.detail.delete();
+        }
+        function onDeleted(ev) { console.log(ev.detail.id + " was deleted") }
+        function onSelected(ev) { console.log(ev.detail.id + " was selected") }
       })();
     </script>
-  </fieldset>
+  </details>
 
-  <fieldset>
-    <legend><h3>Modal View</h3></legend>
+  <details open>
+    <summary>Modal View</summary>
     <nel-modal-view id="modal" alignment="center">
       <div class="modal-message">
         Hello world!<br>
         <button class="showModal">Hide message</button>
       </div>
     </nel-modal-view>
-    <button class="showModal">View message</button>
-    <script type="text/javascript">
+    <hr>
+    <h3>Properties</h3>
+    <label><input type="checkbox" id="chkToggleModal" /> open</label>
+    <h3>Events</h3>
+    <label><input type="checkbox" id="chkEventsModal" checked /> view events (<code>F12</code> opens console)</label>
+    
+    <script type="text/javascript" defer>
       (function() {
-        var btns = [].slice.call(document.querySelectorAll(".showModal"));
-        var md = document.querySelector("#modal");
-        btns.forEach(function(b) {
-          b.addEventListener("click", function(ev) {
-            md.open = !md.open;
-          });
+        var modal = document.getElementById("modal");
+
+        var close = document.querySelector(".showModal");
+        close.addEventListener("click", function() { toggle.checked = false });
+
+        var toggle = document.getElementById("chkToggleModal");
+        toggle.addEventListener("change", function() { modal.open = toggle.checked });
+
+        var events = document.getElementById("chkEventsModal");        
+        events.addEventListener("change", function() {
+          console.clear();
+          events.checked ? attachConsole() : detachConsole();
         });
+
+        function init() {
+          toggle.checked = modal.open;
+          attachConsole();
+        }
+        if (!modal.ready) {
+          modal.addEventListener("loaded", init);
+        } else {
+          init();
+        }
+
+        function attachConsole() {
+          modal.addEventListener("opened", onOpen);
+          modal.addEventListener("closed", onClose);
+        }
+
+        function detachConsole() {
+          modal.removeEventListener("opened", onOpen);
+          modal.removeEventListener("closed", onClose);
+        }
+
+        function onClose(ev) { console.log(ev.detail.id + " was closed") }
+        function onOpen(ev) { console.log(ev.detail.id + " was opened") }
       })();
     </script>
-  </fieldset>
+  </details>
 
-  <fieldset>
-    <legend><h3>Network Connection</h3></legend>
+  <details>
+    <summary>Network Connection</summary>
     Disable the network via DevTools.<br>
     (On Chrome)<br>
     F12 Key -> Network tab -> Toggle between Online and offline
     <nel-network-connection>
       <div style="color: red">Whoa there, you are offline!</div>
     </nel-network-connection>
-  </fieldset>
+  </details>
 
-  <fieldset>
-    <legend><h3>On Off</h3></legend>
+  <details>
+    <summary>On Off</summary>
     <div class="panel narrow">
       <nel-on-off id="OnOff" size="3" style="--bg-color-on: lightblue; --color-on: royalblue"></nel-on-off>
       <label id="lblOnOff" for="onoff">Switch is off</label>
@@ -149,10 +405,10 @@
         oo.addEventListener("toggle", function(ev) { lbl.textContent = "Switch is " + (ev.detail.on ? "on" : "off"); });
       })();
     </script>
-  </fieldset> 
+  </details> 
 
-  <fieldset>
-    <legend><h3>Text Input</h3></legend>
+  <details>
+    <summary>Text Input</summary>
     <label>Text entry <nel-text-input cleartext id="txtEntry" mask="^\d+$" pattern=".*" placeholder="Enter some text" value=""></label>
     <hr>    
     <label><input id="txtEntryStandard" type="radio" name="txtEntry" checked /> Standard text</label><br>
@@ -179,10 +435,10 @@
         });
       })();
     </script>
-  </fieldset>
+  </details>
 
-  <fieldset>
-    <legend><h3>Text Tag</h3></legend>
+  <details>
+    <summary>Text Tag</summary>
     The quick brown <nel-text-tag id="mammalTag" selectable deletable color="green" label="Mammal">fox</nel-text-tag>
     jumped over the gate.
     <script type="text/javascript">
@@ -193,20 +449,18 @@
         tt.addEventListener("deleted", function(ev) { console.log("You have deleted " + ev.detail.id); });
       })();
     </script>
-  </fieldset>
+  </details>
 
-  <fieldset>
-    <legend><h2>Viz</h2></legend>
+  <details>
+    <summary>Viz Components</summary>
     <div style="height: 200px; width: 100%">
       <nel-viz-container id="viz-con" debug
         height="100%" width="100%" border-radius="15" 
         style="--bg-color: #fefefe; --border-color: #009">
       </nel-viz-container>
-      <nel-viz-data-model for="viz-con" data-set="[['oranges', 20]]">
-        <nel-viz-data-series type="array" index="0">
-          <nel-viz-data-item label="Fruit" type="string" index="0"></nel-viz-data-item>
-          <nel-viz-data-item label="Sales" type="number" index="1"></nel-viz-data-item>
-        </nel-viz-data-series>
+      <nel-viz-data-model for="viz-con" data-set='[["oranges", 20]]''>
+        <nel-viz-data-item label="Fruit" type="string" index="0"></nel-viz-data-item>
+        <nel-viz-data-item label="Sales" type="number" index="1"></nel-viz-data-item>
       </nel-viz-data-model>
     </div>
     <button id="btnAddVizCircle">Add a circle</button>

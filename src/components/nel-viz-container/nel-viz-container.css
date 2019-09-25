@@ -24,8 +24,8 @@
   transition: opacity 500ms
 }
 
-.small-text { font-size: 0.75rem }
-
 .center-text { text-anchor: middle }
 .left-text { text-anchor: start }
 .right-text { text-anchor: end }
+
+text { font-size: 0.75rem }

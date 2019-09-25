@@ -1,5 +1,5 @@
 import {
-  Component, ComponentInterface, Host, h, Prop
+  Component, ComponentInterface, Event, EventEmitter, h, Host, Prop, Watch
 } from "@stencil/core";
 import { JSX } from "../../components";
 
@@ -10,13 +10,27 @@ import { JSX } from "../../components";
   tag: "nel-viz-data-model",
   shadow: false
 })
-export class VizContainer implements ComponentInterface {
-  private _viz: HTMLElement;
-
+export class VizDataModel implements ComponentInterface {
+  private _client: any;
+  private _data: any;
+  
   /**
    * JSON data for visualisation
    */
   @Prop({ reflect: true }) public dataSet: any;
+
+  @Watch("dataSet")
+  validateDataSet(newValue: string): void {
+    try {
+      this.validating.emit();
+      this._data = JSON.parse(newValue);
+      this.valid = true;
+    }
+    catch {
+      this.valid = false;
+    }
+    this.validated.emit(this.valid);
+  }
 
   /**
    * Binds the data model to a container via container id
@@ -28,11 +42,27 @@ export class VizContainer implements ComponentInterface {
    */
   @Prop({ reflect: true }) public valid: boolean;
 
+  /**
+   * Fired when model can bind to visualisation container
+   */
+  @Event({ composed: true, cancelable: true, bubbles: true }) bound: EventEmitter
+  
+  /**
+   * Fired when new data applied to element
+   */
+  @Event({ composed: true, cancelable: true, bubbles: true }) validating: EventEmitter
+  
+  /**
+   * Fired when new data validated. Includes validation success flag
+   */
+  @Event({ composed: true, cancelable: true, bubbles: true }) validated: EventEmitter
+
   componentDidLoad(): void {
-    this._viz = document.querySelector(`#${this.for}`);
-    if (this._viz) {
-      console.log(`Bind to ${this._viz.id} successful`);
+    this._client = document.querySelector(`#${this.for}`);
+    if (this._client.ready) {
+      this.bound.emit();
     }
+    this.validateDataSet(this.dataSet);
   }
 
   public render(): JSX.NelVizDataModel {

@@ -19,11 +19,21 @@ export class ItemCollection implements ComponentInterface {
    * Aligns child elements within collection. Defaults to vertical list.
    */
   @Prop({ reflect: true }) public align: "horizontal" | "vertical" = "vertical";
-
+  
+  @Watch("align")
+  validateHAlign(newValue: "horizontal" | "vertical"): void {
+    this.align = newValue;
+  }
+  
   /**
    * If false, element is partly greyed out and not responding to user input
    */
   @Prop({ reflect: true }) public disabled: boolean = false;
+
+  /**
+   * True when element can correctly respond to external programmatic access
+   */
+  @Prop({ mutable: true, reflect: false }) public ready: boolean = false;
 
   /**
    * Displays the element resize handle (bottom right corner) if true
@@ -31,32 +41,24 @@ export class ItemCollection implements ComponentInterface {
   @Prop({ reflect: true }) public resizable: boolean = false;
 
   /**
-   * New elements added to the collection will cause all child elements
-   * to be sorted alphabetically
+   * Fired after child elements are removed via clear() method
    */
-  @Prop({ reflect: true }) public sortable: boolean = false;
-
-  @Watch("align")
-  validateHAlign(newValue: "horizontal" | "vertical"): void {
-    this.align = newValue;
-  }
-
-  @Watch("sortable")
-  validateSortable(newValue: string): void {
-    if (Boolean(newValue)) {
-      this.sort();
-    }
-  }
+  @Event({ composed: true, cancelable: false, bubbles: true }) cleared: EventEmitter;
 
   /**
-   * Raised after child elements are removed via clear() method
+   * Fired when element can correctly respond to external programmatic access
    */
-  @Event() erased: EventEmitter;
+  @Event({ composed: true, cancelable: false, bubbles: true }) loaded: EventEmitter;
 
   /**
-   * Raised after child elements are sorted
+   * Fired after child elements are sorted
    */
-  @Event() sorted: EventEmitter;
+  @Event({ composed: true, cancelable: false, bubbles: true }) sorted: EventEmitter;
+
+  componentDidLoad(): any {   
+    this.loaded.emit(this.host);
+    this.ready = true;
+  }
 
   /**
    * Clears out all child elements from collection
@@ -66,7 +68,7 @@ export class ItemCollection implements ComponentInterface {
     for (let el of Array.from(this.host.children)) {
       this.host.removeChild(el);
     }
-    this.erased.emit(this.host);
+    this.cleared.emit(this.host);
     return Promise.resolve(true);
   }
 

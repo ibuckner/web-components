@@ -3,7 +3,6 @@
 
 # Web components using Stencil
 
-
 ## Using these components
 
 ### Script tag
@@ -11,6 +10,48 @@
 - Put a script tag similar to this `<script type="module" src="https://unpkg.com/web-components/dist/mycomponent.js"></script>` in the head of your html document.
 
 ### Node Modules
+
 - Run `npm install my-component --save`
 - Put a script tag similar to this `<script type="module" src="node_modules/web-components/dist/mycomponent.js"></script>` in the head of your index.html
 - Then you can use the element anywhere in your template, JSX, html etc
+
+## Developing components
+
+[Stencil style guide](https://stenciljs.com/docs/style-guide)
+
+### Recommended orginal within component.ts files
+
+@Component()
+class
+private properties
+********
+@Element()
+********
+@State() variables - Inlined decorator
+********
+@Prop() - Inlined decorator, JSDocs required
+@Watch("property_name") - watch items should appear near properties
+watchMethodhandler
+********
+@Event({ eventName: "", composed: true, cancelable: true, bubbles: true }) event_name: EventEmitter - Inlined decorator, JSDocs required
+********
+Component lifecycle events - ordered by natural call order
+connectedCallback() - called on adding to DOM. if 1st, called before willLoad
+disconnectedCallback() - called when removed from DOM
+componentWillLoad() - once after DOM connection
+componentDidLoad() - once after render
+componentWillUpdate() - before render() after @Prop/@State change [excl. 1st render()]
+componentDidUpdate() - after render() [excl. 1st render()]
+componentDidUnload() - after component removed
+componentWillRender() - before every render()
+componentDidRender() - after every render()
+********
+@Listen('someEvent')
+onSomeEvent(ev: UIEvent)
+********
+@Method() - Public methods, JSDocs required
+async metho_name(): Promise<any>
+********
+Local methods
+********
+render() function

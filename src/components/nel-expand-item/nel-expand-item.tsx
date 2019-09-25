@@ -1,5 +1,5 @@
 import {
-  Component, Element, h, Listen, Prop
+  Component, Element, Event, EventEmitter, h, Listen, Prop, Watch
 } from "@stencil/core";
 import { JSX } from "../../components";
 
@@ -24,13 +24,64 @@ export class ExpandItem {
    */
   @Prop({ reflect: true }) public open: boolean = false;
 
+  @Watch("open")
+  validateOpen(newValue: string): void {
+    if (Boolean(newValue)) {
+      this.opened.emit(this.host);
+    } else {
+      this.closed.emit(this.host);
+    }
+  }
+
+  /**
+   * True when element can correctly respond to external programmatic access
+   */
+  @Prop({ mutable: true, reflect: false }) public ready: boolean = false;
+
   /**
    * Adjusts the size of the marker, using CSS rem units of measurement
    */
   @Prop({ reflect: true }) public size: number = 2;
 
+  /**
+   * Fired when element's open property is false either via UI or programmatically
+   */
+  @Event({ composed: true, cancelable: true, bubbles: true }) closed: EventEmitter;
+
+  /**
+   * Fired when element can correctly respond to external programmatic access
+   */
+  @Event({ composed: true, cancelable: false, bubbles: true }) loaded: EventEmitter;
+
+  /**
+   * Fired when element's open property is true either via UI or programmatically
+   */
+  @Event({ composed: true, cancelable: true, bubbles: true }) opened: EventEmitter;
+
+  componentDidLoad(): any {
+    const su: HTMLElement = this.host.shadowRoot.querySelector("summary");
+    const dt: HTMLDetailsElement = this.host.shadowRoot.querySelector("details");
+    su.addEventListener("click", (ev: MouseEvent) => {
+      if (this.disabled) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        return false;
+      }
+      return true;
+    });
+
+    dt.addEventListener("toggle", (ev: MouseEvent) => {
+      ev.preventDefault();
+      ev.stopImmediatePropagation();
+      return false;
+    });
+    
+    this.loaded.emit(this.host);
+    this.ready = true;
+  }
+
   @Listen("click")
-  handleClick(ev: MouseEvent): boolean {
+  onClick(ev: MouseEvent): boolean {
     if (this.disabled) {
       ev.preventDefault();
       ev.stopPropagation();
@@ -41,7 +92,7 @@ export class ExpandItem {
   }
 
   @Listen("keydown")
-  handleKeyDown(ev: KeyboardEvent): boolean {
+  onKeyDown(ev: KeyboardEvent): boolean {
     if (this.disabled) {
       ev.preventDefault();
       ev.stopPropagation();

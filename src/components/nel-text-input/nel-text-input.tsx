@@ -32,6 +32,11 @@ export class TextInput implements ComponentInterface {
    */
   @Prop({ reflect: true }) public mask: string = "";
 
+  @Watch("mask")
+  validateMask(newValue: string): void {
+    this._mask = new RegExp(newValue);
+  }
+
   /**
    * Maximum length of text entry
    */
@@ -57,23 +62,18 @@ export class TextInput implements ComponentInterface {
    */
   @Prop({ reflect: true }) public value: string = "";
 
-  @Watch("mask")
-  validateMask(newValue: string): void {
-    this._mask = new RegExp(newValue);
-  }
-
   componentDidLoad(): void {
     this._input = this.host.shadowRoot.querySelector("input");
     this._mask = new RegExp(this.mask);
   }
 
   @Listen("input")
-  handleInput(): void {
+  onInput(): void {
     this.value = this._input.value;
   }
 
   @Listen("keydown")
-  handleKeyDown(ev: KeyboardEvent): boolean {
+  onKeyDown(ev: KeyboardEvent): boolean {
     if (this.disabled || ev.keyCode === 229) {
       return false;
     }
@@ -86,7 +86,7 @@ export class TextInput implements ComponentInterface {
   }
 
   @Listen("paste")
-  handlePaste(ev: ClipboardEvent): boolean {
+  onPaste(ev: ClipboardEvent): boolean {
     if (!this.disabled && ev.clipboardData) {
       const paste: string = ev.clipboardData.getData("text/plain");
       if (!this._mask.test(paste)) {
