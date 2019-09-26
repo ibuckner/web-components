@@ -17,12 +17,12 @@ export class ModalView implements ComponentInterface {
   /**
    * Aligns child elements. Defaults to center of viewport.
    */
-  @Prop({ reflect: true }) public alignment: "bottom" | "center" | "top" = "center";
+  @Prop({ reflect: true }) public align: "bottom" | "center" | "top" = "center";
 
   /**
    * If true, displays the modal element
    */
-  @Prop({ reflect: true }) public open: boolean = false;
+  @Prop({ mutable: true, reflect: true }) public open: boolean = false;
 
   @Watch("open")
   validateOpen(newValue: string): void {
@@ -59,10 +59,9 @@ export class ModalView implements ComponentInterface {
   }
 
   public render(): JSX.NelModalView {
-    const mcls: string = `modal-view${this.open ? " open" : ""}`;
-    const cls: string = `modal-content ${this.alignment}`;
+    const cls: string = `modal-content ${this.align}`;
     return (
-      <div class={mcls}>
+      <div class="modal-view">
         <div class={cls}>
           <slot></slot>
         </div>

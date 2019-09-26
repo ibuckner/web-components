@@ -37,6 +37,11 @@ export class TextTag implements ComponentInterface {
   @Prop({ reflect: true }) public label: string = "";
 
   /**
+   * True when element can correctly respond to external programmatic access
+   */
+  @Prop({ mutable: true, reflect: false }) public ready: boolean = false;
+
+  /**
    * If true, allows the element to receive focus
    */
   @Prop({ reflect: true }) public selectable: boolean = false;
@@ -52,9 +57,19 @@ export class TextTag implements ComponentInterface {
   @Event() deleted: EventEmitter;
 
   /**
+   * Fired when element can correctly respond to external programmatic access
+   */
+  @Event({ composed: true, cancelable: false, bubbles: true }) loaded: EventEmitter;
+
+  /**
    * Fired after element receives focus
    */
   @Event() selected: EventEmitter;
+
+  componentDidLoad(): void {
+    this.loaded.emit(this.host);
+    this.ready = true;
+  }
 
   @Listen("click")
   onClick(ev: MouseEvent): void {
@@ -76,16 +91,9 @@ export class TextTag implements ComponentInterface {
       ev.preventDefault();
       return;
     }
-    switch (ev.code) {
-      case "Backspace":
-      case "Delete": this.deleting.emit(this.host); break;
+    if (this.deletable && (ev.code === "Backspace" || ev.code === "Delete")) {
+      this.deleting.emit(this.host);
     }
-  }
-
-  @Listen("deleting")
-  onDeleting(): void {
-    this.deleted.emit(this.host);
-    this.delete();
   }
 
   /**
@@ -93,6 +101,7 @@ export class TextTag implements ComponentInterface {
    */
   @Method()
   public async delete(): Promise<boolean> {
+    this.deleted.emit(this.host);
     const parent: any = this.host.parentNode;
     this.host.insertAdjacentText("beforebegin", this.host.textContent || "");
     parent.removeChild(this.host);

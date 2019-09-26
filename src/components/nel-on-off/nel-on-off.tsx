@@ -1,6 +1,6 @@
 import {
-  Component, ComponentInterface, Element, Event, EventEmitter, h,
-  Listen, Prop
+  Component, ComponentInterface, Element, Event, EventEmitter, 
+  h, Host, Listen, Prop, Watch
 } from "@stencil/core";
 import { JSX } from "../../components";
 
@@ -13,8 +13,6 @@ import { JSX } from "../../components";
   shadow: true
 })
 export class OnOff implements ComponentInterface {
-  private _input: HTMLInputElement;
-
   @Element() private host: HTMLElement;
 
   /**
@@ -25,7 +23,17 @@ export class OnOff implements ComponentInterface {
   /**
    * If true, element is in the 'on' state
    */
-  @Prop({ reflect: true }) public on: boolean = false;
+  @Prop({ mutable: true, reflect: true }) public on: boolean = false;
+
+  @Watch("on")
+  validateOpen(): void {
+    this.changed.emit(this.host);
+  }
+
+  /**
+   * True when element can correctly respond to external programmatic access
+   */
+  @Prop({ mutable: true, reflect: false }) public ready: boolean = false;
 
   /**
    * Adjusts the size of the element, using CSS rem units of measurement
@@ -33,26 +41,23 @@ export class OnOff implements ComponentInterface {
   @Prop({ reflect: true }) public size: number = 4;
 
   /**
+   * Fired when element can correctly respond to external programmatic access
+   */
+  @Event({ composed: true, cancelable: false, bubbles: true }) loaded: EventEmitter;
+
+  /**
    * Fired after element is toggled
    */
-  @Event({ composed: true, cancelable: true, bubbles: true }) toggle: EventEmitter;
-
-  componentWillLoad(): void {
-    this.host.setAttribute("aria-checked", `${this.on}`);
-  }
+  @Event({ composed: true, cancelable: true, bubbles: true }) changed: EventEmitter;
 
   componentDidLoad(): void {
-    this._input = this.host.shadowRoot.querySelector("input");
-  }
-
-  componentWillUpdate(): void {
-    this.host.setAttribute("aria-checked", `${this.on}`);
+    this.loaded.emit(this.host);
+    this.ready = true;
   }
 
   @Listen("click")
   onClick(): void {
-    this.on = this._input.checked;
-    this.toggle.emit(this.host);
+    this.on = !this.on;
   }
 
   public render(): JSX.NelOnOff {
@@ -61,10 +66,12 @@ export class OnOff implements ComponentInterface {
     const st: string = `input { height: ${ht}; width: ${w} }
     input:before { height: ${ht}; width: ${ht} }`;
     return (
-      <span>
-        <style>{st}</style>
-        <input type="checkbox" checked={this.on} />
-      </span>
+      <Host aria-checked={this.on ? "true" : "false"}>
+        <span>
+          <style>{st}</style>
+          <input type="checkbox" checked={this.on} />
+        </span>
+      </Host>      
     );
   }
 }

@@ -1,5 +1,6 @@
 import {
-  Component, ComponentInterface, Element, h, Listen, Prop, Watch
+  Component, ComponentInterface, Element, Event, EventEmitter,
+  h, Listen, Prop, Watch
 } from "@stencil/core";
 import { JSX } from "../../components";
 
@@ -20,7 +21,7 @@ export class TextInput implements ComponentInterface {
   /**
    * If false, element is partly greyed out and not responding to user input
    */
-  @Prop({ reflect: true }) public cleartext: boolean = true;
+  @Prop({ mutable: true, reflect: true }) public cleartext: boolean = true;
 
   /**
    * If false, element is partly greyed out and not responding to user input
@@ -58,13 +59,25 @@ export class TextInput implements ComponentInterface {
   @Prop({ reflect: true }) public placeholder: string = "";
 
   /**
+   * True when element can correctly respond to external programmatic access
+   */
+  @Prop({ mutable: true, reflect: false }) public ready: boolean = false;
+
+  /**
    * Sets the value of the text box
    */
   @Prop({ reflect: true }) public value: string = "";
 
+  /**
+   * Fired when element can correctly respond to external programmatic access
+   */
+  @Event({ composed: true, cancelable: false, bubbles: true }) loaded: EventEmitter;
+
   componentDidLoad(): void {
     this._input = this.host.shadowRoot.querySelector("input");
     this._mask = new RegExp(this.mask);
+    this.loaded.emit(this.host);
+    this.ready = true;
   }
 
   @Listen("input")
@@ -105,9 +118,8 @@ export class TextInput implements ComponentInterface {
   }
 
   public render(): JSX.NelTextInput {
-    const tp: string = this.cleartext ? "search" : "password";
     return (
-      <input type={tp}
+      <input type={this.cleartext ? "search" : "password"}
         maxlength={this.maxlength}
         minlength={this.minlength}
         pattern={this.pattern}

@@ -16,7 +16,15 @@
 | `minlength`   | `minlength`   | Minimum length of text entry                                            | `number`  | `-1`    |
 | `pattern`     | `pattern`     | Sets a regular expression to validate text                              | `string`  | `""`    |
 | `placeholder` | `placeholder` | Sets a visual text prompt as a palceholder within text box              | `string`  | `""`    |
+| `ready`       | `ready`       | True when element can correctly respond to external programmatic access | `boolean` | `false` |
 | `value`       | `value`       | Sets the value of the text box                                          | `string`  | `""`    |
+
+
+## Events
+
+| Event    | Description                                                              | Type               |
+| -------- | ------------------------------------------------------------------------ | ------------------ |
+| `loaded` | Fired when element can correctly respond to external programmatic access | `CustomEvent<any>` |
 
 
 ----------------------------------------------

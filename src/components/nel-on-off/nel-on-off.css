@@ -15,8 +15,8 @@ input {
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
-  background-color: #eee;
-  border: 1px solid #ccc;
+  background-color: var(--bg-color, #eeeeee); 
+  border: 1px solid var(--color, #999999);
   border-radius: 2rem;
   cursor: pointer;
   outline: none;
@@ -36,15 +36,15 @@ input:before, input:after {
 }
 
 input:before {
-  background-color: var(--color-off, #999999)
+  background-color: var(--color, #999999)
 }
 
-input:checked {
+:host([on]) > span > input {
   background-color: var(--bg-color-on, #555555); 
   border-color: var(--color-on, #000000)
 }
 
-input:checked:before {
+:host([on]) > span > input:before {
   background-color: var(--color-on, #000000);
   transform: translate(99%,-1px)
 }

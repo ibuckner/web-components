@@ -7,11 +7,11 @@
 
 ## Properties
 
-| Property    | Attribute   | Description                                                             | Type                            | Default    |
-| ----------- | ----------- | ----------------------------------------------------------------------- | ------------------------------- | ---------- |
-| `alignment` | `alignment` | Aligns child elements. Defaults to center of viewport.                  | `"bottom" \| "center" \| "top"` | `"center"` |
-| `open`      | `open`      | If true, displays the modal element                                     | `boolean`                       | `false`    |
-| `ready`     | `ready`     | True when element can correctly respond to external programmatic access | `boolean`                       | `false`    |
+| Property | Attribute | Description                                                             | Type                            | Default    |
+| -------- | --------- | ----------------------------------------------------------------------- | ------------------------------- | ---------- |
+| `align`  | `align`   | Aligns child elements. Defaults to center of viewport.                  | `"bottom" \| "center" \| "top"` | `"center"` |
+| `open`   | `open`    | If true, displays the modal element                                     | `boolean`                       | `false`    |
+| `ready`  | `ready`   | True when element can correctly respond to external programmatic access | `boolean`                       | `false`    |
 
 
 ## Events

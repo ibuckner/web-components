@@ -1,6 +1,6 @@
 {
   "name": "@buckneri/web-components",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Web components using Stencil",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -22,11 +22,11 @@
     "start": "stencil build --dev --watch --serve",
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
-    "upload": "npm publish --access public",
+    "upload": "npm run prepare && npm publish --access public",
     "upload.test": "npm publish --dry-run --access public"
   },
   "devDependencies": {
-    "@stencil/core": "^1.4.0",
+    "@stencil/core": "^1.5.1",
     "@types/d3": "^5.7.2",
     "@types/jest": "^24.0.18",
     "@types/puppeteer": "^1.19.1",

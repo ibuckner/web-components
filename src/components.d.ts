@@ -84,7 +84,7 @@ export namespace Components {
     /**
     * Aligns child elements. Defaults to center of viewport.
     */
-    'alignment': "bottom" | "center" | "top";
+    'align': "bottom" | "center" | "top";
     /**
     * If true, displays the modal element
     */
@@ -99,6 +99,10 @@ export namespace Components {
     * If true, content within element remains hidden
     */
     'available': boolean;
+    /**
+    * True when element can correctly respond to external programmatic access
+    */
+    'ready': boolean;
   }
   interface NelOnOff {
     /**
@@ -109,6 +113,10 @@ export namespace Components {
     * If true, element is in the 'on' state
     */
     'on': boolean;
+    /**
+    * True when element can correctly respond to external programmatic access
+    */
+    'ready': boolean;
     /**
     * Adjusts the size of the element, using CSS rem units of measurement
     */
@@ -144,6 +152,10 @@ export namespace Components {
     */
     'placeholder': string;
     /**
+    * True when element can correctly respond to external programmatic access
+    */
+    'ready': boolean;
+    /**
     * Sets the value of the text box
     */
     'value': string;
@@ -169,6 +181,10 @@ export namespace Components {
     * Sets the text label  to be applied to the element
     */
     'label': string;
+    /**
+    * True when element can correctly respond to external programmatic access
+    */
+    'ready': boolean;
     /**
     * If true, allows the element to receive focus
     */
@@ -335,7 +351,7 @@ declare global {
 }
 
 declare namespace LocalJSX {
-  interface NelExpandItem extends JSXBase.HTMLAttributes<HTMLNelExpandItemElement> {
+  interface NelExpandItem {
     /**
     * If false, element is partly greyed out and not responding to user input
     */
@@ -365,7 +381,7 @@ declare namespace LocalJSX {
     */
     'size'?: number;
   }
-  interface NelItemCollection extends JSXBase.HTMLAttributes<HTMLNelItemCollectionElement> {
+  interface NelItemCollection {
     /**
     * Aligns child elements within collection. Defaults to vertical list.
     */
@@ -395,7 +411,7 @@ declare namespace LocalJSX {
     */
     'resizable'?: boolean;
   }
-  interface NelListItem extends JSXBase.HTMLAttributes<HTMLNelListItemElement> {
+  interface NelListItem {
     /**
     * Sets the bullet color of the element. Default is #eeeeee
     */
@@ -433,11 +449,11 @@ declare namespace LocalJSX {
     */
     'selectable'?: boolean;
   }
-  interface NelModalView extends JSXBase.HTMLAttributes<HTMLNelModalViewElement> {
+  interface NelModalView {
     /**
     * Aligns child elements. Defaults to center of viewport.
     */
-    'alignment'?: "bottom" | "center" | "top";
+    'align'?: "bottom" | "center" | "top";
     /**
     * Fired when element's open property is false either via UI or programmatically
     */
@@ -459,13 +475,25 @@ declare namespace LocalJSX {
     */
     'ready'?: boolean;
   }
-  interface NelNetworkConnection extends JSXBase.HTMLAttributes<HTMLNelNetworkConnectionElement> {
+  interface NelNetworkConnection {
     /**
     * If true, content within element remains hidden
     */
     'available'?: boolean;
+    /**
+    * Fired after network status change
+    */
+    'onChanged'?: (event: CustomEvent<any>) => void;
+    /**
+    * Fired when element can correctly respond to external programmatic access
+    */
+    'onLoaded'?: (event: CustomEvent<any>) => void;
+    /**
+    * True when element can correctly respond to external programmatic access
+    */
+    'ready'?: boolean;
   }
-  interface NelOnOff extends JSXBase.HTMLAttributes<HTMLNelOnOffElement> {
+  interface NelOnOff {
     /**
     * If false, element is partly greyed out and not responding to user input
     */
@@ -477,13 +505,21 @@ declare namespace LocalJSX {
     /**
     * Fired after element is toggled
     */
-    'onToggle'?: (event: CustomEvent<any>) => void;
+    'onChanged'?: (event: CustomEvent<any>) => void;
+    /**
+    * Fired when element can correctly respond to external programmatic access
+    */
+    'onLoaded'?: (event: CustomEvent<any>) => void;
+    /**
+    * True when element can correctly respond to external programmatic access
+    */
+    'ready'?: boolean;
     /**
     * Adjusts the size of the element, using CSS rem units of measurement
     */
     'size'?: number;
   }
-  interface NelTextInput extends JSXBase.HTMLAttributes<HTMLNelTextInputElement> {
+  interface NelTextInput {
     /**
     * If false, element is partly greyed out and not responding to user input
     */
@@ -505,6 +541,10 @@ declare namespace LocalJSX {
     */
     'minlength'?: number;
     /**
+    * Fired when element can correctly respond to external programmatic access
+    */
+    'onLoaded'?: (event: CustomEvent<any>) => void;
+    /**
     * Sets a regular expression to validate text
     */
     'pattern'?: string;
@@ -513,11 +553,15 @@ declare namespace LocalJSX {
     */
     'placeholder'?: string;
     /**
+    * True when element can correctly respond to external programmatic access
+    */
+    'ready'?: boolean;
+    /**
     * Sets the value of the text box
     */
     'value'?: string;
   }
-  interface NelTextTag extends JSXBase.HTMLAttributes<HTMLNelTextTagElement> {
+  interface NelTextTag {
     /**
     * Sets the background color of the element
     */
@@ -543,15 +587,23 @@ declare namespace LocalJSX {
     */
     'onDeleting'?: (event: CustomEvent<any>) => void;
     /**
+    * Fired when element can correctly respond to external programmatic access
+    */
+    'onLoaded'?: (event: CustomEvent<any>) => void;
+    /**
     * Fired after element receives focus
     */
     'onSelected'?: (event: CustomEvent<any>) => void;
+    /**
+    * True when element can correctly respond to external programmatic access
+    */
+    'ready'?: boolean;
     /**
     * If true, allows the element to receive focus
     */
     'selectable'?: boolean;
   }
-  interface NelVizContainer extends JSXBase.HTMLAttributes<HTMLNelVizContainerElement> {
+  interface NelVizContainer {
     /**
     * Sets the element's background border radius
     */
@@ -617,7 +669,7 @@ declare namespace LocalJSX {
     */
     'width'?: string;
   }
-  interface NelVizDataModel extends JSXBase.HTMLAttributes<HTMLNelVizDataModelElement> {
+  interface NelVizDataModel {
     /**
     * JSON data for visualisation
     */
@@ -663,7 +715,18 @@ export { LocalJSX as JSX };
 
 declare module "@stencil/core" {
   export namespace JSX {
-    interface IntrinsicElements extends LocalJSX.IntrinsicElements {}
+    interface IntrinsicElements {
+      'nel-expand-item': LocalJSX.NelExpandItem & JSXBase.HTMLAttributes<HTMLNelExpandItemElement>;
+      'nel-item-collection': LocalJSX.NelItemCollection & JSXBase.HTMLAttributes<HTMLNelItemCollectionElement>;
+      'nel-list-item': LocalJSX.NelListItem & JSXBase.HTMLAttributes<HTMLNelListItemElement>;
+      'nel-modal-view': LocalJSX.NelModalView & JSXBase.HTMLAttributes<HTMLNelModalViewElement>;
+      'nel-network-connection': LocalJSX.NelNetworkConnection & JSXBase.HTMLAttributes<HTMLNelNetworkConnectionElement>;
+      'nel-on-off': LocalJSX.NelOnOff & JSXBase.HTMLAttributes<HTMLNelOnOffElement>;
+      'nel-text-input': LocalJSX.NelTextInput & JSXBase.HTMLAttributes<HTMLNelTextInputElement>;
+      'nel-text-tag': LocalJSX.NelTextTag & JSXBase.HTMLAttributes<HTMLNelTextTagElement>;
+      'nel-viz-container': LocalJSX.NelVizContainer & JSXBase.HTMLAttributes<HTMLNelVizContainerElement>;
+      'nel-viz-data-model': LocalJSX.NelVizDataModel & JSXBase.HTMLAttributes<HTMLNelVizDataModelElement>;
+    }
   }
 }
 

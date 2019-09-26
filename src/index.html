@@ -12,18 +12,23 @@
     }
 
     details { outline: none; width: 95% }
-    details[open] {
-      border: 1px solid #666;
-      border-radius: 10px;
-      margin: 0.5rem;
-      padding: 1rem
-    }
+
     label { cursor: pointer }
+
     summary {
       cursor: pointer; 
       font-size: 1.3rem;
       outline: none;
       padding-bottom: 1rem
+    }
+
+    input { margin: 0.5rem }
+
+    .sample {
+      background-color: whitesmoke;
+      border-radius: 15px;
+      margin: 0.25rem;
+      padding: 1rem;
     }
 
     .panel {
@@ -56,33 +61,34 @@
 <body>
   <details>
     <summary>Expand Item</summary>
-    <nel-expand-item id="exampleExpandItem" size="1.75">
-      <div slot="title">Hello</div>
-      <div slot="content">World</div>
-    </nel-expand-item>
-    <hr>
-    <h3>Properties</h3>
-    <label><input type="checkbox" id="chkDisableExpand" /> disabled</label>
-    <label><input type="checkbox" id="chkHideExpand" /> hidden</label>
-    <label><input type="checkbox" id="chkToggleExpand" /> open</label>
-    <h3>Events</h3>
-    <label><input type="checkbox" id="chkEventsExpand" checked /> view events (<code>F12</code> opens console)</label>
-    
+    <div class="sample">
+      <nel-expand-item id="exampleExpandItem" size="1.75">
+        <div slot="title">Hello</div>
+        <div slot="content">World</div>
+      </nel-expand-item>
+      <hr>
+      <h3>Properties</h3>
+      <label><input type="checkbox" id="chkDisableExpand" /> disabled</label>
+      <label><input type="checkbox" id="chkHideExpand" /> hidden</label>
+      <label><input type="checkbox" id="chkToggleExpand" /> open</label>
+      <h3>Events</h3>
+      <label><input type="checkbox" id="chkEventsExpand" checked /> view events (<code>F12</code> opens console)</label>
+    </div>    
     <script type="text/javascript" defer>
       (function() {
-        var expand = document.getElementById("exampleExpandItem");
+        var ex = document.getElementById("exampleExpandItem");
 
-        expand.addEventListener("opened", function() { toggle.checked = expand.open });
-        expand.addEventListener("closed", function() { toggle.checked = expand.open });
+        ex.addEventListener("opened", function() { toggle.checked = ex.open });
+        ex.addEventListener("closed", function() { toggle.checked = ex.open });
 
         var disable = document.getElementById("chkDisableExpand");
-        disable.addEventListener("change", function() { expand.disabled = disable.checked });
+        disable.addEventListener("change", function() { ex.disabled = disable.checked });
 
         var hidden = document.getElementById("chkHideExpand");
-        hidden.addEventListener("change", function() { expand.hidden = hidden.checked });
+        hidden.addEventListener("change", function() { ex.hidden = hidden.checked });
 
         var toggle = document.getElementById("chkToggleExpand");
-        toggle.addEventListener("change", function() { expand.open = toggle.checked });
+        toggle.addEventListener("change", function() { ex.open = toggle.checked });
 
         var events = document.getElementById("chkEventsExpand");        
         events.addEventListener("change", function() {
@@ -91,25 +97,25 @@
         });
 
         function init() {
-          disable.checked = expand.disabled;
-          hidden.checked = expand.hidden;
-          toggle.checked = expand.open;
+          disable.checked = ex.disabled;
+          hidden.checked = ex.hidden;
+          toggle.checked = ex.open;
           attachConsole();
         }
-        if (!expand.ready) {
-          expand.addEventListener("loaded", init);
+        if (!ex.ready) {
+          ex.addEventListener("loaded", init);
         } else {
           init();
         }
 
         function attachConsole() {
-          expand.addEventListener("opened", onOpen);
-          expand.addEventListener("closed", onClose);
+          ex.addEventListener("opened", onOpen);
+          ex.addEventListener("closed", onClose);
         }
 
         function detachConsole() {
-          expand.removeEventListener("opened", onOpen);
-          expand.removeEventListener("closed", onClose);
+          ex.removeEventListener("opened", onOpen);
+          ex.removeEventListener("closed", onClose);
         }
 
         function onClose(ev) { console.log(ev.detail.id + " was closed") }
@@ -120,44 +126,45 @@
 
   <details>
     <summary>Item Collection</summary>
-    <nel-item-collection id="exampleItemCollection" align="vertical" sortable resizable>
-      <div class="box">A</div>
-      <div class="box">B</div>
-    </nel-item-collection>
-    <hr>
-    <button id="addItemC">Add text</button>
-    <input id="addItemText" type="text" placeholder="Letter of alphabet" value="C" maxlength="1" />
-    <h3>Properties</h3>
-    <label><input type="checkbox" id="chkDisableItemC" /> disabled</label>
-    <label><input type="checkbox" id="chkHideItemC" /> hidden</label>
-    <label><input type="checkbox" id="chkResizeItemC" /> resizable</label><br>
-    <label><input type="radio" id="radAlignItemCVert" name="radAlignItemCollection" value="vertical" checked /> vertical</label>
-    <label><input type="radio" id="radAlignItemCHori" name="radAlignItemCollection" value="horizontal" /> horizontal</label>
-    <h3>Events</h3>
-    <label><input type="checkbox" id="chkEventsItemC" checked /> view events (<code>F12</code> opens console)</label>
-    <h3>Methods</h3>
-    <button id="eraseItemC">clear() list</button>
-    <button id="sortAZItemC">▼ A-Z sort()</button>
-    <button id="sortZAItemC">▲ Z-A sort()</button>
-    
+    <div class="sample">
+      <nel-item-collection id="exampleItemCollection" align="vertical" sortable resizable>
+        <div class="box">A</div>
+        <div class="box">B</div>
+      </nel-item-collection>
+      <hr>
+      <button id="addItemC">Add text</button>
+      <input id="addItemText" type="text" placeholder="Letter of alphabet" value="C" maxlength="1" />
+      <h3>Properties</h3>
+      <label><input type="checkbox" id="chkDisableItemC" /> disabled</label>
+      <label><input type="checkbox" id="chkHideItemC" /> hidden</label>
+      <label><input type="checkbox" id="chkResizeItemC" /> resizable</label><br>
+      <label><input type="radio" id="radAlignItemCVert" name="radAlignItemCollection" value="vertical" checked /> vertical</label>
+      <label><input type="radio" id="radAlignItemCHori" name="radAlignItemCollection" value="horizontal" /> horizontal</label>
+      <h3>Events</h3>
+      <label><input type="checkbox" id="chkEventsItemC" checked /> view events (<code>F12</code> opens console)</label>
+      <h3>Methods</h3>
+      <button id="eraseItemC">clear() list</button>
+      <button id="sortAZItemC">▼ A-Z sort()</button>
+      <button id="sortZAItemC">▲ Z-A sort()</button>
+    </div>    
     <script type="text/javascript" defer>
       (function() {
-        var list = document.getElementById("exampleItemCollection");
+        var ex = document.getElementById("exampleItemCollection");
 
         var disable = document.getElementById("chkDisableItemC");
-        disable.addEventListener("change", function() { list.disabled = disable.checked });
+        disable.addEventListener("change", function() { ex.disabled = disable.checked });
 
         var hidden = document.getElementById("chkHideItemC");
-        hidden.addEventListener("change", function() { list.hidden = hidden.checked });
+        hidden.addEventListener("change", function() { ex.hidden = hidden.checked });
 
         var alignV = document.getElementById("radAlignItemCVert");
-        alignV.addEventListener("change", function() { if (alignV.checked) { list.align = "vertical"; } });
+        alignV.addEventListener("change", function() { if (alignV.checked) { ex.align = "vertical"; } });
 
         var alignH = document.getElementById("radAlignItemCHori");
-        alignH.addEventListener("change", function() { if (alignH.checked) { list.align = "horizontal"; } });
+        alignH.addEventListener("change", function() { if (alignH.checked) { ex.align = "horizontal"; } });
 
         var resizable = document.getElementById("chkResizeItemC");
-        resizable.addEventListener("change", function() { list.resizable = resizable.checked });
+        resizable.addEventListener("change", function() { ex.resizable = resizable.checked });
 
         var events = document.getElementById("chkEventsItemC");        
         events.addEventListener("change", function() {
@@ -166,45 +173,45 @@
         });
 
         var clear = document.getElementById("eraseItemC");
-        clear.addEventListener("click", function() { list.clear() });
+        clear.addEventListener("click", function() { ex.clear() });
 
         var sortAZ = document.getElementById("sortAZItemC");
-        sortAZ.addEventListener("click", function() { list.sort() });
+        sortAZ.addEventListener("click", function() { ex.sort() });
 
         var sortZA = document.getElementById("sortZAItemC");
-        sortZA.addEventListener("click", function() { list.sort(true) });
+        sortZA.addEventListener("click", function() { ex.sort(true) });
 
         var addItem = document.getElementById("addItemC");
         addItem.addEventListener("click", function() {
-          const t = document.createElement("div");
+          var t = document.createElement("div");
           t.classList.add("box");
           var letter = document.querySelector("#addItemText");
           t.textContent = letter.value;
-          list.appendChild(t);
+          ex.appendChild(t);
         });
 
         function init() {
-          disable.checked = list.disabled;
-          hidden.checked = list.hidden;
-          alignV.checked = list.align === "vertical" ? true : false;
-          alignH.checked = list.align === "horizontal" ? true : false;
-          resizable.checked = list.resizable;
+          disable.checked = ex.disabled;
+          hidden.checked = ex.hidden;
+          alignV.checked = ex.align === "vertical" ? true : false;
+          alignH.checked = ex.align === "horizontal" ? true : false;
+          resizable.checked = ex.resizable;
           attachConsole();
         }
-        if (!list.ready) {
-          list.addEventListener("loaded", init);
+        if (!ex.ready) {
+          ex.addEventListener("loaded", init);
         } else {
           init();
         }
 
         function attachConsole() {
-          list.addEventListener("cleared", onClear);
-          list.addEventListener("sorted", onSort);
+          ex.addEventListener("cleared", onClear);
+          ex.addEventListener("sorted", onSort);
         }
 
         function detachConsole() {
-          list.removeEventListener("cleared", onClear);
-          list.removeEventListener("sorted", onSort);
+          ex.removeEventListener("cleared", onClear);
+          ex.removeEventListener("sorted", onSort);
         }
 
         function onClear(ev) { console.log(ev.detail.id + " was cleared") }
@@ -215,59 +222,45 @@
 
   <details>
     <summary>List Item</summary>
-    <nel-item-collection id="exampleListItemCollection" align="vertical">
-      <nel-list-item id="itemWorld" color="#33ff86" selectable deletable>World</nel-list-item>
-      <nel-list-item id="itemHello" color="#4466ff" selectable deletable>Hello</nel-list-item>
-    </nel-item-collection>
-    <hr>
-    <h3>Properties</h3>
-    <label><input type="color" id="chkColorListItem" disabled /> color</label>
-    <label><input type="checkbox" id="chkDeleteListItem" disabled /> deletable</label>
-    <label><input type="checkbox" id="chkDisableListItem" disabled /> disabled</label>
-    <label><input type="checkbox" id="chkHideListItem" disabled /> hidden</label>
-    <label><input type="checkbox" id="chkSelectListItem" disabled /> selectable</label><br>
-    <h3>Events</h3>
-    <label><input type="checkbox" id="chkEventsListItem" checked /> view events (<code>F12</code> opens console)</label>
-    <h3>Methods</h3>
-    <button id="deleteListItem" disabled>delete() item</button>
-
+    <div class="sample">
+      <nel-item-collection id="exampleListItemCollection" align="vertical">
+        <nel-list-item id="itemWorld" color="#33ff86" selectable deletable>World</nel-list-item>
+        <nel-list-item id="itemHello" color="#4466ff" selectable deletable>Hello</nel-list-item>
+      </nel-item-collection>
+      <hr>
+      <h3>Properties</h3>
+      <label><input type="color" id="chkColorListItem" disabled /> color</label>
+      <label><input type="checkbox" id="chkDeleteListItem" disabled /> deletable</label>
+      <label><input type="checkbox" id="chkDisableListItem" disabled /> disabled</label>
+      <label><input type="checkbox" id="chkHideListItem" disabled /> hidden</label>
+      <label><input type="checkbox" id="chkSelectListItem" disabled /> selectable</label><br>
+      <h3>Events</h3>
+      <label><input type="checkbox" id="chkEventsListItem" checked /> view events (<code>F12</code> opens console)</label>
+      <h3>Methods</h3>
+      <button id="deleteListItem" disabled>delete() item</button>  
+    </div>
     <script type="text/javascript" defer>
       (function() {
         var list = document.getElementById("exampleListItemCollection");
-        var item;
+        var ex;
 
         var color = document.getElementById("chkColorListItem");
-        color.addEventListener("change", function() {
-          if (item) { item.disabled = color.value }
-        });
+        color.addEventListener("change", function() { if (ex) { ex.color = color.value } });
 
         var deletable = document.getElementById("chkDeleteListItem");
-        deletable.addEventListener("change", function() {
-          if (item) { item.deletable = deletable.checked }
-        });
+        deletable.addEventListener("change", function() { if (ex) { ex.deletable = deletable.checked } });
 
         var disable = document.getElementById("chkDisableListItem");
-        disable.addEventListener("change", function() {
-          if (item) { item.disabled = disable.checked }
-        });
+        disable.addEventListener("change", function() { if (ex) { ex.disabled = disable.checked } });
 
         var hidden = document.getElementById("chkHideListItem");
-        hidden.addEventListener("change", function() {
-          if (item) { item.hidden = hidden.checked }
-        });
+        hidden.addEventListener("change", function() { if (ex) { ex.hidden = hidden.checked } });
 
         var selectable = document.getElementById("chkSelectListItem");
-        selectable.addEventListener("change", function() {
-          if (item) { item.selectable = selectable.checked }
-        });
+        selectable.addEventListener("change", function() { if (ex) { ex.selectable = selectable.checked } });
 
         var del = document.getElementById("deleteListItem");
-        del.addEventListener("click", function() {
-          if (item) {
-            item.delete();
-            item = null;
-          }
-        });
+        del.addEventListener("click", function() { if (ex) { ex.delete(); ex = null; } });
 
         var events = document.getElementById("chkEventsListItem");        
         events.addEventListener("change", function() {
@@ -283,7 +276,7 @@
             .forEach(function(im) {
               attachConsole(im);
               im.addEventListener("selected", function(ev) {
-                item = ev.detail;
+                ex = ev.detail;
                 color.disabled = false;
                 color.value = ev.detail.color;
                 deletable.disabled = false;
@@ -326,29 +319,42 @@
     </script>
   </details>
 
-  <details open>
+  <details>
     <summary>Modal View</summary>
-    <nel-modal-view id="modal" alignment="center">
-      <div class="modal-message">
-        Hello world!<br>
-        <button class="showModal">Hide message</button>
-      </div>
-    </nel-modal-view>
-    <hr>
-    <h3>Properties</h3>
-    <label><input type="checkbox" id="chkToggleModal" /> open</label>
-    <h3>Events</h3>
-    <label><input type="checkbox" id="chkEventsModal" checked /> view events (<code>F12</code> opens console)</label>
-    
+    <div class="sample">
+      <nel-modal-view id="modal" align="center">
+        <div class="modal-message">
+          Hello world!<br>
+          <button class="showModal">Hide message</button>
+        </div>
+      </nel-modal-view>
+      <hr>
+      <h3>Properties</h3>
+      <label><input type="checkbox" id="chkToggleModal" /> open</label><br>
+      <label><input type="radio" id="radAlignModalTop" name="radAlignModal" value="top" /> top</label>
+      <label><input type="radio" id="radAlignModalCenter" name="radAlignModal" value="center" /> center</label>
+      <label><input type="radio" id="radAlignModalBottom" name="radAlignModal" value="bottom" /> bottom</label>
+      <h3>Events</h3>
+      <label><input type="checkbox" id="chkEventsModal" checked /> view events (<code>F12</code> opens console)</label>
+    </div>   
     <script type="text/javascript" defer>
       (function() {
-        var modal = document.getElementById("modal");
+        var ex = document.getElementById("modal");
 
         var close = document.querySelector(".showModal");
-        close.addEventListener("click", function() { toggle.checked = false });
+        close.addEventListener("click", function() { ex.open = false });
 
         var toggle = document.getElementById("chkToggleModal");
-        toggle.addEventListener("change", function() { modal.open = toggle.checked });
+        toggle.addEventListener("change", function() { ex.open = toggle.checked });
+
+        var alignT = document.getElementById("radAlignModalTop");
+        alignT.addEventListener("change", function() { if (alignT.checked) { ex.align = "top"; } });
+
+        var alignC = document.getElementById("radAlignModalCenter");
+        alignC.addEventListener("change", function() { if (alignC.checked) { ex.align = "center"; } });
+
+        var alignB = document.getElementById("radAlignModalBottom");
+        alignB.addEventListener("change", function() { if (alignB.checked) { ex.align = "bottom"; } });
 
         var events = document.getElementById("chkEventsModal");        
         events.addEventListener("change", function() {
@@ -357,101 +363,330 @@
         });
 
         function init() {
-          toggle.checked = modal.open;
+          toggle.checked = ex.open;
+          alignT.checked = ex.align === "top" ? true : false;
+          alignC.checked = ex.align === "center" ? true : false;
+          alignB.checked = ex.align === "bottom" ? true : false;
           attachConsole();
         }
-        if (!modal.ready) {
-          modal.addEventListener("loaded", init);
+        if (!ex.ready) {
+          ex.addEventListener("loaded", init);
         } else {
           init();
         }
 
         function attachConsole() {
-          modal.addEventListener("opened", onOpen);
-          modal.addEventListener("closed", onClose);
+          ex.addEventListener("opened", onOpen);
+          ex.addEventListener("closed", onClose);
         }
 
         function detachConsole() {
-          modal.removeEventListener("opened", onOpen);
-          modal.removeEventListener("closed", onClose);
+          ex.removeEventListener("opened", onOpen);
+          ex.removeEventListener("closed", onClose);
         }
 
-        function onClose(ev) { console.log(ev.detail.id + " was closed") }
-        function onOpen(ev) { console.log(ev.detail.id + " was opened") }
+        function onClose(ev) {
+          toggle.checked = false;
+          console.log(ev.detail.id + " was closed");
+        }
+
+        function onOpen(ev) {
+          toggle.checked = true;
+          console.log(ev.detail.id + " was opened");
+        }
       })();
     </script>
   </details>
 
   <details>
     <summary>Network Connection</summary>
-    Disable the network via DevTools.<br>
-    (On Chrome)<br>
-    F12 Key -> Network tab -> Toggle between Online and offline
-    <nel-network-connection>
-      <div style="color: red">Whoa there, you are offline!</div>
-    </nel-network-connection>
+    <div class="sample">
+      Disable the network via DevTools.<br>
+      (On Chrome)<br>
+      F12 Key -> Network tab -> Toggle between Online and offline
+      <nel-network-connection id="netwatch">
+        <div style="color: red">Whoa there, you are offline!</div>
+      </nel-network-connection>
+      <hr>
+      <h3>Events</h3>
+      <label><input type="checkbox" id="chkEventsNetwork" checked /> view events (<code>F12</code> opens console)</label>
+    </div>    
+    <script type="text/javascript" defer>
+      var ex = document.getElementById("netwatch");
+
+      var events = document.getElementById("chkEventsNetwork");        
+      events.addEventListener("change", function() {
+        console.clear();
+        events.checked ? attachConsole() : detachConsole();
+      });
+
+      function init() {
+        attachConsole();
+      }
+      if (!ex.ready) {
+        ex.addEventListener("loaded", init);
+      } else {
+        init();
+      }
+
+      function attachConsole() {
+        ex.addEventListener("changed", onChange);
+      }
+
+      function detachConsole() {
+        ex.removeEventListener("changed", onChange);
+      }
+
+      function onChange(ev) {
+        console.log(ev.detail.id + " reports " + (ev.detail.available ? "online" : "offline"));
+      }
+    </script>
   </details>
 
   <details>
     <summary>On Off</summary>
-    <div class="panel narrow">
-      <nel-on-off id="OnOff" size="3" style="--bg-color-on: lightblue; --color-on: royalblue"></nel-on-off>
-      <label id="lblOnOff" for="onoff">Switch is off</label>
+    <div class="sample">
+      <nel-on-off id="OnOff" size="3" 
+        style="--bg-color: #eeeeee; --color: #000000; --bg-color-on: #ccccff; --color-on: #000099;">
+      </nel-on-off>
+      <hr>
+      <h3>Properties</h3>
+      <label><input type="checkbox" id="chkDisableOnOff" /> disabled</label>
+      <label><input type="checkbox" id="chkHideOnOff" /> hidden</label>
+      <label><input type="checkbox" id="chkToggleOnOff" /> on</label><br>
+      <label><input type="range" id="chkSizeOnOff" max="6" min="2" /> size <span id="chkSizeLblOnOff"></span></span></label>
+      <h3>Events</h3>
+      <label><input type="checkbox" id="chkEventsOnOff" checked /> view events (<code>F12</code> opens console)</label>
+      <h3>Styles</h3>
+      On<br>
+      <label><input id="clOnOffBGColorOn" type="color" /> --bg-color-on</label>
+      <label><input id="clOnOffColorOn" type="color" /> --color-on</label><br><br>
+      Off<br>
+      <label><input id="clOnOffBGColor" type="color" /> --bg-color</label>
+      <label><input id="clOnOffColor" type="color" /> --color</label>
     </div>
-    <script type="text/javascript">
+    <script type="text/javascript" defer>
       (function() {
-        const oo = document.querySelector("#OnOff");
-        const lbl = document.querySelector("#lblOnOff");
-        oo.addEventListener("toggle", function(ev) { lbl.textContent = "Switch is " + (ev.detail.on ? "on" : "off"); });
+        var ex = document.getElementById("OnOff");
+
+        var disable = document.getElementById("chkDisableOnOff");
+        disable.addEventListener("change", function() { ex.disabled = disable.checked });
+
+        var hidden = document.getElementById("chkHideOnOff");
+        hidden.addEventListener("change", function() { ex.hidden = hidden.checked });
+
+        var toggle = document.getElementById("chkToggleOnOff");
+        toggle.addEventListener("change", function() { ex.on = toggle.checked });
+
+        var bgcoloron = document.getElementById("clOnOffBGColorOn");
+        bgcoloron.addEventListener("input", function() { ex.style.setProperty("--bg-color-on", bgcoloron.value); });
+
+        var coloron = document.getElementById("clOnOffColorOn");
+        coloron.addEventListener("input", function() { ex.style.setProperty("--color-on", coloron.value); });
+
+        var bgcolor = document.getElementById("clOnOffBGColor");
+        bgcolor.addEventListener("input", function() { ex.style.setProperty("--bg-color", bgcolor.value); });
+
+        var color = document.getElementById("clOnOffColor");
+        color.addEventListener("input", function() { ex.style.setProperty("--color", color.value); });
+
+        var size = document.getElementById("chkSizeOnOff");
+        var sizelbl = document.getElementById("chkSizeLblOnOff");
+        size.addEventListener("input", function() {
+          ex.size = size.value;
+          sizelbl.textContent = size.value;
+        });
+
+        var events = document.getElementById("chkEventsOnOff");        
+        events.addEventListener("change", function() {
+          console.clear();
+          events.checked ? attachConsole() : detachConsole();
+        });
+
+        function init() {
+          disable.checked = ex.disabled;
+          hidden.checked = ex.hidden;
+          toggle.checked = ex.on;
+          size.value = ex.size;
+          sizelbl.textContent = size.value;
+          bgcoloron.value = ex.style.getPropertyValue("--bg-color-on").trim();
+          coloron.value = ex.style.getPropertyValue("--color-on").trim();
+          bgcolor.value = ex.style.getPropertyValue("--bg-color").trim();
+          color.value = ex.style.getPropertyValue("--color").trim();
+          attachConsole();
+        }
+        if (!ex.ready) {
+          ex.addEventListener("loaded", init);
+        } else {
+          init();
+        }
+
+        function attachConsole() {
+          ex.addEventListener("changed", onStatusOn);
+        }
+
+        function detachConsole() {
+          ex.removeEventListener("changed", onStatusOn);
+        }
+
+        function onStatusOn(ev) {
+          toggle.checked = ev.detail.on;
+          console.log(ev.detail.id + " is " + (ev.detail.on ? "on" : "off"));
+        }
       })();
     </script>
   </details> 
 
   <details>
     <summary>Text Input</summary>
-    <label>Text entry <nel-text-input cleartext id="txtEntry" mask="^\d+$" pattern=".*" placeholder="Enter some text" value=""></label>
-    <hr>    
-    <label><input id="txtEntryStandard" type="radio" name="txtEntry" checked /> Standard text</label><br>
-    <label><input id="txtEntryPwd" type="radio" name="txtEntry" /> Password</label><br>
-    <label>Restrict input text to <input id="textEntryMask" type="text" value="^\d+$" /></label>
-    <script type="text/javascript">
+    <div class="sample">
+      <label>Text entry <nel-text-input cleartext id="txtEntry" mask="^\d+$" pattern=".*" placeholder="Enter some text" value=""></label>
+      <hr>
+      <h3>Properties</h3>
+      <label><input type="checkbox" id="chkDisableTextInput" /> disabled</label>
+      <label><input type="checkbox" id="chkHideTextInput" /> hidden</label><br>
+      <label><input id="radEntryClear" type="radio" name="radEntry" /> Standard text</label>
+      <label><input id="radEntryPwd" type="radio" name="radEntry" /> Password</label><br>
+      <label>Restrict input text to <input id="textEntryMask" type="text" /></label>
+      <h3>Events</h3>
+      <label><input type="checkbox" id="chkEventsTextInput" checked /> view events (<code>F12</code> opens console)</label>
+    </div>
+    <script type="text/javascript" defer>
       (function() {
-        var t = document.querySelector("#txtEntry");
-        var std = document.querySelector("#txtEntryStandard");
-        var pwd = document.querySelector("#txtEntryPwd");
-        var msk = document.querySelector("#textEntryMask");
-        std.addEventListener("click", function() {
-          t.placeholder = "Enter some text";
-          t.cleartext = true;
-          console.log("cleartext attribute added to text-input");
+        var ex = document.getElementById("txtEntry");
+
+        var disable = document.getElementById("chkDisableTextInput");
+        disable.addEventListener("change", function() { ex.disabled = disable.checked });
+
+        var hidden = document.getElementById("chkHideTextInput");
+        hidden.addEventListener("change", function() { ex.hidden = hidden.checked });
+
+        var cleartext = document.getElementById("radEntryClear");
+        cleartext.addEventListener("change", function() { ex.cleartext = cleartext.checked });
+
+        var password = document.getElementById("radEntryPwd");
+        password.addEventListener("change", function() { ex.cleartext = cleartext.checked });
+
+        var mask = document.getElementById("textEntryMask");
+        mask.addEventListener("change", function() { ex.mask = mask.value });
+
+        var events = document.getElementById("chkEventsTextInput");        
+        events.addEventListener("change", function() {
+          console.clear();
+          events.checked ? attachConsole() : detachConsole();
         });
-        pwd.addEventListener("click", function() {
-          t.placeholder = "Enter a password";
-          t.cleartext = false;
-          console.log("cleartext attribute removed from text-input");
-        });
-        msk.addEventListener("change", function() {
-          t.mask = msk.value;
-        });
+
+        function init() {
+          disable.checked = ex.disabled;
+          hidden.checked = ex.hidden;
+          cleartext.checked = ex.cleartext;
+          password.checked = !ex.cleartext;
+          mask.value = ex.mask;
+          attachConsole();
+        }
+        if (!ex.ready) {
+          ex.addEventListener("loaded", init);
+        } else {
+          init();
+        }
+
+        function attachConsole() {
+          ex.addEventListener("input", onInput);
+        }
+
+        function detachConsole() {
+          ex.removeEventListener("input", onInput);
+        }
+
+        function onInput(ev) {          
+          console.log(ev.target.id + " = " + ev.target.value);
+        }
       })();
     </script>
   </details>
 
   <details>
     <summary>Text Tag</summary>
-    The quick brown <nel-text-tag id="mammalTag" selectable deletable color="green" label="Mammal">fox</nel-text-tag>
-    jumped over the gate.
-    <script type="text/javascript">
+    <div class="sample">
+      The quick brown <nel-text-tag id="mammalTag" selectable deletable color="#009900" label="Mammal">fox</nel-text-tag>
+      jumped over the gate.
+      <hr>
+      <h3>Properties</h3>
+      <label><input type="checkbox" id="chkDisableTag" /> disabled</label>
+      <label><input type="checkbox" id="chkHideTag" /> hidden</label>
+      <label><input type="checkbox" id="chkDeletableTag" /> deletable</label>
+      <label><input type="checkbox" id="chkSelectableTag" /> selectable</label><br>
+      <label><input type="color" id="chkColorTag" /> color</label><br>
+      <label>Label <input id="txtLabelTag" type="text" /></label>
+      <h3>Events</h3>
+      <label><input type="checkbox" id="chkEventsTag" checked /> view events (<code>F12</code> opens console)</label>
+    </div>
+    <script type="text/javascript" defer>
       (function() {
-        const tt = document.querySelector("nel-text-tag");
-        tt.addEventListener("selected", function(ev) { console.log("You selected " + ev.detail.id); });
-        tt.addEventListener("deleting", function(ev) { console.log("You are deleting " + ev.detail.id); });
-        tt.addEventListener("deleted", function(ev) { console.log("You have deleted " + ev.detail.id); });
+        var ex = document.getElementById("mammalTag");
+
+        var color = document.getElementById("chkColorTag");
+        color.addEventListener("change", function() { if (ex) { ex.color = color.value } });
+
+        var label = document.getElementById("txtLabelTag");
+        label.addEventListener("input", function() { if (ex) { ex.label = label.value } });
+
+        var disable = document.getElementById("chkDisableTag");
+        disable.addEventListener("change", function() { ex.disabled = disable.checked });
+
+        var hidden = document.getElementById("chkHideTag");
+        hidden.addEventListener("change", function() { ex.hidden = hidden.checked });
+
+        var deletable = document.getElementById("chkDeletableTag");
+        deletable.addEventListener("change", function() { ex.deletable = deletable.checked });
+
+        var selectable = document.getElementById("chkSelectableTag");
+        selectable.addEventListener("change", function() { ex.selectable = selectable.checked });
+
+        var events = document.getElementById("chkEventsTag");        
+        events.addEventListener("change", function() {
+          console.clear();
+          events.checked ? attachConsole() : detachConsole();
+        });
+
+        function init() {
+          disable.checked = ex.disabled;
+          hidden.checked = ex.hidden;
+          selectable.checked = ex.selectable;
+          deletable.checked = ex.deletable;
+          color.value = ex.color;
+          label.value = ex.label;
+          attachConsole();
+        }
+        if (!ex.ready) {
+          ex.addEventListener("loaded", init);
+        } else {
+          init();
+        }
+
+        function attachConsole() {
+          ex.addEventListener("deleting", onDeleting);
+          ex.addEventListener("deleted", onDeleted);
+          ex.addEventListener("selected", onSelected);
+        }
+
+        function detachConsole() {
+          ex.removeEventListener("deleting", onDeleting);
+          ex.removeEventListener("deleted", onDeleted);
+          ex.removeEventListener("selected", onSelected);
+        }
+
+        function onDeleting(ev) {
+          console.log(ev.detail.id + " is deleting");
+          ev.detail.delete();
+        }
+        function onDeleted(ev) { console.log(ev.detail.id + " was deleted") }
+        function onSelected(ev) { console.log(ev.detail.id + " was selected") }
       })();
     </script>
   </details>
 
-  <details>
+  <details open>
     <summary>Viz Components</summary>
     <div style="height: 200px; width: 100%">
       <nel-viz-container id="viz-con" debug
