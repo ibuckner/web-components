@@ -99,7 +99,7 @@ export class VizContainer implements ComponentInterface {
   @Event({ composed: true, cancelable: true, bubbles: true }) ready: EventEmitter;
 
   componentWillLoad(): void {
-    if (!(window as any).ResizeObserver) {
+    if (window.ResizeObserver) {
       install();
     }
 
@@ -115,13 +115,13 @@ export class VizContainer implements ComponentInterface {
   componentDidLoad(): void {
     this._svg = this.host.querySelector("svg");
 
-    const resizeObserver: any = new (window as any).ResizeObserver((entries: any) => {
+    const resizeObserver: ResizeObserver = new ResizeObserver((entries: any) => {
       for (let entry of entries) {
         this.height = entry.contentRect.height;
         this.width = entry.contentRect.width;
       }
     });  
-    resizeObserver.observe(this.host.parentNode);
+    resizeObserver.observe(this.host.parentNode as Element);
   }
 
   componentDidRender(): void {
