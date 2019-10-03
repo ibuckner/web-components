@@ -88,6 +88,7 @@ export class TextTag implements ComponentInterface {
   @Listen("keydown")
   onKeyDown(ev: KeyboardEvent): void {
     if (this.disabled || !this.selectable || ev.keyCode === 229) {
+      ev.stopImmediatePropagation();
       ev.preventDefault();
       return;
     }

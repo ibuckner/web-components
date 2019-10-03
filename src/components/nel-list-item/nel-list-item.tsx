@@ -80,13 +80,13 @@ export class ListItem implements ComponentInterface {
 
   @Listen("keydown")
   onKeyDown(ev: KeyboardEvent): void {
-    if (this.disabled || !this.selectable || !this.deletable || ev.keyCode === 229) {
+    if (this.disabled || !this.selectable || ev.keyCode === 229) {
       ev.stopImmediatePropagation();
       ev.preventDefault();
       return;
     }
-    switch (ev.code) {
-      case "Delete": this.deleting.emit(this.host); break;
+    if (this.deletable && ev.code === "Delete") {
+      this.deleting.emit(this.host);
     }
   }
 
