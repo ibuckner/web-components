@@ -33,7 +33,7 @@ export class StatusBadge implements ComponentInterface {
   /**
    * Sets the Red-Amber-Green icon to be applied to the element
    */
-  @Prop({ reflect: true }) public rag: number = -1;
+  @Prop({ reflect: true }) public rag: number;
 
   /**
    * True when element can correctly respond to external programmatic access
@@ -56,10 +56,13 @@ export class StatusBadge implements ComponentInterface {
   }
 
   public render(): JSX.NelStatusBadge {
-    const ico: string = this.rag === -1
-      ? "diamond" 
-      : this.rag === 0 
-        ? "triangle" : "circle";
+    const ico: string = this.rag === undefined
+      ? ""
+      : this.rag === -1
+        ? "diamond" 
+        : this.rag === 0 
+          ? "triangle"
+          : "circle";
     return (
       <div class="status-badge">
         <div class="icon"><div class={ico}></div></div>

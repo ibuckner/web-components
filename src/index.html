@@ -608,12 +608,13 @@
   <details open>
     <summary>Status Badge</summary>
     <div class="sample">
-      <nel-status-badge id="bdgStatus" title="Sales in Q3" label="revenue" pre="" rag="1" suf="k">24.8</nel-status-badge>
+      <nel-status-badge id="bdgStatus" title="Sales in Q3" label="revenue" pre="" suf="k">24.8</nel-status-badge>
       <hr>
       <h3>Properties</h3>
       <label><input type="checkbox" id="chkDisableStatus" /> disabled</label>
       <label><input type="checkbox" id="chkHideStatus" /> hidden</label><br>
-      <label>rag <input id="rng-status-rag" type="range" min="-1" max="1" value="0" /> <span id="num-status-rag"></span></label><br>
+      <input type="checkbox" id="chkStatusRAG" checked /> disable <label>rag 
+        <input id="rng-status-rag" type="range" min="-1" max="1" value="-1" disabled /> <span id="num-status-rag"></span></label><br>
       <label title="Prefix">pre <input id="txtStatusPre" type="text" size="1" maxlength="1" /></label>      
       <label>text <input id="txtStatusText" type="text" /></label>
       <label title="Suffix">suf <input id="txtStatusSuf" type="text" size="1" maxlength="1" /></label><br>
@@ -657,6 +658,18 @@
             ragl.textContent = ex.rag;
           });
 
+          var chkStatus = document.getElementById("chkStatusRAG");
+          chkStatus.addEventListener("change", function() {
+            rag.disabled = chkStatus.checked;
+            if (chkStatus.checked) {
+              ex.rag = undefined;
+              ragl.textContent = "";
+            } else {
+              ex.rag = rag.value;
+              ragl.textContent = ex.rag;
+            }
+          });
+
           var cssHeight = document.getElementById("txtStatusHeight");
           cssHeight.addEventListener("input", function() { ex.style.setProperty("--height", cssHeight.value); });
 
@@ -682,8 +695,6 @@
             text.value = ex.textContent;
             label.value = ex.label;
             suf.value = ex.suf;
-            rag.value = ex.rag;
-            ragl.textContent = ex.rag;
             cssHeight.value = ex.style.getPropertyValue("--height");
             cssWidth.value = ex.style.getPropertyValue("--width");
             attachConsole();
