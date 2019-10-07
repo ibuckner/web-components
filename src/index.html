@@ -605,6 +605,111 @@
     </script>
   </details>
 
+  <details open>
+    <summary>Status Badge</summary>
+    <div class="sample">
+      <nel-status-badge id="bdgStatus" title="Sales in Q3" label="revenue" pre="" rag="1" suf="k">24.8</nel-status-badge>
+      <hr>
+      <h3>Properties</h3>
+      <label><input type="checkbox" id="chkDisableStatus" /> disabled</label>
+      <label><input type="checkbox" id="chkHideStatus" /> hidden</label><br>
+      <label>rag <input id="rng-status-rag" type="range" min="-1" max="1" value="0" /> <span id="num-status-rag"></span></label><br>
+      <label title="Prefix">pre <input id="txtStatusPre" type="text" size="1" maxlength="1" /></label>      
+      <label>text <input id="txtStatusText" type="text" /></label>
+      <label title="Suffix">suf <input id="txtStatusSuf" type="text" size="1" maxlength="1" /></label><br>
+      <label>label <input id="txtStatusLabel" type="text" /></label>
+
+      <h3>Styles</h3>
+      <label>--height</label> <input id="txtStatusHeight" type="text" value="8rem" />
+      <label>--width</label> <input id="txtStatusWidth" type="text" value="8rem" /><br>
+      <label>--bg-color</label> <input id="txtStatusBGColor" type="color" value="#ccccff" />
+      <label>--fg-color</label> <input id="txtStatusFGColor" type="color" value="#330066" />
+    
+      <h3>Events</h3>
+      <label><input type="checkbox" id="chkEventsStatus" checked /> view events (<code>F12</code> opens console)</label>
+    
+      <script type="text/javascript" defer>
+        (function() {
+          var ex = document.getElementById("bdgStatus");
+
+          var pre = document.getElementById("txtStatusPre");
+          pre.addEventListener("input", function() { if (ex) { ex.pre = pre.value } });
+
+          var text = document.getElementById("txtStatusText");
+          text.addEventListener("input", function() { if (ex) { ex.textContent = text.value; } });
+
+          var suf = document.getElementById("txtStatusSuf");
+          suf.addEventListener("input", function() { if (ex) { ex.suf = suf.value } });
+
+          var disable = document.getElementById("chkDisableStatus");
+          disable.addEventListener("change", function() { ex.disabled = disable.checked });
+
+          var hidden = document.getElementById("chkHideStatus");
+          hidden.addEventListener("change", function() { ex.hidden = hidden.checked });
+
+          var label = document.getElementById("txtStatusLabel");
+          label.addEventListener("input", function() { if (ex) { ex.label = label.value } });
+
+          var rag = document.getElementById("rng-status-rag");
+          var ragl = document.getElementById("num-status-rag");
+          rag.addEventListener("change", function() {
+            ex.rag = rag.value;
+            ragl.textContent = ex.rag;
+          });
+
+          var cssHeight = document.getElementById("txtStatusHeight");
+          cssHeight.addEventListener("input", function() { ex.style.setProperty("--height", cssHeight.value); });
+
+          var cssWidth = document.getElementById("txtStatusWidth");
+          cssWidth.addEventListener("input", function() { ex.style.setProperty("--width", cssWidth.value); });
+
+          var cssBGColor = document.getElementById("txtStatusBGColor");
+          cssBGColor.addEventListener("input", function() { ex.style.setProperty("--bg-color", cssBGColor.value); });
+
+          var cssFGColor = document.getElementById("txtStatusFGColor");
+          cssFGColor.addEventListener("input", function() { ex.style.setProperty("--fg-color", cssFGColor.value); });
+
+          var events = document.getElementById("chkEventsStatus");        
+          events.addEventListener("change", function() {
+            console.clear();
+            events.checked ? attachConsole() : detachConsole();
+          });
+
+          function init() {
+            disable.checked = ex.disabled;
+            hidden.checked = ex.hidden;
+            pre.value = ex.pre;
+            text.value = ex.textContent;
+            label.value = ex.label;
+            suf.value = ex.suf;
+            rag.value = ex.rag;
+            ragl.textContent = ex.rag;
+            cssHeight.value = ex.style.getPropertyValue("--height");
+            cssWidth.value = ex.style.getPropertyValue("--width");
+            attachConsole();
+          }
+          if (!ex.ready) {
+            ex.addEventListener("loaded", init);
+          } else {
+            init();
+          }
+
+          function attachConsole() {
+            ex.addEventListener("ready", onReady);
+          }
+
+          function detachConsole() {
+            ex.removeEventListener("ready", onReady);''
+          }
+
+          function onReady(ev) {
+            console.log(ev.detail.id + " is ready");
+            ev.detail.delete();
+          }
+        })();
+    </script>
+  </details>
+
   <details>
     <summary>Text Tag</summary>
     <div class="sample">
@@ -617,7 +722,7 @@
       <label><input type="checkbox" id="chkDeletableTag" /> deletable</label>
       <label><input type="checkbox" id="chkSelectableTag" /> selectable</label><br>
       <label><input type="color" id="chkColorTag" /> color</label><br>
-      <label>Label <input id="txtLabelTag" type="text" /></label>
+      <label>label <input id="txtLabelTag" type="text" /></label>
       <h3>Events</h3>
       <label><input type="checkbox" id="chkEventsTag" checked /> view events (<code>F12</code> opens console)</label>
     </div>
@@ -686,7 +791,7 @@
     </script>
   </details>
 
-  <details open>
+  <details>
     <summary>Viz Components</summary>
     <div style="height: 200px; width: 100%">
       <nel-viz-container id="viz-con" debug
@@ -789,6 +894,6 @@
         });
       })();
     </script>
-  </fieldset> 
+  </details> 
 </body>
 </html>

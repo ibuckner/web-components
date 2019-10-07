@@ -122,6 +122,32 @@ export namespace Components {
     */
     'size': number;
   }
+  interface NelStatusBadge {
+    /**
+    * If false, element is partly greyed out and not responding to user input
+    */
+    'disabled': boolean;
+    /**
+    * Sets the text label to be applied to the element
+    */
+    'label': string;
+    /**
+    * Sets the prefix label to be applied to the element
+    */
+    'pre': string;
+    /**
+    * Sets the Red-Amber-Green icon to be applied to the element
+    */
+    'rag': number;
+    /**
+    * True when element can correctly respond to external programmatic access
+    */
+    'ready': boolean;
+    /**
+    * Sets the suffix label to be applied to the element
+    */
+    'suf': string;
+  }
   interface NelTextInput {
     /**
     * If false, element is partly greyed out and not responding to user input
@@ -313,6 +339,12 @@ declare global {
     new (): HTMLNelOnOffElement;
   };
 
+  interface HTMLNelStatusBadgeElement extends Components.NelStatusBadge, HTMLStencilElement {}
+  var HTMLNelStatusBadgeElement: {
+    prototype: HTMLNelStatusBadgeElement;
+    new (): HTMLNelStatusBadgeElement;
+  };
+
   interface HTMLNelTextInputElement extends Components.NelTextInput, HTMLStencilElement {}
   var HTMLNelTextInputElement: {
     prototype: HTMLNelTextInputElement;
@@ -343,6 +375,7 @@ declare global {
     'nel-modal-view': HTMLNelModalViewElement;
     'nel-network-connection': HTMLNelNetworkConnectionElement;
     'nel-on-off': HTMLNelOnOffElement;
+    'nel-status-badge': HTMLNelStatusBadgeElement;
     'nel-text-input': HTMLNelTextInputElement;
     'nel-text-tag': HTMLNelTextTagElement;
     'nel-viz-container': HTMLNelVizContainerElement;
@@ -518,6 +551,36 @@ declare namespace LocalJSX {
     * Adjusts the size of the element, using CSS rem units of measurement
     */
     'size'?: number;
+  }
+  interface NelStatusBadge {
+    /**
+    * If false, element is partly greyed out and not responding to user input
+    */
+    'disabled'?: boolean;
+    /**
+    * Sets the text label to be applied to the element
+    */
+    'label'?: string;
+    /**
+    * Fired when element can correctly respond to external programmatic access
+    */
+    'onLoaded'?: (event: CustomEvent<any>) => void;
+    /**
+    * Sets the prefix label to be applied to the element
+    */
+    'pre'?: string;
+    /**
+    * Sets the Red-Amber-Green icon to be applied to the element
+    */
+    'rag'?: number;
+    /**
+    * True when element can correctly respond to external programmatic access
+    */
+    'ready'?: boolean;
+    /**
+    * Sets the suffix label to be applied to the element
+    */
+    'suf'?: string;
   }
   interface NelTextInput {
     /**
@@ -703,6 +766,7 @@ declare namespace LocalJSX {
     'nel-modal-view': NelModalView;
     'nel-network-connection': NelNetworkConnection;
     'nel-on-off': NelOnOff;
+    'nel-status-badge': NelStatusBadge;
     'nel-text-input': NelTextInput;
     'nel-text-tag': NelTextTag;
     'nel-viz-container': NelVizContainer;
@@ -722,6 +786,7 @@ declare module "@stencil/core" {
       'nel-modal-view': LocalJSX.NelModalView & JSXBase.HTMLAttributes<HTMLNelModalViewElement>;
       'nel-network-connection': LocalJSX.NelNetworkConnection & JSXBase.HTMLAttributes<HTMLNelNetworkConnectionElement>;
       'nel-on-off': LocalJSX.NelOnOff & JSXBase.HTMLAttributes<HTMLNelOnOffElement>;
+      'nel-status-badge': LocalJSX.NelStatusBadge & JSXBase.HTMLAttributes<HTMLNelStatusBadgeElement>;
       'nel-text-input': LocalJSX.NelTextInput & JSXBase.HTMLAttributes<HTMLNelTextInputElement>;
       'nel-text-tag': LocalJSX.NelTextTag & JSXBase.HTMLAttributes<HTMLNelTextTagElement>;
       'nel-viz-container': LocalJSX.NelVizContainer & JSXBase.HTMLAttributes<HTMLNelVizContainerElement>;
