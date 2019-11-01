@@ -18,6 +18,7 @@
 | `placeholder` | `placeholder` | Sets a visual text prompt as a palceholder within text box              | `string`  | `""`    |
 | `ready`       | `ready`       | True when element can correctly respond to external programmatic access | `boolean` | `false` |
 | `value`       | `value`       | Sets the value of the text box                                          | `string`  | `""`    |
+| `width`       | `width`       | Width of text entry                                                     | `number`  | `20`    |
 
 
 ## Events

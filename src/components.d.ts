@@ -186,6 +186,10 @@ export namespace Components {
     * Sets the value of the text box
     */
     'value': string;
+    /**
+    * Width of text entry
+    */
+    'width': number;
   }
   interface NelTextTag {
     /**
@@ -624,6 +628,10 @@ declare namespace LocalJSX {
     * Sets the value of the text box
     */
     'value'?: string;
+    /**
+    * Width of text entry
+    */
+    'width'?: number;
   }
   interface NelTextTag {
     /**

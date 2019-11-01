@@ -69,6 +69,11 @@ export class TextInput implements ComponentInterface {
   @Prop({ reflect: true }) public value: string = "";
 
   /**
+   * Width of text entry
+   */
+  @Prop({ reflect: true }) public width: number = 20;
+
+  /**
    * Fired when element can correctly respond to external programmatic access
    */
   @Event({ composed: true, cancelable: false, bubbles: true }) loaded: EventEmitter;
@@ -130,6 +135,7 @@ export class TextInput implements ComponentInterface {
         minlength={this.minlength}
         pattern={this.pattern}
         placeholder={this.placeholder}
+        size={this.width}
         value={this.value}>
       </input>
     );

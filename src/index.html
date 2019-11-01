@@ -540,14 +540,15 @@
   <details>
     <summary>Text Input</summary>
     <div class="sample">
-      <label>Text entry <nel-text-input cleartext id="txtEntry" mask="^\d+$" pattern=".*" placeholder="Enter some text" value=""></label>
+      <label>Text entry <nel-text-input cleartext id="txtEntry" mask="^\d+$" pattern=".*" placeholder="Enter some text" width="20" value=""></label>
       <hr>
       <h3>Properties</h3>
       <label><input type="checkbox" id="chkDisableTextInput" /> disabled</label>
       <label><input type="checkbox" id="chkHideTextInput" /> hidden</label><br>
       <label><input id="radEntryClear" type="radio" name="radEntry" /> Standard text</label>
       <label><input id="radEntryPwd" type="radio" name="radEntry" /> Password</label><br>
-      <label>Restrict input text to <input id="textEntryMask" type="text" /></label>
+      <label>Restrict input text to <input id="textEntryMask" type="text" /></label><br>
+      <label>width <input id="numTextInputWidth" type="number" min="10" max="50" value="20" /></label>
       <h3>Events</h3>
       <label><input type="checkbox" id="chkEventsTextInput" checked /> view events (<code>F12</code> opens console)</label>
     </div>
@@ -569,6 +570,9 @@
 
         var mask = document.getElementById("textEntryMask");
         mask.addEventListener("change", function() { ex.mask = mask.value });
+
+        var width = document.getElementById("numTextInputWidth");
+        width.addEventListener("change", function() { ex.width = width.value });
 
         var events = document.getElementById("chkEventsTextInput");        
         events.addEventListener("change", function() {
