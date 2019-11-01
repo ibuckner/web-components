@@ -112,6 +112,12 @@ export class TextInput implements ComponentInterface {
     return false;
   }
 
+  @Listen("search")
+  onSearch(): void {
+    const input: InputEvent = new InputEvent("input", { bubbles: true, cancelable: true });
+    this.host.dispatchEvent(input);
+  }
+
   private _editKeyPressed(ev: KeyboardEvent): boolean {
     return ev.code === "Delete" || ev.code === "Backspace" ||
            ev.code === "ArrowLeft" || ev.code === "ArrowRight";
