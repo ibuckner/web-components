@@ -26,11 +26,11 @@
     "upload.test": "npm publish --dry-run --access public"
   },
   "devDependencies": {
-    "@stencil/core": "^1.8.1",
+    "@stencil/core": "^1.8.5",
     "@types/d3": "^5.7.2",
-    "@types/jest": "^24.0.23",
-    "@types/node": "^12.12.8",
-    "@types/puppeteer": "^1.20.2",
+    "@types/jest": "^24.9.0",
+    "@types/node": "^13.1.8",
+    "@types/puppeteer": "^2.0.0",
     "jest": "^24.9.0",
     "jest-cli": "^24.9.0",
     "puppeteer": "^2.0.0"
@@ -38,7 +38,7 @@
   "license": "MIT",
   "dependencies": {
     "@buckneri/js-lib-color": "0.0.4",
-    "d3-interpolate": "^1.3.3",
+    "d3-interpolate": "^1.4.0",
     "d3-shape": "^1.3.7",
     "resize-observer": "^1.0.0"
   },
