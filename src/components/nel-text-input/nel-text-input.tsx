@@ -66,7 +66,7 @@ export class TextInput implements ComponentInterface {
   /**
    * Sets the value of the text box
    */
-  @Prop({ reflect: true }) public value: string = "";
+  @Prop({ reflect: true }) public value: string;
 
   /**
    * Width of text entry
@@ -82,6 +82,10 @@ export class TextInput implements ComponentInterface {
     this._input = this.host.shadowRoot.querySelector("input");
     this._mask = new RegExp(this.mask);
     this.loaded.emit(this.host);
+    // this.ready = true;
+  }
+
+  componentWillLoad(): void {
     this.ready = true;
   }
 

@@ -1,0 +1,30 @@
+:host {
+  max-height: inherit;
+  max-width: inherit;
+  min-width: 100px;
+}
+
+:host([disabled]) {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none;
+  user-select: none
+}
+
+:host([hidden]) {
+  display: none !important
+}
+
+.selectable { cursor: pointer }
+
+.slicer-item {
+  align-content: center;
+  align-items: center;
+  border: 1px solid #000;
+  cursor: pointer;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  margin: 1px;
+  padding: 5px;
+}

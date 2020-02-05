@@ -609,7 +609,7 @@
     </script>
   </details>
 
-  <details open>
+  <details>
     <summary>Status Badge</summary>
     <div class="sample">
       <nel-status-badge id="bdgStatus" title="Sales in Q3" label="revenue" pre="" suf="k">24.8</nel-status-badge>
@@ -802,6 +802,101 @@
         }
         function onDeleted(ev) { console.log(ev.detail.id + " was deleted") }
         function onSelected(ev) { console.log(ev.detail.id + " was selected") }
+      })();
+    </script>
+  </details>
+
+  <details open>
+    <summary>Slicer</summary>
+    <div class="sample">
+      <nel-slicer id="exampleSlicer" align="vertical" sortable resizable>
+        <nel-slicer-item>A</nel-slicer-item>
+        <nel-slicer-item>B</nel-slicer-item>
+      </nel-slicer>
+      <hr>
+      <button id="addSlicerItem">Add slicer item</button>
+      <input id="addSlicerText" type="text" placeholder="Some label" value="C" maxlength="20" />
+      <h3>Properties</h3>
+      <label><input type="checkbox" id="chkDisableSlicerItem" /> disabled</label>
+      <label><input type="checkbox" id="chkHideSlicerItem" /> hidden</label>
+      <label><input type="checkbox" id="chkResizeSlicerItem" /> resizable</label><br>
+      <label><input type="radio" id="radAlignSlicerItemV" name="radAlignSlicer" value="vertical" checked /> vertical</label>
+      <label><input type="radio" id="radAlignSlicerItemH" name="radAlignSlicer" value="horizontal" /> horizontal</label>
+      <h3>Events</h3>
+      <label><input type="checkbox" id="chkEventsSlicerItem" checked /> view events (<code>F12</code> opens console)</label>
+      <h3>Methods</h3>
+      <button id="eraseSlicerItems">clear() list</button>
+      <button id="sortAZSlicerItems">▼ A-Z sort()</button>
+      <button id="sortZASlicerItems">▲ Z-A sort()</button>
+    </div>    
+    <script type="text/javascript" defer>
+      (function() {
+        var ex = document.getElementById("exampleSlicer");
+
+        var disable = document.getElementById("chkDisableSlicerItem");
+        disable.addEventListener("change", function() { ex.disabled = disable.checked });
+
+        var hidden = document.getElementById("chkHideSlicerItem");
+        hidden.addEventListener("change", function() { ex.hidden = hidden.checked });
+
+        var alignV = document.getElementById("radAlignSlicerItemV");
+        alignV.addEventListener("change", function() { if (alignV.checked) { ex.align = "vertical"; } });
+
+        var alignH = document.getElementById("radAlignSlicerItemH");
+        alignH.addEventListener("change", function() { if (alignH.checked) { ex.align = "horizontal"; } });
+
+        var resizable = document.getElementById("chkResizeSlicerItem");
+        resizable.addEventListener("change", function() { ex.resizable = resizable.checked });
+
+        var events = document.getElementById("chkEventsSlicerItem");        
+        events.addEventListener("change", function() {
+          console.clear();
+          events.checked ? attachConsole() : detachConsole();
+        });
+
+        var clear = document.getElementById("eraseSlicerItems");
+        clear.addEventListener("click", function() { ex.clear() });
+
+        var sortAZ = document.getElementById("sortAZSlicerItems");
+        sortAZ.addEventListener("click", function() { ex.sort() });
+
+        var sortZA = document.getElementById("sortZASlicerItems");
+        sortZA.addEventListener("click", function() { ex.sort(true) });
+
+        var addItem = document.getElementById("addSlicerItem");
+        addItem.addEventListener("click", function() {
+          var t = document.createElement("nel-slicer-item");
+          var letter = document.querySelector("#addSlicerText");
+          t.textContent = letter.value;
+          ex.appendChild(t);
+        });
+
+        function init() {
+          disable.checked = ex.disabled;
+          hidden.checked = ex.hidden;
+          alignV.checked = ex.align === "vertical" ? true : false;
+          alignH.checked = ex.align === "horizontal" ? true : false;
+          resizable.checked = ex.resizable;
+          attachConsole();
+        }
+        if (!ex.ready) {
+          ex.addEventListener("loaded", init);
+        } else {
+          init();
+        }
+
+        function attachConsole() {
+          ex.addEventListener("cleared", onClear);
+          ex.addEventListener("sorted", onSort);
+        }
+
+        function detachConsole() {
+          ex.removeEventListener("cleared", onClear);
+          ex.removeEventListener("sorted", onSort);
+        }
+
+        function onClear(ev) { console.log(ev.detail.id + " was cleared") }
+        function onSort(ev) { console.log(ev.detail.id + " was sorted") }
       })();
     </script>
   </details>

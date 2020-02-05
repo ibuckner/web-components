@@ -123,6 +123,47 @@ export namespace Components {
     */
     'size': number;
   }
+  interface NelSlicer {
+    /**
+    * Aligns child elements within collection. Defaults to vertical list.
+    */
+    'align': "horizontal" | "vertical";
+    /**
+    * Clears out all child elements from collection
+    */
+    'clear': () => Promise<boolean>;
+    /**
+    * If false, element is partly greyed out and not responding to user input
+    */
+    'disabled': boolean;
+    /**
+    * True when element can correctly respond to external programmatic access
+    */
+    'ready': boolean;
+    /**
+    * Displays the element resize handle (bottom right corner) if true
+    */
+    'resizable': boolean;
+    /**
+    * Sorts child elements in collection based on text content
+    * @param reverse - default is false (A-Z sort order)
+    */
+    'sort': (reverse?: boolean) => Promise<boolean>;
+  }
+  interface NelSlicerItem {
+    /**
+    * If false, element is partly greyed out and not responding to user input
+    */
+    'disabled': boolean;
+    /**
+    * True when element can correctly respond to external programmatic access
+    */
+    'ready': boolean;
+    /**
+    * If true, allows the element to receive focus
+    */
+    'selectable': boolean;
+  }
   interface NelStatusBadge {
     /**
     * If false, element is partly greyed out and not responding to user input
@@ -289,20 +330,6 @@ export namespace Components {
     */
     'width': string;
   }
-  interface NelVizDataModel {
-    /**
-    * JSON data for visualisation
-    */
-    'dataSet': any;
-    /**
-    * Binds the data model to a container via container id
-    */
-    'for': string;
-    /**
-    * Displays true, if model is able to verify consistency in data set
-    */
-    'valid': boolean;
-  }
 }
 
 declare global {
@@ -344,6 +371,18 @@ declare global {
     new (): HTMLNelOnOffElement;
   };
 
+  interface HTMLNelSlicerElement extends Components.NelSlicer, HTMLStencilElement {}
+  var HTMLNelSlicerElement: {
+    prototype: HTMLNelSlicerElement;
+    new (): HTMLNelSlicerElement;
+  };
+
+  interface HTMLNelSlicerItemElement extends Components.NelSlicerItem, HTMLStencilElement {}
+  var HTMLNelSlicerItemElement: {
+    prototype: HTMLNelSlicerItemElement;
+    new (): HTMLNelSlicerItemElement;
+  };
+
   interface HTMLNelStatusBadgeElement extends Components.NelStatusBadge, HTMLStencilElement {}
   var HTMLNelStatusBadgeElement: {
     prototype: HTMLNelStatusBadgeElement;
@@ -367,12 +406,6 @@ declare global {
     prototype: HTMLNelVizContainerElement;
     new (): HTMLNelVizContainerElement;
   };
-
-  interface HTMLNelVizDataModelElement extends Components.NelVizDataModel, HTMLStencilElement {}
-  var HTMLNelVizDataModelElement: {
-    prototype: HTMLNelVizDataModelElement;
-    new (): HTMLNelVizDataModelElement;
-  };
   interface HTMLElementTagNameMap {
     'nel-expand-item': HTMLNelExpandItemElement;
     'nel-item-collection': HTMLNelItemCollectionElement;
@@ -380,11 +413,12 @@ declare global {
     'nel-modal-view': HTMLNelModalViewElement;
     'nel-network-connection': HTMLNelNetworkConnectionElement;
     'nel-on-off': HTMLNelOnOffElement;
+    'nel-slicer': HTMLNelSlicerElement;
+    'nel-slicer-item': HTMLNelSlicerItemElement;
     'nel-status-badge': HTMLNelStatusBadgeElement;
     'nel-text-input': HTMLNelTextInputElement;
     'nel-text-tag': HTMLNelTextTagElement;
     'nel-viz-container': HTMLNelVizContainerElement;
-    'nel-viz-data-model': HTMLNelVizDataModelElement;
   }
 }
 
@@ -556,6 +590,58 @@ declare namespace LocalJSX {
     * Adjusts the size of the element, using CSS rem units of measurement
     */
     'size'?: number;
+  }
+  interface NelSlicer {
+    /**
+    * Aligns child elements within collection. Defaults to vertical list.
+    */
+    'align'?: "horizontal" | "vertical";
+    /**
+    * If false, element is partly greyed out and not responding to user input
+    */
+    'disabled'?: boolean;
+    /**
+    * Fired after child elements are removed via clear() method
+    */
+    'onCleared'?: (event: CustomEvent<any>) => void;
+    /**
+    * Fired when element can correctly respond to external programmatic access
+    */
+    'onLoaded'?: (event: CustomEvent<any>) => void;
+    /**
+    * Fired after child elements are sorted
+    */
+    'onSorted'?: (event: CustomEvent<any>) => void;
+    /**
+    * True when element can correctly respond to external programmatic access
+    */
+    'ready'?: boolean;
+    /**
+    * Displays the element resize handle (bottom right corner) if true
+    */
+    'resizable'?: boolean;
+  }
+  interface NelSlicerItem {
+    /**
+    * If false, element is partly greyed out and not responding to user input
+    */
+    'disabled'?: boolean;
+    /**
+    * Fired when element can correctly respond to external programmatic access
+    */
+    'onLoaded'?: (event: CustomEvent<any>) => void;
+    /**
+    * Fired after element receives focus
+    */
+    'onSelected'?: (event: CustomEvent<any>) => void;
+    /**
+    * True when element can correctly respond to external programmatic access
+    */
+    'ready'?: boolean;
+    /**
+    * If true, allows the element to receive focus
+    */
+    'selectable'?: boolean;
   }
   interface NelStatusBadge {
     /**
@@ -741,32 +827,6 @@ declare namespace LocalJSX {
     */
     'width'?: string;
   }
-  interface NelVizDataModel {
-    /**
-    * JSON data for visualisation
-    */
-    'dataSet'?: any;
-    /**
-    * Binds the data model to a container via container id
-    */
-    'for'?: string;
-    /**
-    * Fired when model can bind to visualisation container
-    */
-    'onBound'?: (event: CustomEvent<any>) => void;
-    /**
-    * Fired when new data validated. Includes validation success flag
-    */
-    'onValidated'?: (event: CustomEvent<any>) => void;
-    /**
-    * Fired when new data applied to element
-    */
-    'onValidating'?: (event: CustomEvent<any>) => void;
-    /**
-    * Displays true, if model is able to verify consistency in data set
-    */
-    'valid'?: boolean;
-  }
 
   interface IntrinsicElements {
     'nel-expand-item': NelExpandItem;
@@ -775,11 +835,12 @@ declare namespace LocalJSX {
     'nel-modal-view': NelModalView;
     'nel-network-connection': NelNetworkConnection;
     'nel-on-off': NelOnOff;
+    'nel-slicer': NelSlicer;
+    'nel-slicer-item': NelSlicerItem;
     'nel-status-badge': NelStatusBadge;
     'nel-text-input': NelTextInput;
     'nel-text-tag': NelTextTag;
     'nel-viz-container': NelVizContainer;
-    'nel-viz-data-model': NelVizDataModel;
   }
 }
 
@@ -795,11 +856,12 @@ declare module "@stencil/core" {
       'nel-modal-view': LocalJSX.NelModalView & JSXBase.HTMLAttributes<HTMLNelModalViewElement>;
       'nel-network-connection': LocalJSX.NelNetworkConnection & JSXBase.HTMLAttributes<HTMLNelNetworkConnectionElement>;
       'nel-on-off': LocalJSX.NelOnOff & JSXBase.HTMLAttributes<HTMLNelOnOffElement>;
+      'nel-slicer': LocalJSX.NelSlicer & JSXBase.HTMLAttributes<HTMLNelSlicerElement>;
+      'nel-slicer-item': LocalJSX.NelSlicerItem & JSXBase.HTMLAttributes<HTMLNelSlicerItemElement>;
       'nel-status-badge': LocalJSX.NelStatusBadge & JSXBase.HTMLAttributes<HTMLNelStatusBadgeElement>;
       'nel-text-input': LocalJSX.NelTextInput & JSXBase.HTMLAttributes<HTMLNelTextInputElement>;
       'nel-text-tag': LocalJSX.NelTextTag & JSXBase.HTMLAttributes<HTMLNelTextTagElement>;
       'nel-viz-container': LocalJSX.NelVizContainer & JSXBase.HTMLAttributes<HTMLNelVizContainerElement>;
-      'nel-viz-data-model': LocalJSX.NelVizDataModel & JSXBase.HTMLAttributes<HTMLNelVizDataModelElement>;
     }
   }
 }

@@ -138,8 +138,8 @@ export class VizContainer implements ComponentInterface {
 
   /**
    * Adds SVG element to container
-   * @param {string} template - string containing valid markup for SVG element
-   * @param {Node | string} parent - node to append new element to. If string, must be valid selector
+   * @param template - string containing valid markup for SVG element
+   * @param parent - node to append new element to. If string, must be valid selector
    */
   @Method()
   public async addElement(template: string, parent: Node | string): Promise<void> {

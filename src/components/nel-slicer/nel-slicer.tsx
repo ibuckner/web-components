@@ -3,16 +3,19 @@ import {
   Method, Prop, Watch
 } from "@stencil/core";
 import { JSX } from "../../components";
+// import { Slicer as slicer } from "@buckneri/js-lib-slicer";
 
 /**
  * Organises child elements vertically or horizontally
  */
 @Component({
-  tag: "nel-item-collection",
-  styleUrl: "nel-item-collection.css",
+  tag: "nel-slicer",
+  styleUrl: "nel-slicer.css",
   shadow: true
 })
-export class ItemCollection implements ComponentInterface {
+export class Slicer implements ComponentInterface {
+  // private _slicer: slicer<string> = new slicer<string>();
+
   @Element() private host: HTMLElement;
 
   /**
@@ -94,8 +97,8 @@ export class ItemCollection implements ComponentInterface {
     return Promise.resolve(true);
   }
 
-  public render(): JSX.NelItemCollection {
-    let cls: string = `item-collection ${this.align}`;
+  public render(): JSX.NelSlicer {
+    let cls: string = `slicer ${this.align}`;
     cls += !this.disabled && this.resizable ? ` resize-${this.align}` : "";
     const tab: number = this.disabled ? undefined : 0;
     return (

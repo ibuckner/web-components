@@ -37,6 +37,10 @@ export class NetworkConnection implements ComponentInterface {
 
   componentDidLoad(): any {    
     this.loaded.emit(this.host);
+    // this.ready = true;
+  }
+
+  componentWillLoad(): void {
     this.ready = true;
   }
 

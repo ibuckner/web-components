@@ -39,7 +39,7 @@ export class TextTag implements ComponentInterface {
   /**
    * True when element can correctly respond to external programmatic access
    */
-  @Prop({ mutable: true, reflect: false }) public ready: boolean = false;
+  @Prop({ mutable: true, reflect: false }) public ready: boolean;
 
   /**
    * If true, allows the element to receive focus
@@ -68,6 +68,10 @@ export class TextTag implements ComponentInterface {
 
   componentDidLoad(): void {
     this.loaded.emit(this.host);
+    // this.ready = true;
+  }
+
+  componentWillLoad(): void {
     this.ready = true;
   }
 

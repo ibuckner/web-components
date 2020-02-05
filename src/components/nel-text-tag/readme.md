@@ -13,7 +13,7 @@
 | `deletable`  | `deletable`  | If true, allows the element to be delete using keyboard                 | `boolean` | `false`     |
 | `disabled`   | `disabled`   | If false, element is partly greyed out and not responding to user input | `boolean` | `false`     |
 | `label`      | `label`      | Sets the text label  to be applied to the element                       | `string`  | `""`        |
-| `ready`      | `ready`      | True when element can correctly respond to external programmatic access | `boolean` | `false`     |
+| `ready`      | `ready`      | True when element can correctly respond to external programmatic access | `boolean` | `undefined` |
 | `selectable` | `selectable` | If true, allows the element to receive focus                            | `boolean` | `false`     |
 
 

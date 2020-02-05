@@ -1,28 +1,18 @@
 import {
   Component, ComponentInterface, Element, Event, EventEmitter, h,
-  Listen, Method, Prop
+  Listen, Prop
 } from "@stencil/core";
 
 /**
  * Similar in behaviour to li element
  */
 @Component({
-  tag: "nel-list-item",
-  styleUrl: "nel-list-item.css",
+  tag: "nel-slicer-item",
+  styleUrl: "nel-slicer-item.css",
   shadow: true
 })
-export class ListItem implements ComponentInterface {
+export class SlicerItem implements ComponentInterface {
   @Element() public host: HTMLElement;
-
-  /**
-   * Sets the bullet color of the element. Default is #eeeeee
-   */
-  @Prop({ reflect: true }) public color: string = "#eeeeee";
-
-  /**
-   * If true, allows the element to be delete using keyboard
-   */
-  @Prop({ reflect: true }) public deletable: boolean = false;
 
   /**
    * If false, element is partly greyed out and not responding to user input
@@ -38,16 +28,6 @@ export class ListItem implements ComponentInterface {
    * If true, allows the element to receive focus
    */
   @Prop({ reflect: true }) public selectable: boolean = false;
-
-  /**
-   * Fired when delete key pressed on selected element
-   */
-  @Event({ composed: true, cancelable: true, bubbles: true }) deleting: EventEmitter;
-
-  /**
-   * Fired after element is removed from DOM
-   */
-  @Event({ composed: true, cancelable: true, bubbles: true }) deleted: EventEmitter;
 
   /**
    * Fired when element can correctly respond to external programmatic access
@@ -89,36 +69,14 @@ export class ListItem implements ComponentInterface {
       ev.preventDefault();
       return;
     }
-    if (this.deletable && ev.code === "Delete") {
-      this.deleting.emit(this.host);
-    }
-  }
-
-  /**
-   * Removes element from DOM
-   */
-  @Method()
-  public async delete(): Promise<boolean> {
-    this.deleted.emit(this.host);
-    const parent: any = this.host.parentNode;
-    parent.removeChild(this.host);
-    return Promise.resolve(true);
   }
 
   public render(): any {
     const tab: number = this.selectable ? 0 : undefined;
-    const bcls: string = `bullet${this.selectable && !this.disabled ? " selectable" : ""}`;
-    const tcls: string = `text${this.selectable && !this.disabled ? " selectable" : ""}`;
-    const bst: any = {
-      "background-color": this.color,
-      border: `1px solid ${this.color}`
-    };
+    const cls: string = `slicer-item${this.selectable && !this.disabled ? " selectable" : ""}`;
     return (
-      <div class="list-item" tabindex={tab}>
-        <div class={bcls} style={bst}></div>
-        <div class={tcls}>
-          <slot></slot>
-        </div>
+      <div class={cls} tabindex={tab}>
+        <slot></slot>
       </div>
     );
   }

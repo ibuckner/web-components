@@ -52,6 +52,10 @@ export class OnOff implements ComponentInterface {
 
   componentDidLoad(): void {
     this.loaded.emit(this.host);
+    // this.ready = true;
+  }
+
+  componentWillLoad(): void {
     this.ready = true;
   }
 
@@ -69,7 +73,7 @@ export class OnOff implements ComponentInterface {
       <Host aria-checked={this.on ? "true" : "false"}>
         <span>
           <style>{st}</style>
-          <input type="checkbox" checked={this.on} />
+          <input type="checkbox" checked={this.on} value="" />
         </span>
       </Host>      
     );

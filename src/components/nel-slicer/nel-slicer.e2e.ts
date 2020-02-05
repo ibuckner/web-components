@@ -1,11 +1,11 @@
 import { E2EElement, newE2EPage } from "@stencil/core/testing";
 
-describe("nel-viz-data-model", () => {
+describe("nel-slicer", () => {
   it("renders", async () => {
     await newE2EPage()
       .then(async page => {
-        await page.setContent("<nel-viz-data-model></nel-viz-data-model>");
-        const element: E2EElement = await page.find("nel-viz-data-model");
+        await page.setContent("<nel-slicer></nel-slicer>");
+        const element: E2EElement = await page.find("nel-slicer");
         expect(element).toHaveClass("hydrated");
       });
   });

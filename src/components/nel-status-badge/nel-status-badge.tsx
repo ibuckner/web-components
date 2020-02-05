@@ -52,6 +52,10 @@ export class StatusBadge implements ComponentInterface {
 
   componentDidLoad(): void {
     this.loaded.emit(this.host);
+    // this.ready = true;
+  }
+
+  componentWillLoad(): void {
     this.ready = true;
   }
 
