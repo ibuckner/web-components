@@ -28,17 +28,7 @@
 
 ### `clear() => Promise<boolean>`
 
-Clears out all child elements from collection
-
-#### Returns
-
-Type: `Promise<boolean>`
-
-
-
-### `sort(reverse?: boolean) => Promise<boolean>`
-
-Sorts child elements in collection based on text content
+Clears out slicer selections
 
 #### Returns
 

@@ -129,7 +129,7 @@ export namespace Components {
     */
     'align': "horizontal" | "vertical";
     /**
-    * Clears out all child elements from collection
+    * Clears out slicer selections
     */
     'clear': () => Promise<boolean>;
     /**
@@ -144,11 +144,6 @@ export namespace Components {
     * Displays the element resize handle (bottom right corner) if true
     */
     'resizable': boolean;
-    /**
-    * Sorts child elements in collection based on text content
-    * @param reverse - default is false (A-Z sort order)
-    */
-    'sort': (reverse?: boolean) => Promise<boolean>;
   }
   interface NelSlicerItem {
     /**
@@ -608,10 +603,6 @@ declare namespace LocalJSX {
     * Fired when element can correctly respond to external programmatic access
     */
     'onLoaded'?: (event: CustomEvent<any>) => void;
-    /**
-    * Fired after child elements are sorted
-    */
-    'onSorted'?: (event: CustomEvent<any>) => void;
     /**
     * True when element can correctly respond to external programmatic access
     */

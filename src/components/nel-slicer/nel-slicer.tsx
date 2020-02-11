@@ -3,7 +3,7 @@ import {
   Method, Prop, Watch
 } from "@stencil/core";
 import { JSX } from "../../components";
-// import { Slicer as slicer } from "@buckneri/js-lib-slicer";
+import { Slicer as _Slicer, TSlicerState } from "@buckneri/js-lib-slicer";
 
 /**
  * Organises child elements vertically or horizontally
@@ -14,7 +14,7 @@ import { JSX } from "../../components";
   shadow: true
 })
 export class Slicer implements ComponentInterface {
-  // private _slicer: slicer<string> = new slicer<string>();
+  private _slicer: _Slicer<string> = new _Slicer<string>();
 
   @Element() private host: HTMLElement;
 
@@ -53,14 +53,13 @@ export class Slicer implements ComponentInterface {
    */
   @Event({ composed: true, cancelable: false, bubbles: true }) loaded: EventEmitter;
 
-  /**
-   * Fired after child elements are sorted
-   */
-  @Event({ composed: true, cancelable: false, bubbles: true }) sorted: EventEmitter;
-
-  componentDidLoad(): any {   
+  componentDidLoad(): any {
+    const items: string[] = [];
+    for (let el of Array.from(this.host.children)) {
+      items.push(el.textContent);
+    }
+    this._slicer.data = items;
     this.loaded.emit(this.host);
-    // this.ready = true;
   }
 
   componentWillLoad(): void {
@@ -68,32 +67,22 @@ export class Slicer implements ComponentInterface {
   }
 
   /**
-   * Clears out all child elements from collection
+   * Clears out slicer selections
    */
   @Method()
   public async clear(): Promise<boolean> {
+    this._slicer.clear();
     for (let el of Array.from(this.host.children)) {
-      this.host.removeChild(el);
+      const state: TSlicerState = this._slicer.data.get(el.textContent);
+      if (state) {
+        if (state.filtered) {
+          el.classList.add("filtered");
+        } else {
+          el.classList.remove("filtered");
+        }
+      }
     }
     this.cleared.emit(this.host);
-    return Promise.resolve(true);
-  }
-
-  /**
-   * Sorts child elements in collection based on text content
-   * @param reverse - default is false (A-Z sort order)
-   */
-  @Method()
-  public async sort(reverse?: boolean | undefined): Promise<boolean> {
-    reverse = reverse || false;
-    const sorted: Node[] = Array.from(this.host.children)
-      .sort(reverse
-        ? (a: Node, b: Node) => (a.textContent || "") > (b.textContent || "") ? -1 : 1
-        : (a: Node, b: Node) => (a.textContent || "") > (b.textContent || "") ? 1 : -1);
-    Array.from(this.host.children)
-      .map(el => this.host.removeChild(el));
-    sorted.map(el => this.host.appendChild(el));
-    this.sorted.emit(this.host);
     return Promise.resolve(true);
   }
 

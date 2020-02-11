@@ -825,9 +825,7 @@
       <h3>Events</h3>
       <label><input type="checkbox" id="chkEventsSlicerItem" checked /> view events (<code>F12</code> opens console)</label>
       <h3>Methods</h3>
-      <button id="eraseSlicerItems">clear() list</button>
-      <button id="sortAZSlicerItems">▼ A-Z sort()</button>
-      <button id="sortZASlicerItems">▲ Z-A sort()</button>
+      <button id="clearSlicer">clear() slicer</button>
     </div>    
     <script type="text/javascript" defer>
       (function() {
@@ -854,14 +852,8 @@
           events.checked ? attachConsole() : detachConsole();
         });
 
-        var clear = document.getElementById("eraseSlicerItems");
+        var clear = document.getElementById("clearSlicer");
         clear.addEventListener("click", function() { ex.clear() });
-
-        var sortAZ = document.getElementById("sortAZSlicerItems");
-        sortAZ.addEventListener("click", function() { ex.sort() });
-
-        var sortZA = document.getElementById("sortZASlicerItems");
-        sortZA.addEventListener("click", function() { ex.sort(true) });
 
         var addItem = document.getElementById("addSlicerItem");
         addItem.addEventListener("click", function() {
