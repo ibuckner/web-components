@@ -125,10 +125,6 @@ export namespace Components {
   }
   interface NelSlicer {
     /**
-    * Aligns child elements within collection. Defaults to vertical list.
-    */
-    'align': "horizontal" | "vertical";
-    /**
     * Clears out slicer selections
     */
     'clear': () => Promise<boolean>;
@@ -144,20 +140,6 @@ export namespace Components {
     * Displays the element resize handle (bottom right corner) if true
     */
     'resizable': boolean;
-  }
-  interface NelSlicerItem {
-    /**
-    * If false, element is partly greyed out and not responding to user input
-    */
-    'disabled': boolean;
-    /**
-    * True when element can correctly respond to external programmatic access
-    */
-    'ready': boolean;
-    /**
-    * If true, allows the element to receive focus
-    */
-    'selectable': boolean;
   }
   interface NelStatusBadge {
     /**
@@ -372,12 +354,6 @@ declare global {
     new (): HTMLNelSlicerElement;
   };
 
-  interface HTMLNelSlicerItemElement extends Components.NelSlicerItem, HTMLStencilElement {}
-  var HTMLNelSlicerItemElement: {
-    prototype: HTMLNelSlicerItemElement;
-    new (): HTMLNelSlicerItemElement;
-  };
-
   interface HTMLNelStatusBadgeElement extends Components.NelStatusBadge, HTMLStencilElement {}
   var HTMLNelStatusBadgeElement: {
     prototype: HTMLNelStatusBadgeElement;
@@ -409,7 +385,6 @@ declare global {
     'nel-network-connection': HTMLNelNetworkConnectionElement;
     'nel-on-off': HTMLNelOnOffElement;
     'nel-slicer': HTMLNelSlicerElement;
-    'nel-slicer-item': HTMLNelSlicerItemElement;
     'nel-status-badge': HTMLNelStatusBadgeElement;
     'nel-text-input': HTMLNelTextInputElement;
     'nel-text-tag': HTMLNelTextTagElement;
@@ -588,10 +563,6 @@ declare namespace LocalJSX {
   }
   interface NelSlicer {
     /**
-    * Aligns child elements within collection. Defaults to vertical list.
-    */
-    'align'?: "horizontal" | "vertical";
-    /**
     * If false, element is partly greyed out and not responding to user input
     */
     'disabled'?: boolean;
@@ -604,25 +575,7 @@ declare namespace LocalJSX {
     */
     'onLoaded'?: (event: CustomEvent<any>) => void;
     /**
-    * True when element can correctly respond to external programmatic access
-    */
-    'ready'?: boolean;
-    /**
-    * Displays the element resize handle (bottom right corner) if true
-    */
-    'resizable'?: boolean;
-  }
-  interface NelSlicerItem {
-    /**
-    * If false, element is partly greyed out and not responding to user input
-    */
-    'disabled'?: boolean;
-    /**
-    * Fired when element can correctly respond to external programmatic access
-    */
-    'onLoaded'?: (event: CustomEvent<any>) => void;
-    /**
-    * Fired after element receives focus
+    * Fired when slicer item state changes occur
     */
     'onSelected'?: (event: CustomEvent<any>) => void;
     /**
@@ -630,9 +583,9 @@ declare namespace LocalJSX {
     */
     'ready'?: boolean;
     /**
-    * If true, allows the element to receive focus
+    * Displays the element resize handle (bottom right corner) if true
     */
-    'selectable'?: boolean;
+    'resizable'?: boolean;
   }
   interface NelStatusBadge {
     /**
@@ -827,7 +780,6 @@ declare namespace LocalJSX {
     'nel-network-connection': NelNetworkConnection;
     'nel-on-off': NelOnOff;
     'nel-slicer': NelSlicer;
-    'nel-slicer-item': NelSlicerItem;
     'nel-status-badge': NelStatusBadge;
     'nel-text-input': NelTextInput;
     'nel-text-tag': NelTextTag;
@@ -848,7 +800,6 @@ declare module "@stencil/core" {
       'nel-network-connection': LocalJSX.NelNetworkConnection & JSXBase.HTMLAttributes<HTMLNelNetworkConnectionElement>;
       'nel-on-off': LocalJSX.NelOnOff & JSXBase.HTMLAttributes<HTMLNelOnOffElement>;
       'nel-slicer': LocalJSX.NelSlicer & JSXBase.HTMLAttributes<HTMLNelSlicerElement>;
-      'nel-slicer-item': LocalJSX.NelSlicerItem & JSXBase.HTMLAttributes<HTMLNelSlicerItemElement>;
       'nel-status-badge': LocalJSX.NelStatusBadge & JSXBase.HTMLAttributes<HTMLNelStatusBadgeElement>;
       'nel-text-input': LocalJSX.NelTextInput & JSXBase.HTMLAttributes<HTMLNelTextInputElement>;
       'nel-text-tag': LocalJSX.NelTextTag & JSXBase.HTMLAttributes<HTMLNelTextTagElement>;

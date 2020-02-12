@@ -55,7 +55,6 @@ export class ModalView implements ComponentInterface {
 
   componentDidLoad(): any {    
     this.loaded.emit(this.host);
-    // this.ready = true;
   }
 
   componentWillRender(): any {

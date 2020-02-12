@@ -18,38 +18,18 @@
 .slicer:focus { outline: none }
 
 .slicer {
+  align-items: flex-start;
   box-sizing: border-box;
   display: flex;
+  flex-flow: column nowrap;
   height: 100%;
+  justify-content: flex-start;
   max-height: inherit;
   min-width: inherit;
   min-height: 1rem;
   min-width: 4rem;
-  width: 100%
-}
-
-.horizontal {
-  align-items: flex-start;
-  flex-flow: row nowrap;
-  justify-content: flex-start;
-  overflow-x: auto;
-  overflow-y: hidden
-}
-
-.resize-horizontal:focus {
-  border: dashed 1px #ccc;
-  resize: horizontal
-}
-
-.resize-vertical:focus {
-  border: dashed 1px #ccc;
-  resize: vertical
-}
-
-.vertical {
-  align-items: flex-start;
-  flex-flow: column nowrap;
-  justify-content: flex-start;
   overflow-x: hidden;
-  overflow-y: auto
+  overflow-y: auto;
+  padding: 10px;
+  width: 100%;
 }

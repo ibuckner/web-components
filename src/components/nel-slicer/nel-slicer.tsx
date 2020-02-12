@@ -1,9 +1,9 @@
 import {
   Component, ComponentInterface, Element, Event, EventEmitter, h,
-  Method, Prop, Watch
+  Listen, Method, Prop
 } from "@stencil/core";
 import { JSX } from "../../components";
-import { Slicer as _Slicer, TSlicerState } from "@buckneri/js-lib-slicer";
+import { Slicer as _Slicer, TSlicerState, SlicerModifier } from "@buckneri/js-lib-slicer";
 
 /**
  * Organises child elements vertically or horizontally
@@ -17,16 +17,6 @@ export class Slicer implements ComponentInterface {
   private _slicer: _Slicer<string> = new _Slicer<string>();
 
   @Element() private host: HTMLElement;
-
-  /**
-   * Aligns child elements within collection. Defaults to vertical list.
-   */
-  @Prop({ reflect: true }) public align: "horizontal" | "vertical" = "vertical";
-  
-  @Watch("align")
-  validateHAlign(newValue: "horizontal" | "vertical"): void {
-    this.align = newValue;
-  }
   
   /**
    * If false, element is partly greyed out and not responding to user input
@@ -53,7 +43,29 @@ export class Slicer implements ComponentInterface {
    */
   @Event({ composed: true, cancelable: false, bubbles: true }) loaded: EventEmitter;
 
+  /**
+   * Fired when slicer item state changes occur
+   */
+  @Event({ composed: true, cancelable: false, bubbles: true }) selected: EventEmitter;
+
   componentDidLoad(): any {
+    const obs = new MutationObserver((mutations) => {
+      for (let i = 0; i < mutations.length; ++i) {
+        for(let j = 0; j < mutations[i].addedNodes.length; ++j) {
+          const el: HTMLElement = mutations[i].addedNodes[j] as HTMLElement;
+          if(el.classList.contains("slicer-item")) {
+            const items: string[] = [];
+            for (let el of Array.from(this.host.children)) {
+              items.push(el.textContent);
+            }
+            this._slicer.data = items;
+          }
+        }
+      }
+    });
+  
+    obs.observe(this.host, { childList: true });
+
     const items: string[] = [];
     for (let el of Array.from(this.host.children)) {
       items.push(el.textContent);
@@ -66,6 +78,40 @@ export class Slicer implements ComponentInterface {
     this.ready = true;
   }
 
+  @Listen("click")
+  onclick(ev: MouseEvent): void {
+    if (this.disabled) {
+      ev.preventDefault();
+      return;
+    }
+    const el: HTMLElement = ev.target as HTMLElement;
+    if (el.classList.contains("slicer-item")) {
+      this._slicer.toggle(
+        el.textContent, 
+        ev.shiftKey 
+          ? SlicerModifier.SHIFT_KEY 
+          : ev.ctrlKey 
+            ? SlicerModifier.CTRL_KEY 
+            : SlicerModifier.NO_KEY
+      );
+      if (this._slicer.selected === 0 || this.host.children.length === this._slicer.selected) {
+        this.clear();
+      } else {
+        for (let el of Array.from(this.host.children)) {
+          const state: TSlicerState = this._slicer.data.get(el.textContent);
+          if (state) {
+            if (state.filtered) {
+              (el as any).classList.add("filtered");
+            } else {
+              (el as any).classList.remove("filtered");
+            }
+          }
+        }
+      }
+      this.selected.emit(this._slicer.data);
+    }
+  }
+
   /**
    * Clears out slicer selections
    */
@@ -73,25 +119,16 @@ export class Slicer implements ComponentInterface {
   public async clear(): Promise<boolean> {
     this._slicer.clear();
     for (let el of Array.from(this.host.children)) {
-      const state: TSlicerState = this._slicer.data.get(el.textContent);
-      if (state) {
-        if (state.filtered) {
-          el.classList.add("filtered");
-        } else {
-          el.classList.remove("filtered");
-        }
-      }
+      (el as any).classList.remove("filtered");
     }
     this.cleared.emit(this.host);
     return Promise.resolve(true);
   }
 
   public render(): JSX.NelSlicer {
-    let cls: string = `slicer ${this.align}`;
-    cls += !this.disabled && this.resizable ? ` resize-${this.align}` : "";
     const tab: number = this.disabled ? undefined : 0;
     return (
-      <div class={cls} tabindex={tab}>
+      <div class="slicer" tabindex={tab}>
         <slot></slot>
       </div>
     );

@@ -808,10 +808,33 @@
 
   <details open>
     <summary>Slicer</summary>
+    <style>
+      .slicer-item {
+        border: 1px solid #00a;
+        border-radius: 5px;
+        color: #00a;
+        cursor: pointer;
+        font-weight: bold;
+        margin: 1px;
+        padding: 5px;
+        text-align: center;
+        user-select: none;
+        width: 150px;
+      }
+      .slicer-item:hover {
+        background-color: #00a !important;
+        color: #fff !important;
+      }
+      .slicer-item.filtered {
+        border: 1px solid #999;
+        color: #999;
+      }
+    </style>
     <div class="sample">
-      <nel-slicer id="exampleSlicer" align="vertical" sortable resizable>
-        <nel-slicer-item>A</nel-slicer-item>
-        <nel-slicer-item>B</nel-slicer-item>
+      <nel-slicer id="exampleSlicer" resizable>
+        <div class="slicer-item">A</div>
+        <div class="slicer-item">B</div>
+        <div class="slicer-item">C</div>
       </nel-slicer>
       <hr>
       <button id="addSlicerItem">Add slicer item</button>
@@ -819,9 +842,6 @@
       <h3>Properties</h3>
       <label><input type="checkbox" id="chkDisableSlicerItem" /> disabled</label>
       <label><input type="checkbox" id="chkHideSlicerItem" /> hidden</label>
-      <label><input type="checkbox" id="chkResizeSlicerItem" /> resizable</label><br>
-      <label><input type="radio" id="radAlignSlicerItemV" name="radAlignSlicer" value="vertical" checked /> vertical</label>
-      <label><input type="radio" id="radAlignSlicerItemH" name="radAlignSlicer" value="horizontal" /> horizontal</label>
       <h3>Events</h3>
       <label><input type="checkbox" id="chkEventsSlicerItem" checked /> view events (<code>F12</code> opens console)</label>
       <h3>Methods</h3>
@@ -837,15 +857,6 @@
         var hidden = document.getElementById("chkHideSlicerItem");
         hidden.addEventListener("change", function() { ex.hidden = hidden.checked });
 
-        var alignV = document.getElementById("radAlignSlicerItemV");
-        alignV.addEventListener("change", function() { if (alignV.checked) { ex.align = "vertical"; } });
-
-        var alignH = document.getElementById("radAlignSlicerItemH");
-        alignH.addEventListener("change", function() { if (alignH.checked) { ex.align = "horizontal"; } });
-
-        var resizable = document.getElementById("chkResizeSlicerItem");
-        resizable.addEventListener("change", function() { ex.resizable = resizable.checked });
-
         var events = document.getElementById("chkEventsSlicerItem");        
         events.addEventListener("change", function() {
           console.clear();
@@ -857,18 +868,16 @@
 
         var addItem = document.getElementById("addSlicerItem");
         addItem.addEventListener("click", function() {
-          var t = document.createElement("nel-slicer-item");
+          var t = document.createElement("div");
           var letter = document.querySelector("#addSlicerText");
           t.textContent = letter.value;
+          t.classList.add("slicer-item");
           ex.appendChild(t);
         });
 
         function init() {
           disable.checked = ex.disabled;
           hidden.checked = ex.hidden;
-          alignV.checked = ex.align === "vertical" ? true : false;
-          alignH.checked = ex.align === "horizontal" ? true : false;
-          resizable.checked = ex.resizable;
           attachConsole();
         }
         if (!ex.ready) {
@@ -879,16 +888,13 @@
 
         function attachConsole() {
           ex.addEventListener("cleared", onClear);
-          ex.addEventListener("sorted", onSort);
         }
 
         function detachConsole() {
           ex.removeEventListener("cleared", onClear);
-          ex.removeEventListener("sorted", onSort);
         }
 
         function onClear(ev) { console.log(ev.detail.id + " was cleared") }
-        function onSort(ev) { console.log(ev.detail.id + " was sorted") }
       })();
     </script>
   </details>

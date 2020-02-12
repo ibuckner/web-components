@@ -82,7 +82,6 @@ export class TextInput implements ComponentInterface {
     this._input = this.host.shadowRoot.querySelector("input");
     this._mask = new RegExp(this.mask);
     this.loaded.emit(this.host);
-    // this.ready = true;
   }
 
   componentWillLoad(): void {

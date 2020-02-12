@@ -57,7 +57,6 @@ export class ItemCollection implements ComponentInterface {
 
   componentDidLoad(): any {   
     this.loaded.emit(this.host);
-    // this.ready = true;
   }
 
   componentWillLoad(): void {

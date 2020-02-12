@@ -77,7 +77,6 @@ export class ExpandItem {
     });
     
     this.loaded.emit(this.host);
-    // this.ready = true;
   }
 
   componentWillLoad(): void {

@@ -68,7 +68,6 @@ export class TextTag implements ComponentInterface {
 
   componentDidLoad(): void {
     this.loaded.emit(this.host);
-    // this.ready = true;
   }
 
   componentWillLoad(): void {
