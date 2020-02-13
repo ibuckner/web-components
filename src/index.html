@@ -888,13 +888,18 @@
 
         function attachConsole() {
           ex.addEventListener("cleared", onClear);
+          ex.addEventListener("selecteded", onSelect);
         }
 
         function detachConsole() {
           ex.removeEventListener("cleared", onClear);
+          ex.removeEventListener("selecteded", onSelect);
         }
 
         function onClear(ev) { console.log(ev.detail.id + " was cleared") }
+        function onSelect(ev) {
+          console.log(ev.detail.id + " was cleared");
+        }
       })();
     </script>
   </details>

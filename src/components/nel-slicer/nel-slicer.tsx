@@ -108,7 +108,7 @@ export class Slicer implements ComponentInterface {
           }
         }
       }
-      this.selected.emit(this._slicer.data);
+      this.selected.emit(this._slicer);
     }
   }
 
