@@ -8,7 +8,7 @@ import { JSX } from "../../components";
  */
 @Component({
   tag: "nel-modal-view",
-  styleUrl: "nel-modal-view.css",
+  styleUrl: "nel-modal-view.scss",
   shadow: true
 })
 export class ModalView implements ComponentInterface {

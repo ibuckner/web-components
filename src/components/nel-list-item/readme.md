@@ -9,6 +9,7 @@
 
 | Property     | Attribute    | Description                                                             | Type      | Default     |
 | ------------ | ------------ | ----------------------------------------------------------------------- | --------- | ----------- |
+| `clear`      | `clear`      | Removes element from DOM                                                | `boolean` | `undefined` |
 | `color`      | `color`      | Sets the bullet color of the element. Default is #eeeeee                | `string`  | `"#eeeeee"` |
 | `deletable`  | `deletable`  | If true, allows the element to be delete using keyboard                 | `boolean` | `false`     |
 | `disabled`   | `disabled`   | If false, element is partly greyed out and not responding to user input | `boolean` | `false`     |
@@ -24,19 +25,6 @@
 | `deleting` | Fired when delete key pressed on selected element                        | `CustomEvent<any>` |
 | `loaded`   | Fired when element can correctly respond to external programmatic access | `CustomEvent<any>` |
 | `selected` | Fired after element receives focus                                       | `CustomEvent<any>` |
-
-
-## Methods
-
-### `delete() => Promise<boolean>`
-
-Removes element from DOM
-
-#### Returns
-
-Type: `Promise<boolean>`
-
-
 
 
 ----------------------------------------------

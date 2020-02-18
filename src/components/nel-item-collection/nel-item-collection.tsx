@@ -1,6 +1,6 @@
 import {
   Component, ComponentInterface, Element, Event, EventEmitter, h,
-  Method, Prop, Watch
+  Prop, Watch
 } from "@stencil/core";
 import { JSX } from "../../components";
 
@@ -9,7 +9,7 @@ import { JSX } from "../../components";
  */
 @Component({
   tag: "nel-item-collection",
-  styleUrl: "nel-item-collection.css",
+  styleUrl: "nel-item-collection.scss",
   shadow: true
 })
 export class ItemCollection implements ComponentInterface {
@@ -23,6 +23,22 @@ export class ItemCollection implements ComponentInterface {
   @Watch("align")
   validateHAlign(newValue: "horizontal" | "vertical"): void {
     this.align = newValue;
+  }
+
+  /**
+   * Clears out all child elements from collection
+   */
+  @Prop({ reflect: true }) public clear: boolean;
+  
+  @Watch("clear")
+  validateClear(newValue: boolean): void {
+    if (newValue) {
+      for (let el of Array.from(this.host.children)) {
+        this.host.removeChild(el);
+      }
+      this.cleared.emit(this.host);
+      this.clear = false;
+    }
   }
   
   /**
@@ -39,6 +55,24 @@ export class ItemCollection implements ComponentInterface {
    * Displays the element resize handle (bottom right corner) if true
    */
   @Prop({ reflect: true }) public resizable: boolean = false;
+
+  /**
+   * Sorts child elements in collection based on text content
+   */
+  @Prop({ reflect: true }) public sort: "ASC" | "DESC" = "ASC";
+  
+  @Watch("sort")
+  validateSort(newValue: "ASC" | "DESC"): void {
+    const sorted: Node[] = Array.from(this.host.children)
+      .sort(newValue === "DESC"
+        ? (a: Node, b: Node) => (a.textContent || "") > (b.textContent || "") ? -1 : 1
+        : (a: Node, b: Node) => (a.textContent || "") > (b.textContent || "") ? 1 : -1);
+    Array.from(this.host.children)
+      .map(el => this.host.removeChild(el));
+    sorted.map(el => this.host.appendChild(el));
+    this.sort = newValue;
+    this.sorted.emit(this.host);
+  }
 
   /**
    * Fired after child elements are removed via clear() method
@@ -61,36 +95,6 @@ export class ItemCollection implements ComponentInterface {
 
   componentWillLoad(): void {
     this.ready = true;
-  }
-
-  /**
-   * Clears out all child elements from collection
-   */
-  @Method()
-  public async clear(): Promise<boolean> {
-    for (let el of Array.from(this.host.children)) {
-      this.host.removeChild(el);
-    }
-    this.cleared.emit(this.host);
-    return Promise.resolve(true);
-  }
-
-  /**
-   * Sorts child elements in collection based on text content
-   * @param reverse - default is false (A-Z sort order)
-   */
-  @Method()
-  public async sort(reverse?: boolean | undefined): Promise<boolean> {
-    reverse = reverse || false;
-    const sorted: Node[] = Array.from(this.host.children)
-      .sort(reverse
-        ? (a: Node, b: Node) => (a.textContent || "") > (b.textContent || "") ? -1 : 1
-        : (a: Node, b: Node) => (a.textContent || "") > (b.textContent || "") ? 1 : -1);
-    Array.from(this.host.children)
-      .map(el => this.host.removeChild(el));
-    sorted.map(el => this.host.appendChild(el));
-    this.sorted.emit(this.host);
-    return Promise.resolve(true);
   }
 
   public render(): JSX.NelItemCollection {

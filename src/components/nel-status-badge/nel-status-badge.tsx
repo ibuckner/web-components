@@ -9,7 +9,7 @@ import { JSX } from "../../components";
  */
 @Component({
   tag: "nel-status-badge",
-  styleUrl: "nel-status-badge.css",
+  styleUrl: "nel-status-badge.scss",
   shadow: true
 })
 export class StatusBadge implements ComponentInterface {

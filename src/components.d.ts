@@ -32,7 +32,7 @@ export namespace Components {
         /**
           * Clears out all child elements from collection
          */
-        "clear": () => Promise<boolean>;
+        "clear": boolean;
         /**
           * If false, element is partly greyed out and not responding to user input
          */
@@ -47,11 +47,14 @@ export namespace Components {
         "resizable": boolean;
         /**
           * Sorts child elements in collection based on text content
-          * @param reverse - default is false (A-Z sort order)
          */
-        "sort": (reverse?: boolean) => Promise<boolean>;
+        "sort": "ASC" | "DESC";
     }
     interface NelListItem {
+        /**
+          * Removes element from DOM
+         */
+        "clear": boolean;
         /**
           * Sets the bullet color of the element. Default is #eeeeee
          */
@@ -60,10 +63,6 @@ export namespace Components {
           * If true, allows the element to be delete using keyboard
          */
         "deletable": boolean;
-        /**
-          * Removes element from DOM
-         */
-        "delete": () => Promise<boolean>;
         /**
           * If false, element is partly greyed out and not responding to user input
          */
@@ -121,9 +120,9 @@ export namespace Components {
     }
     interface NelSlicer {
         /**
-          * Clears out slicer selections
+          * If false, element is partly greyed out and not responding to user input
          */
-        "clear": () => Promise<boolean>;
+        "clear": boolean;
         /**
           * If false, element is partly greyed out and not responding to user input
          */
@@ -235,74 +234,6 @@ export namespace Components {
          */
         "selectable": boolean;
     }
-    interface NelVizContainer {
-        /**
-          * Adds SVG element to container
-          * @param template - string containing valid markup for SVG element
-          * @param parent - node to append new element to. If string, must be valid selector
-         */
-        "addElement": (template: string, parent: string | Node) => Promise<void>;
-        /**
-          * Sets the element's background border radius
-         */
-        "borderRadius": number;
-        /**
-          * Returns the centered x position
-         */
-        "cx": number;
-        /**
-          * Returns the centered y position
-         */
-        "cy": number;
-        /**
-          * If true, displays visible artefacts for ascertaining position, etc.
-         */
-        "debug": boolean;
-        /**
-          * If false, element is partly greyed out and not responding to user input
-         */
-        "disabled": boolean;
-        /**
-          * Sets the element's height
-         */
-        "height": string;
-        /**
-          * Sets the element's minimum height
-         */
-        "minHeight": number;
-        /**
-          * Sets the element's minimum width
-         */
-        "minWidth": number;
-        /**
-          * Sets the element's padding-bottom
-         */
-        "paddingBottom": number;
-        /**
-          * Sets the element's padding-left
-         */
-        "paddingLeft": number;
-        /**
-          * Sets the element's padding-right
-         */
-        "paddingRight": number;
-        /**
-          * Sets the element's padding-top
-         */
-        "paddingTop": number;
-        /**
-          * Sets the element's relative height
-         */
-        "rh": number;
-        /**
-          * Sets the element's relative width
-         */
-        "rw": number;
-        /**
-          * Sets the element's width
-         */
-        "width": string;
-    }
 }
 declare global {
     interface HTMLNelExpandItemElement extends Components.NelExpandItem, HTMLStencilElement {
@@ -365,12 +296,6 @@ declare global {
         prototype: HTMLNelTextTagElement;
         new (): HTMLNelTextTagElement;
     };
-    interface HTMLNelVizContainerElement extends Components.NelVizContainer, HTMLStencilElement {
-    }
-    var HTMLNelVizContainerElement: {
-        prototype: HTMLNelVizContainerElement;
-        new (): HTMLNelVizContainerElement;
-    };
     interface HTMLElementTagNameMap {
         "nel-expand-item": HTMLNelExpandItemElement;
         "nel-item-collection": HTMLNelItemCollectionElement;
@@ -382,7 +307,6 @@ declare global {
         "nel-status-badge": HTMLNelStatusBadgeElement;
         "nel-text-input": HTMLNelTextInputElement;
         "nel-text-tag": HTMLNelTextTagElement;
-        "nel-viz-container": HTMLNelVizContainerElement;
     }
 }
 declare namespace LocalJSX {
@@ -422,6 +346,10 @@ declare namespace LocalJSX {
          */
         "align"?: "horizontal" | "vertical";
         /**
+          * Clears out all child elements from collection
+         */
+        "clear"?: boolean;
+        /**
           * If false, element is partly greyed out and not responding to user input
          */
         "disabled"?: boolean;
@@ -445,8 +373,16 @@ declare namespace LocalJSX {
           * Displays the element resize handle (bottom right corner) if true
          */
         "resizable"?: boolean;
+        /**
+          * Sorts child elements in collection based on text content
+         */
+        "sort"?: "ASC" | "DESC";
     }
     interface NelListItem {
+        /**
+          * Removes element from DOM
+         */
+        "clear"?: boolean;
         /**
           * Sets the bullet color of the element. Default is #eeeeee
          */
@@ -555,6 +491,10 @@ declare namespace LocalJSX {
         "size"?: number;
     }
     interface NelSlicer {
+        /**
+          * If false, element is partly greyed out and not responding to user input
+         */
+        "clear"?: boolean;
         /**
           * If false, element is partly greyed out and not responding to user input
          */
@@ -698,72 +638,6 @@ declare namespace LocalJSX {
          */
         "selectable"?: boolean;
     }
-    interface NelVizContainer {
-        /**
-          * Sets the element's background border radius
-         */
-        "borderRadius"?: number;
-        /**
-          * Returns the centered x position
-         */
-        "cx"?: number;
-        /**
-          * Returns the centered y position
-         */
-        "cy"?: number;
-        /**
-          * If true, displays visible artefacts for ascertaining position, etc.
-         */
-        "debug"?: boolean;
-        /**
-          * If false, element is partly greyed out and not responding to user input
-         */
-        "disabled"?: boolean;
-        /**
-          * Sets the element's height
-         */
-        "height"?: string;
-        /**
-          * Sets the element's minimum height
-         */
-        "minHeight"?: number;
-        /**
-          * Sets the element's minimum width
-         */
-        "minWidth"?: number;
-        /**
-          * Fired once element is rendered in DOM
-         */
-        "onReady"?: (event: CustomEvent<any>) => void;
-        /**
-          * Sets the element's padding-bottom
-         */
-        "paddingBottom"?: number;
-        /**
-          * Sets the element's padding-left
-         */
-        "paddingLeft"?: number;
-        /**
-          * Sets the element's padding-right
-         */
-        "paddingRight"?: number;
-        /**
-          * Sets the element's padding-top
-         */
-        "paddingTop"?: number;
-        /**
-          * Sets the element's relative height
-         */
-        "rh"?: number;
-        /**
-          * Sets the element's relative width
-         */
-        "rw"?: number;
-        /**
-          * Sets the element's width
-         */
-        "width"?: string;
-    }
     interface IntrinsicElements {
         "nel-expand-item": NelExpandItem;
         "nel-item-collection": NelItemCollection;
@@ -775,7 +649,6 @@ declare namespace LocalJSX {
         "nel-status-badge": NelStatusBadge;
         "nel-text-input": NelTextInput;
         "nel-text-tag": NelTextTag;
-        "nel-viz-container": NelVizContainer;
     }
 }
 export { LocalJSX as JSX };
@@ -792,7 +665,6 @@ declare module "@stencil/core" {
             "nel-status-badge": LocalJSX.NelStatusBadge & JSXBase.HTMLAttributes<HTMLNelStatusBadgeElement>;
             "nel-text-input": LocalJSX.NelTextInput & JSXBase.HTMLAttributes<HTMLNelTextInputElement>;
             "nel-text-tag": LocalJSX.NelTextTag & JSXBase.HTMLAttributes<HTMLNelTextTagElement>;
-            "nel-viz-container": LocalJSX.NelVizContainer & JSXBase.HTMLAttributes<HTMLNelVizContainerElement>;
         }
     }
 }

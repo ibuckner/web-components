@@ -9,7 +9,7 @@ import { JSX } from "../../components";
  */
 @Component({
   tag: "nel-network-connection",
-  styleUrl: "nel-network-connection.css",
+  styleUrl: "nel-network-connection.scss",
   shadow: true
 })
 export class NetworkConnection implements ComponentInterface {

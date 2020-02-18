@@ -10,7 +10,7 @@ import { JSX } from "../../components";
  */
 @Component({
   tag: "nel-text-tag",
-  styleUrl: "nel-text-tag.css",
+  styleUrl: "nel-text-tag.scss",
   shadow: true
 })
 export class TextTag implements ComponentInterface {

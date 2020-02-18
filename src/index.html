@@ -11,7 +11,30 @@
       font-family: Arial, Helvetica, sans-serif;
     }
 
-    details { outline: none; width: 95% }
+    aside {
+      align-items: center;
+      background-color: #000;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      flex-wrap: nowrap;
+      padding: 10px;
+      position: fixed;
+      right: 0;
+      top: 0;
+    }
+
+    aside > a {
+      color: #fff;
+      margin-bottom: 5px;
+      text-decoration: none;
+    }
+
+    aside > a:hover {
+      color: gold;
+    }
+
+    div.details { outline: none; width: 80% }
 
     label { cursor: pointer }
 
@@ -58,9 +81,25 @@
     }
   </style>
 </head>
-<body>
-  <details>
-    <summary>Expand Item</summary>
+<body id="top">
+  <aside>
+    <a href="#top">Top of document</a>
+    <div>---------------------</div>
+    <a href="#expand">nel-expand-item</a>
+    <a href="#item-collect">nel-item-collection</a>
+    <a href="#list-item">nel-list-item</a>
+    <a href="#modal">nel-modal-view</a>
+    <a href="#network">nel-network-connection</a>
+    <a href="#onoff">nel-on-off</a>
+    <a href="#textinput">nel-text-input</a>
+
+    <a href="#statusbadge">nel-status-badge</a>
+    <a href="#texttag">nel-text-tag</a>
+    <a href="#slicer">nel-slicer</a>
+  </aside>
+
+  <div class="details" id="expand">
+    <h3>&lt;nel-expand-item&gt;</h3>
     <div class="sample">
       <nel-expand-item id="exampleExpandItem" size="1.75">
         <div slot="title">Hello</div>
@@ -90,7 +129,7 @@
         var toggle = document.getElementById("chkToggleExpand");
         toggle.addEventListener("change", function() { ex.open = toggle.checked });
 
-        var events = document.getElementById("chkEventsExpand");        
+        var events = document.getElementById("chkEventsExpand");  
         events.addEventListener("change", function() {
           console.clear();
           events.checked ? attachConsole() : detachConsole();
@@ -122,10 +161,10 @@
         function onOpen(ev) { console.log(ev.detail.id + " was opened") }
       })();
     </script>
-  </details>
+  </div>
 
-  <details>
-    <summary>Item Collection</summary>
+  <div class="details" id="item-collect">
+    <h3>&lt;nel-item-collection&gt;</h3>
     <div class="sample">
       <nel-item-collection id="exampleItemCollection" align="vertical" sortable resizable>
         <div class="box">A</div>
@@ -139,13 +178,13 @@
       <label><input type="checkbox" id="chkHideItemC" /> hidden</label>
       <label><input type="checkbox" id="chkResizeItemC" /> resizable</label><br>
       <label><input type="radio" id="radAlignItemCVert" name="radAlignItemCollection" value="vertical" checked /> vertical</label>
-      <label><input type="radio" id="radAlignItemCHori" name="radAlignItemCollection" value="horizontal" /> horizontal</label>
+      <label><input type="radio" id="radAlignItemCHori" name="radAlignItemCollection" value="horizontal" /> horizontal</label><br>
+      <label><input type="radio" id="radSortItemAZ" name="radSortItemCollection" value="ASC" checked />▼ ascending</label>
+      <label><input type="radio" id="radSortItemZA" name="radSortItemCollection" value="DESC" />▲ descending</label>
+      <br>
+      <button id="btnClearItemC">clear() list</button>
       <h3>Events</h3>
       <label><input type="checkbox" id="chkEventsItemC" checked /> view events (<code>F12</code> opens console)</label>
-      <h3>Methods</h3>
-      <button id="eraseItemC">clear() list</button>
-      <button id="sortAZItemC">▼ A-Z sort()</button>
-      <button id="sortZAItemC">▲ Z-A sort()</button>
     </div>    
     <script type="text/javascript" defer>
       (function() {
@@ -163,23 +202,23 @@
         var alignH = document.getElementById("radAlignItemCHori");
         alignH.addEventListener("change", function() { if (alignH.checked) { ex.align = "horizontal"; } });
 
+        var asc = document.getElementById("radSortItemAZ");
+        asc.addEventListener("change", function() { if (asc.checked) { ex.sort = "ASC"; } });
+
+        var desc = document.getElementById("radSortItemZA");
+        desc.addEventListener("change", function() { if (desc.checked) { ex.sort = "DESC"; } });
+
         var resizable = document.getElementById("chkResizeItemC");
         resizable.addEventListener("change", function() { ex.resizable = resizable.checked });
 
-        var events = document.getElementById("chkEventsItemC");        
+        var events = document.getElementById("chkEventsItemC");  
         events.addEventListener("change", function() {
           console.clear();
           events.checked ? attachConsole() : detachConsole();
         });
 
-        var clear = document.getElementById("eraseItemC");
-        clear.addEventListener("click", function() { ex.clear() });
-
-        var sortAZ = document.getElementById("sortAZItemC");
-        sortAZ.addEventListener("click", function() { ex.sort() });
-
-        var sortZA = document.getElementById("sortZAItemC");
-        sortZA.addEventListener("click", function() { ex.sort(true) });
+        var clear = document.getElementById("btnClearItemC");
+        clear.addEventListener("click", function() { ex.clear = true });
 
         var addItem = document.getElementById("addItemC");
         addItem.addEventListener("click", function() {
@@ -218,10 +257,10 @@
         function onSort(ev) { console.log(ev.detail.id + " was sorted") }
       })();
     </script>
-  </details>
+  </div>
 
-  <details>
-    <summary>List Item</summary>
+  <div class="details" id="list-item">
+    <h3>&lt;nel-list-item&gt;</h3>
     <div class="sample">
       <nel-item-collection id="exampleListItemCollection" align="vertical">
         <nel-list-item id="itemWorld" color="#33ff86" selectable deletable>World</nel-list-item>
@@ -234,10 +273,9 @@
       <label><input type="checkbox" id="chkDisableListItem" disabled /> disabled</label>
       <label><input type="checkbox" id="chkHideListItem" disabled /> hidden</label>
       <label><input type="checkbox" id="chkSelectListItem" disabled /> selectable</label><br>
+      <button id="deleteListItem">delete() item</button>
       <h3>Events</h3>
       <label><input type="checkbox" id="chkEventsListItem" checked /> view events (<code>F12</code> opens console)</label>
-      <h3>Methods</h3>
-      <button id="deleteListItem" disabled>delete() item</button>  
     </div>
     <script type="text/javascript" defer>
       (function() {
@@ -259,10 +297,10 @@
         var selectable = document.getElementById("chkSelectListItem");
         selectable.addEventListener("change", function() { if (ex) { ex.selectable = selectable.checked } });
 
-        var del = document.getElementById("deleteListItem");
-        del.addEventListener("click", function() { if (ex) { ex.delete(); ex = null; } });
+        var clear = document.getElementById("deleteListItem");
+        clear.addEventListener("click", function() { if (ex) { ex.clear = true; ex = null; } });
 
-        var events = document.getElementById("chkEventsListItem");        
+        var events = document.getElementById("chkEventsListItem");  
         events.addEventListener("change", function() {
           console.clear();
           [].slice.call(document.querySelectorAll("nel-list-item"))
@@ -287,7 +325,6 @@
                 hidden.checked = ev.detail.hidden;
                 selectable.disabled = false;
                 selectable.checked = ev.detail.selectable;
-                del.disabled = false;
               });
             });
         }
@@ -317,10 +354,10 @@
         function onSelected(ev) { console.log(ev.detail.id + " was selected") }
       })();
     </script>
-  </details>
+  </div>
 
-  <details>
-    <summary>Modal View</summary>
+  <div class="details" id="modal">
+    <h3>&lt;nel-modal-view&gt;</h3>
     <div class="sample">
       <nel-modal-view id="modal" align="center">
         <div class="modal-message">
@@ -356,7 +393,7 @@
         var alignB = document.getElementById("radAlignModalBottom");
         alignB.addEventListener("change", function() { if (alignB.checked) { ex.align = "bottom"; } });
 
-        var events = document.getElementById("chkEventsModal");        
+        var events = document.getElementById("chkEventsModal");  
         events.addEventListener("change", function() {
           console.clear();
           events.checked ? attachConsole() : detachConsole();
@@ -396,10 +433,10 @@
         }
       })();
     </script>
-  </details>
+  </div>
 
-  <details>
-    <summary>Network Connection</summary>
+  <div class="details" id="network">
+    <h3>&lt;nel-network-connection&gt;</h3>
     <div class="sample">
       Disable the network via DevTools.<br>
       (On Chrome)<br>
@@ -414,7 +451,7 @@
     <script type="text/javascript" defer>
       var ex = document.getElementById("netwatch");
 
-      var events = document.getElementById("chkEventsNetwork");        
+      var events = document.getElementById("chkEventsNetwork");  
       events.addEventListener("change", function() {
         console.clear();
         events.checked ? attachConsole() : detachConsole();
@@ -441,10 +478,10 @@
         console.log(ev.detail.id + " reports " + (ev.detail.available ? "online" : "offline"));
       }
     </script>
-  </details>
+  </div>
 
-  <details>
-    <summary>On Off</summary>
+  <div class="details" id="onoff">
+    <h3>&lt;nel-on-off&gt;</h3>
     <div class="sample">
       <nel-on-off id="OnOff" size="3" 
         style="--bg-color: #eeeeee; --color: #000000; --bg-color-on: #ccccff; --color-on: #000099;">
@@ -497,7 +534,7 @@
           sizelbl.textContent = size.value;
         });
 
-        var events = document.getElementById("chkEventsOnOff");        
+        var events = document.getElementById("chkEventsOnOff");  
         events.addEventListener("change", function() {
           console.clear();
           events.checked ? attachConsole() : detachConsole();
@@ -535,10 +572,10 @@
         }
       })();
     </script>
-  </details> 
+  </div> 
 
-  <details>
-    <summary>Text Input</summary>
+  <div class="details" id="textinput">
+    <h3>&lt;nel-text-input&gt;</h3>
     <div class="sample">
       <label>Text entry <nel-text-input cleartext id="txtEntry" mask="^\d+$" pattern=".*" placeholder="Enter some text" width="20" value=""></label>
       <hr>
@@ -574,7 +611,7 @@
         var width = document.getElementById("numTextInputWidth");
         width.addEventListener("change", function() { ex.width = width.value });
 
-        var events = document.getElementById("chkEventsTextInput");        
+        var events = document.getElementById("chkEventsTextInput");  
         events.addEventListener("change", function() {
           console.clear();
           events.checked ? attachConsole() : detachConsole();
@@ -607,10 +644,10 @@
         }
       })();
     </script>
-  </details>
+  </div>
 
-  <details>
-    <summary>Status Badge</summary>
+  <div class="details" id="statusbadge">
+    <h3>&lt;nel-status-badge&gt;</h3>
     <div class="sample">
       <nel-status-badge id="bdgStatus" title="Sales in Q3" label="revenue" pre="" suf="k">24.8</nel-status-badge>
       <hr>
@@ -686,7 +723,7 @@
           var cssFGColor = document.getElementById("txtStatusFGColor");
           cssFGColor.addEventListener("input", function() { ex.style.setProperty("--fg-color", cssFGColor.value); });
 
-          var events = document.getElementById("chkEventsStatus");        
+          var events = document.getElementById("chkEventsStatus");  
           events.addEventListener("change", function() {
             console.clear();
             events.checked ? attachConsole() : detachConsole();
@@ -723,10 +760,10 @@
           }
         })();
     </script>
-  </details>
+  </div>
 
-  <details>
-    <summary>Text Tag</summary>
+  <div class="details" id="texttag">
+    <h3>&lt;nel-text-tag&gt;</h3>
     <div class="sample">
       The quick brown <nel-text-tag id="mammalTag" selectable deletable color="#009900" label="Mammal">fox</nel-text-tag>
       jumped over the gate.
@@ -763,7 +800,7 @@
         var selectable = document.getElementById("chkSelectableTag");
         selectable.addEventListener("change", function() { ex.selectable = selectable.checked });
 
-        var events = document.getElementById("chkEventsTag");        
+        var events = document.getElementById("chkEventsTag");  
         events.addEventListener("change", function() {
           console.clear();
           events.checked ? attachConsole() : detachConsole();
@@ -804,22 +841,20 @@
         function onSelected(ev) { console.log(ev.detail.id + " was selected") }
       })();
     </script>
-  </details>
+  </div>
 
-  <details open>
-    <summary>Slicer</summary>
+  <div class="details" id="slicer">
+    <h3>&lt;nel-slicer&gt;</h3>
     <style>
+      nel-slicer {
+        --slicer-width: 250px;
+      }
       .slicer-item {
         border: 1px solid #00a;
         border-radius: 5px;
         color: #00a;
-        cursor: pointer;
         font-weight: bold;
-        margin: 1px;
         padding: 5px;
-        text-align: center;
-        user-select: none;
-        width: 150px;
       }
       .slicer-item:hover {
         background-color: #00a !important;
@@ -835,17 +870,16 @@
         <div class="slicer-item">A</div>
         <div class="slicer-item">B</div>
         <div class="slicer-item">C</div>
-      </nel-slicer>
+      </nel-slicer>      
       <hr>
       <button id="addSlicerItem">Add slicer item</button>
-      <input id="addSlicerText" type="text" placeholder="Some label" value="C" maxlength="20" />
+      <input id="addSlicerText" type="text" placeholder="Some label" value="D" maxlength="20" />
       <h3>Properties</h3>
       <label><input type="checkbox" id="chkDisableSlicerItem" /> disabled</label>
       <label><input type="checkbox" id="chkHideSlicerItem" /> hidden</label>
+      <label><button id="btnClearSlicer"> clear</button>
       <h3>Events</h3>
       <label><input type="checkbox" id="chkEventsSlicerItem" checked /> view events (<code>F12</code> opens console)</label>
-      <h3>Methods</h3>
-      <button id="clearSlicer">clear() slicer</button>
     </div>    
     <script type="text/javascript" defer>
       (function() {
@@ -857,14 +891,14 @@
         var hidden = document.getElementById("chkHideSlicerItem");
         hidden.addEventListener("change", function() { ex.hidden = hidden.checked });
 
-        var events = document.getElementById("chkEventsSlicerItem");        
+        var clear = document.getElementById("btnClearSlicer");
+        clear.addEventListener("click", function() { ex.clear = true });
+
+        var events = document.getElementById("chkEventsSlicerItem");
         events.addEventListener("change", function() {
           console.clear();
           events.checked ? attachConsole() : detachConsole();
         });
-
-        var clear = document.getElementById("clearSlicer");
-        clear.addEventListener("click", function() { ex.clear() });
 
         var addItem = document.getElementById("addSlicerItem");
         addItem.addEventListener("click", function() {
@@ -902,111 +936,6 @@
         }
       })();
     </script>
-  </details>
-
-  <details>
-    <summary>Viz Components</summary>
-    <div style="height: 200px; width: 100%">
-      <nel-viz-container id="viz-con" debug
-        height="100%" width="100%" border-radius="15" 
-        style="--bg-color: #fefefe; --border-color: #009">
-      </nel-viz-container>
-      <nel-viz-data-model for="viz-con" data-set='[["oranges", 20]]''>
-        <nel-viz-data-item label="Fruit" type="string" index="0"></nel-viz-data-item>
-        <nel-viz-data-item label="Sales" type="number" index="1"></nel-viz-data-item>
-      </nel-viz-data-model>
-    </div>
-    <button id="btnAddVizCircle">Add a circle</button>
-    <h3>Properties</h3>
-    <div class="panel narrow">
-      <label>border-radius</label> <input id="rng-viz-con-rad" type="range" min="0" max="50" value="10" /> <span id="num-viz-con-rad">10</span>
-    </div>
-    <div class="panel narrow">
-      <label>padding</label> <input id="rng-viz-pad-all" type="range" min="0" max="30" value="10" /> <span id="num-viz-pad-all">10</span>
-    </div>
-    <div class="panel narrow">
-      <label>height</label> <input id="rng-viz-con-h" type="range" min="0" max="100" value="100" /> <span id="num-viz-con-h">100%</span>
-    </div>
-    <div class="panel narrow">
-      <label>width</label> <input id="rng-viz-con-w" type="range" min="0" max="100" value="100" /> <span id="num-viz-con-w">100%</span>
-    </div>
-    <div class="panel narrow">
-      <label>Lock h/w ratio</label><input type="checkbox" id="chk-viz-lock-hw" checked /><span>&nbsp;</span>
-    </div>
-    <div class="panel narrow">
-      <label>debug</label><input type="checkbox" id="chk-viz-debug" checked /><span>&nbsp;</span>
-    </div>
-    <h3>Styles</h3>
-    <div class="panel narrow">
-      <label>--bg-color</label> <input id="txt-viz-bgcolor" type="color" value="#fefefe" />
-    </div>
-    <div class="panel narrow">
-      <label>--border-color</label> <input id="txt-viz-bordercolor" type="color" value="#000099" />
-    </div>
-    <script type="text/javascript">
-      (function() {
-        var viz = document.querySelector("#viz-con");
-        var radius = document.querySelector("#rng-viz-con-rad");
-        var lock = document.querySelector("#chk-viz-lock-hw");
-        var rngPadding = document.querySelector("#rng-viz-pad-all");
-        var lblPadding = document.querySelector("#num-viz-pad-all");
-        var rngHeight = document.querySelector("#rng-viz-con-h");
-        var rngWidth = document.querySelector("#rng-viz-con-w");
-        var lblHeight = document.querySelector("#num-viz-con-h");
-        var lblWidth = document.querySelector("#num-viz-con-w");
-        var bgcolor = document.querySelector("#txt-viz-bgcolor");
-        var bordercolor = document.querySelector("#txt-viz-bordercolor");
-        var debug = document.querySelector("#chk-viz-debug");
-        var addVizCircle = document.querySelector("#btnAddVizCircle");
-
-        addVizCircle.addEventListener("click", function() {
-          viz.addElement(`<circle cx="${Math.random() * viz.rw}" 
-            cy="${Math.random() * viz.rh}" r="${Math.random() * 10}" fill="green"></circle>`, ".canvas");
-        });
-
-        debug.addEventListener("change", function() { viz.debug = debug.checked; });
-
-        bordercolor.addEventListener("input", function() { viz.style.setProperty("--border-color", bordercolor.value); });
-        bgcolor.addEventListener("input", function() { viz.style.setProperty("--bg-color", bgcolor.value); });
-
-        radius.addEventListener("input", function(ev) {
-          var v = ev.target.value
-          viz.borderRadius = v;
-          document.querySelector("#num-viz-con-rad").textContent = v;
-        });
-
-        rngPadding.addEventListener("input", function(ev) {
-          var v = ev.target.value;
-          viz.paddingLeft = v;
-          viz.paddingTop = v;
-          viz.paddingRight = v;
-          viz.paddingBottom = v;
-          lblPadding.textContent = v;
-        });
-
-        rngHeight.addEventListener("input", function(ev) {
-          var v = ev.target.value + "%";
-          viz.height = v;
-          lblHeight.textContent = v;
-          if (lock.checked) {
-            viz.width = v;
-            lblWidth.textContent = v;
-            rngWidth.value = ev.target.value;
-          }
-        });
-
-        rngWidth.addEventListener("input", function(ev) {
-          var v = ev.target.value + "%";
-          viz.width = v;
-          lblWidth.textContent = v;
-          if (lock.checked) {
-            viz.height = v;
-            lblHeight.textContent = v;
-            rngHeight.value = ev.target.value;
-          }
-        });
-      })();
-    </script>
-  </details> 
+  </div>
 </body>
 </html>

@@ -9,7 +9,7 @@ import { JSX } from "../../components";
  */
 @Component({
   tag: "nel-on-off",
-  styleUrl: "nel-on-off.css",
+  styleUrl: "nel-on-off.scss",
   shadow: true
 })
 export class OnOff implements ComponentInterface {
@@ -52,7 +52,6 @@ export class OnOff implements ComponentInterface {
 
   componentDidLoad(): void {
     this.loaded.emit(this.host);
-    // this.ready = true;
   }
 
   componentWillLoad(): void {

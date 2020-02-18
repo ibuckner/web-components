@@ -1,6 +1,6 @@
 import {
   Component, ComponentInterface, Element, Event, EventEmitter, h,
-  Listen, Method, Prop
+  Listen, Prop, Watch
 } from "@stencil/core";
 
 /**
@@ -8,7 +8,7 @@ import {
  */
 @Component({
   tag: "nel-list-item",
-  styleUrl: "nel-list-item.css",
+  styleUrl: "nel-list-item.scss",
   shadow: true
 })
 export class ListItem implements ComponentInterface {
@@ -18,6 +18,20 @@ export class ListItem implements ComponentInterface {
    * Sets the bullet color of the element. Default is #eeeeee
    */
   @Prop({ reflect: true }) public color: string = "#eeeeee";
+
+  /**
+   * Removes element from DOM
+   */
+  @Prop({ reflect: true }) public clear: boolean;
+  
+  @Watch("clear")
+  validateClear(newValue: boolean): void {
+    if (newValue) {
+      this.deleted.emit(this.host);
+      const parent: any = this.host.parentNode;
+      parent.removeChild(this.host);
+    }
+  }
 
   /**
    * If true, allows the element to be delete using keyboard
@@ -61,7 +75,6 @@ export class ListItem implements ComponentInterface {
 
   componentDidLoad(): any {   
     this.loaded.emit(this.host);
-    // this.ready = true;
   }
 
   componentWillLoad(): void {
@@ -92,17 +105,6 @@ export class ListItem implements ComponentInterface {
     if (this.deletable && ev.code === "Delete") {
       this.deleting.emit(this.host);
     }
-  }
-
-  /**
-   * Removes element from DOM
-   */
-  @Method()
-  public async delete(): Promise<boolean> {
-    this.deleted.emit(this.host);
-    const parent: any = this.host.parentNode;
-    parent.removeChild(this.host);
-    return Promise.resolve(true);
   }
 
   public render(): any {

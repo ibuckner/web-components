@@ -9,7 +9,7 @@ import { JSX } from "../../components";
  */
 @Component({
   tag: "nel-text-input",
-  styleUrl: "nel-text-input.css",
+  styleUrl: "nel-text-input.scss",
   shadow: true
 })
 export class TextInput implements ComponentInterface {

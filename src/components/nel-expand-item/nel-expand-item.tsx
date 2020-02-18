@@ -8,7 +8,7 @@ import { JSX } from "../../components";
  */
 @Component({
   tag: "nel-expand-item",
-  styleUrl: "nel-expand-item.css",
+  styleUrl: "nel-expand-item.scss",
   shadow: true
 })
 export class ExpandItem {

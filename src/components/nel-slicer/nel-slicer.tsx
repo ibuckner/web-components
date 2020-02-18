@@ -1,6 +1,6 @@
 import {
   Component, ComponentInterface, Element, Event, EventEmitter, h,
-  Listen, Method, Prop
+  Listen, Prop, Watch
 } from "@stencil/core";
 import { JSX } from "../../components";
 import { Slicer as _Slicer, TSlicerState, SlicerModifier } from "@buckneri/js-lib-slicer";
@@ -10,13 +10,30 @@ import { Slicer as _Slicer, TSlicerState, SlicerModifier } from "@buckneri/js-li
  */
 @Component({
   tag: "nel-slicer",
-  styleUrl: "nel-slicer.css",
+  styleUrl: "nel-slicer.scss",
   shadow: true
 })
 export class Slicer implements ComponentInterface {
   private _slicer: _Slicer<string> = new _Slicer<string>();
 
   @Element() private host: HTMLElement;
+
+  /**
+   * If false, element is partly greyed out and not responding to user input
+   */
+  @Prop({ reflect: true }) public clear: boolean = false;
+
+  @Watch("clear")
+  validateClear(newValue: boolean): void {
+    if (newValue) {
+      this._slicer.clear();
+      for (let el of Array.from(this.host.children)) {
+        (el as any).classList.remove("filtered");
+      }
+      this.clear = false;
+      this.cleared.emit(this.host);
+    }
+  }
   
   /**
    * If false, element is partly greyed out and not responding to user input
@@ -95,7 +112,7 @@ export class Slicer implements ComponentInterface {
             : SlicerModifier.NO_KEY
       );
       if (this._slicer.selected === 0 || this.host.children.length === this._slicer.selected) {
-        this.clear();
+        this.clear = true;
       } else {
         for (let el of Array.from(this.host.children)) {
           const state: TSlicerState = this._slicer.data.get(el.textContent);
@@ -110,19 +127,6 @@ export class Slicer implements ComponentInterface {
       }
       this.selected.emit(this._slicer);
     }
-  }
-
-  /**
-   * Clears out slicer selections
-   */
-  @Method()
-  public async clear(): Promise<boolean> {
-    this._slicer.clear();
-    for (let el of Array.from(this.host.children)) {
-      (el as any).classList.remove("filtered");
-    }
-    this.cleared.emit(this.host);
-    return Promise.resolve(true);
   }
 
   public render(): JSX.NelSlicer {
