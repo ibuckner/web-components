@@ -9,7 +9,7 @@
 
 | Property    | Attribute   | Description                                                             | Type                         | Default      |
 | ----------- | ----------- | ----------------------------------------------------------------------- | ---------------------------- | ------------ |
-| `align`     | `align`     | Aligns child elements within collection. Defaults to vertical list.     | `"horizontal" \| "vertical"` | `"vertical"` |
+| `align`     | `align`     | Aligns child elements within collection. Defaults to vertical list.     | `"horizontal" or "vertical"` | `"vertical"` |
 | `disabled`  | `disabled`  | If false, element is partly greyed out and not responding to user input | `boolean`                    | `false`      |
 | `ready`     | `ready`     | True when element can correctly respond to external programmatic access | `boolean`                    | `false`      |
 | `resizable` | `resizable` | Displays the element resize handle (bottom right corner) if true        | `boolean`                    | `false`      |
