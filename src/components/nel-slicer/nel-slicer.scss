@@ -17,11 +17,13 @@
 
 .slicer {
   align-items: stretch;
+  border-color: var(--border-color, #000);
+  border-style: var(--border-style, solid);
+  border-width: var(--border-width, 1px);
   box-sizing: border-box;
   display: flex;
   flex-flow: column nowrap;
   flex-grow: 1;
-  height: var(--slicer-height, 100%);
   justify-content: flex-start;
   max-height: inherit;
   min-width: inherit;
@@ -29,8 +31,8 @@
   min-width: 4rem;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: 10px;
-  width: var(--slicer-width, 100%);
+  padding: var(--padding, 10px);
+  width: var(--width, 100%);
 }
 
 .slicer:focus {

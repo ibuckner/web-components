@@ -131,10 +131,6 @@ export namespace Components {
           * True when element can correctly respond to external programmatic access
          */
         "ready": boolean;
-        /**
-          * Displays the element resize handle (bottom right corner) if true
-         */
-        "resizable": boolean;
     }
     interface NelStatusBadge {
         /**
@@ -504,6 +500,10 @@ declare namespace LocalJSX {
          */
         "onCleared"?: (event: CustomEvent<any>) => void;
         /**
+          * Fired when error occurs
+         */
+        "onErrored"?: (event: CustomEvent<any>) => void;
+        /**
           * Fired when element can correctly respond to external programmatic access
          */
         "onLoaded"?: (event: CustomEvent<any>) => void;
@@ -515,10 +515,6 @@ declare namespace LocalJSX {
           * True when element can correctly respond to external programmatic access
          */
         "ready"?: boolean;
-        /**
-          * Displays the element resize handle (bottom right corner) if true
-         */
-        "resizable"?: boolean;
     }
     interface NelStatusBadge {
         /**

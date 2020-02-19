@@ -3,7 +3,7 @@ import {
   Listen, Prop, Watch
 } from "@stencil/core";
 import { JSX } from "../../components";
-import { Slicer as _Slicer, TSlicerState, SlicerModifier } from "@buckneri/js-lib-slicer";
+import { Slicer as _Slicer, SlicerModifier } from "@buckneri/js-lib-slicer";
 
 /**
  * Organises child elements vertically or horizontally
@@ -29,6 +29,7 @@ export class Slicer implements ComponentInterface {
       this._slicer.clear();
       for (let el of Array.from(this.host.children)) {
         (el as any).classList.remove("filtered");
+        (el as any).classList.remove("selected");
       }
       this.clear = false;
       this.cleared.emit(this.host);
@@ -46,14 +47,14 @@ export class Slicer implements ComponentInterface {
   @Prop({ mutable: true, reflect: false }) public ready: boolean = false;
 
   /**
-   * Displays the element resize handle (bottom right corner) if true
-   */
-  @Prop({ reflect: true }) public resizable: boolean = false;
-
-  /**
    * Fired after child elements are removed via clear() method
    */
   @Event({ composed: true, cancelable: false, bubbles: true }) cleared: EventEmitter;
+
+  /**
+   * Fired when error occurs
+   */
+  @Event({ composed: true, cancelable: false, bubbles: true }) errored: EventEmitter;
 
   /**
    * Fired when element can correctly respond to external programmatic access
@@ -70,24 +71,25 @@ export class Slicer implements ComponentInterface {
       for (let i = 0; i < mutations.length; ++i) {
         for(let j = 0; j < mutations[i].addedNodes.length; ++j) {
           const el: HTMLElement = mutations[i].addedNodes[j] as HTMLElement;
-          if(el.classList.contains("slicer-item")) {
-            const items: string[] = [];
-            for (let el of Array.from(this.host.children)) {
-              items.push(el.textContent);
+          if (el.classList.contains("slicer-item")) {
+            const item: string = el.textContent;
+            if (this._slicer.has(item)) {
+              if (el && el.parentNode) {
+                el.parentNode.removeChild(el);
+              }
+              this.errored.emit(`Duplicate entry detected: ${item}`);
+            } else {
+              this._slicer.add(item);
             }
-            this._slicer.data = items;
           }
         }
       }
     });
   
-    obs.observe(this.host, { childList: true });
-
-    const items: string[] = [];
+    obs.observe(this.host, { childList: true });    
     for (let el of Array.from(this.host.children)) {
-      items.push(el.textContent);
+      this._slicer.add(el.textContent);
     }
-    this._slicer.data = items;
     this.loaded.emit(this.host);
   }
 
@@ -111,21 +113,21 @@ export class Slicer implements ComponentInterface {
             ? SlicerModifier.CTRL_KEY 
             : SlicerModifier.NO_KEY
       );
-      if (this._slicer.selected === 0 || this.host.children.length === this._slicer.selected) {
+      const selection: string[] = this._slicer.selection;
+      if (selection.length === 0) {
         this.clear = true;
       } else {
         for (let el of Array.from(this.host.children)) {
-          const state: TSlicerState = this._slicer.data.get(el.textContent);
-          if (state) {
-            if (state.filtered) {
-              (el as any).classList.add("filtered");
-            } else {
-              (el as any).classList.remove("filtered");
-            }
+          if (selection.indexOf(el.textContent) === -1) {
+            (el as any).classList.add("filtered");
+            (el as any).classList.remove("selected");
+          } else {
+            (el as any).classList.remove("filtered");
+            (el as any).classList.add("selected");
           }
         }
       }
-      this.selected.emit(this._slicer);
+      this.selected.emit(selection);
     }
   }
 

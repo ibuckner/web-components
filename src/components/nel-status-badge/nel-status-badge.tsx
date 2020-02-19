@@ -52,7 +52,6 @@ export class StatusBadge implements ComponentInterface {
 
   componentDidLoad(): void {
     this.loaded.emit(this.host);
-    // this.ready = true;
   }
 
   componentWillLoad(): void {
@@ -60,13 +59,13 @@ export class StatusBadge implements ComponentInterface {
   }
 
   public render(): JSX.NelStatusBadge {
-    const ico: string = this.rag === undefined
-      ? ""
-      : this.rag === -1
-        ? "diamond" 
-        : this.rag === 0 
-          ? "triangle"
-          : "circle";
+    const ico: string = this.rag === -1
+      ? "diamond" 
+      : this.rag === 0 
+        ? "triangle"
+        : this.rag === 1
+          ? "circle" 
+          : "";
     return (
       <div class="status-badge">
         <div class="icon"><div class={ico}></div></div>

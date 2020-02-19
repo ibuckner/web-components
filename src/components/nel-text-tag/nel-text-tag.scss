@@ -1,4 +1,5 @@
-:host([disabled]) {
+:host([disabled]),
+:host([disabled]) > mark {
   cursor: not-allowed;
   opacity: 0.5;
   pointer-events: none;

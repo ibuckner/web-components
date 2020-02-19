@@ -12,8 +12,9 @@
     }
 
     aside {
-      align-items: center;
-      background-color: #000;
+      align-items: flex-start;
+      background-color: #fff;
+      border: 1px solid royalblue;
       display: flex;
       flex-direction: column;
       flex-grow: 1;
@@ -25,7 +26,7 @@
     }
 
     aside > a {
-      color: #fff;
+      color: royalblue;
       margin-bottom: 5px;
       text-decoration: none;
     }
@@ -37,14 +38,6 @@
     div.details { outline: none; width: 80% }
 
     label { cursor: pointer }
-
-    summary {
-      cursor: pointer; 
-      font-size: 1.3rem;
-      outline: none;
-      padding-bottom: 1rem
-    }
-
     input { margin: 0.5rem }
 
     .sample {
@@ -53,14 +46,6 @@
       margin: 0.25rem;
       padding: 1rem;
     }
-
-    .panel {
-      align-items: center;
-      display: flex;
-      justify-content: space-between
-    }
-
-    .panel > label { width: 100px }
 
     .box {
       border: 1px solid #000;
@@ -71,7 +56,10 @@
       width: 3rem
     }
 
-    .narrow { width: 35% }
+    .center {
+      text-align: center;
+      width: 100%;
+    }
 
     .modal-message {
       background-color:#fff;
@@ -83,8 +71,8 @@
 </head>
 <body id="top">
   <aside>
-    <a href="#top">Top of document</a>
-    <div>---------------------</div>
+    <div class="center"><a href="#top">Top of document</a></div>
+    <hr>
     <a href="#expand">nel-expand-item</a>
     <a href="#item-collect">nel-item-collection</a>
     <a href="#list-item">nel-list-item</a>
@@ -92,7 +80,6 @@
     <a href="#network">nel-network-connection</a>
     <a href="#onoff">nel-on-off</a>
     <a href="#textinput">nel-text-input</a>
-
     <a href="#statusbadge">nel-status-badge</a>
     <a href="#texttag">nel-text-tag</a>
     <a href="#slicer">nel-slicer</a>
@@ -648,29 +635,40 @@
 
   <div class="details" id="statusbadge">
     <h3>&lt;nel-status-badge&gt;</h3>
+    <style>
+      nel-status-badge {
+        --background-color: #eee;
+        --color: darkred;
+        --height: 8rem;
+        --width: 8rem;
+      }
+    </style>
     <div class="sample">
       <nel-status-badge id="bdgStatus" title="Sales in Q3" label="revenue" pre="" suf="k">24.8</nel-status-badge>
       <hr>
+
       <h3>Properties</h3>
-      <label><input type="checkbox" id="chkDisableStatus" /> disabled</label>
+      <label><input type="checkbox" id="chkDisableStatus" /> disabled</label><br>
       <label><input type="checkbox" id="chkHideStatus" /> hidden</label><br>
-      <input type="checkbox" id="chkStatusRAG" checked /> disable <label>rag 
-        <input id="rng-status-rag" type="range" min="-1" max="1" value="-1" disabled /> <span id="num-status-rag"></span></label><br>
-      <label title="Prefix">pre <input id="txtStatusPre" type="text" size="1" maxlength="1" /></label>      
-      <label>text <input id="txtStatusText" type="text" /></label>
-      <label title="Suffix">suf <input id="txtStatusSuf" type="text" size="1" maxlength="1" /></label><br>
-      <label>label <input id="txtStatusLabel" type="text" /></label>
+
+      <input type="checkbox" id="chkStatusRAG" checked /> disable 
+      <label>rag <input id="rng-status-rag" type="range" min="-1" max="1" value="-1" disabled /> <span id="num-status-rag"></span></label><br>
+
+      <label title="Prefix">pre <input id="txtStatusPre" type="text" size="1" maxlength="1" value="" /></label><br>
+      <label>text <input id="txtStatusText" type="text" value="24.8" /></label><br>
+      <label title="Suffix">suf <input id="txtStatusSuf" type="text" size="1" maxlength="1" value="k" /></label><br>
+      <label>label <input id="txtStatusLabel" type="text" value="revenue" /></label>
 
       <h3>Styles</h3>
-      <label>--height</label> <input id="txtStatusHeight" type="text" value="8rem" />
-      <label>--width</label> <input id="txtStatusWidth" type="text" value="8rem" /><br>
-      <label>--bg-color</label> <input id="txtStatusBGColor" type="color" value="#ccccff" />
-      <label>--fg-color</label> <input id="txtStatusFGColor" type="color" value="#330066" />
+      <label>--background-color</label> <input id="txtStatusBGColor" type="color" value="#eeeeee" /><br>
+      <label>--color</label> <input id="txtStatusFGColor" type="color" value="#990000" /><br>
+      <label>--height</label> <input id="txtStatusHeight" type="text" value="8rem" /><br>
+      <label>--width</label> <input id="txtStatusWidth" type="text" value="8rem" />
     
       <h3>Events</h3>
       <label><input type="checkbox" id="chkEventsStatus" checked /> view events (<code>F12</code> opens console)</label>
-    
-      <script type="text/javascript" defer>
+    </div>
+    <script type="text/javascript" defer>
         (function() {
           var ex = document.getElementById("bdgStatus");
 
@@ -701,6 +699,7 @@
 
           var chkStatus = document.getElementById("chkStatusRAG");
           chkStatus.addEventListener("change", function() {
+            var rag = document.getElementById("rng-status-rag");
             rag.disabled = chkStatus.checked;
             if (chkStatus.checked) {
               ex.rag = undefined;
@@ -718,10 +717,10 @@
           cssWidth.addEventListener("input", function() { ex.style.setProperty("--width", cssWidth.value); });
 
           var cssBGColor = document.getElementById("txtStatusBGColor");
-          cssBGColor.addEventListener("input", function() { ex.style.setProperty("--bg-color", cssBGColor.value); });
+          cssBGColor.addEventListener("input", function() { ex.style.setProperty("--background-color", cssBGColor.value); });
 
           var cssFGColor = document.getElementById("txtStatusFGColor");
-          cssFGColor.addEventListener("input", function() { ex.style.setProperty("--fg-color", cssFGColor.value); });
+          cssFGColor.addEventListener("input", function() { ex.style.setProperty("--color", cssFGColor.value); });
 
           var events = document.getElementById("chkEventsStatus");  
           events.addEventListener("change", function() {
@@ -730,14 +729,6 @@
           });
 
           function init() {
-            disable.checked = ex.disabled;
-            hidden.checked = ex.hidden;
-            pre.value = ex.pre;
-            text.value = ex.textContent;
-            label.value = ex.label;
-            suf.value = ex.suf;
-            cssHeight.value = ex.style.getPropertyValue("--height");
-            cssWidth.value = ex.style.getPropertyValue("--width");
             attachConsole();
           }
           if (!ex.ready) {
@@ -751,7 +742,7 @@
           }
 
           function detachConsole() {
-            ex.removeEventListener("ready", onReady);''
+            ex.removeEventListener("ready", onReady);
           }
 
           function onReady(ev) {
@@ -768,13 +759,15 @@
       The quick brown <nel-text-tag id="mammalTag" selectable deletable color="#009900" label="Mammal">fox</nel-text-tag>
       jumped over the gate.
       <hr>
+      
       <h3>Properties</h3>
-      <label><input type="checkbox" id="chkDisableTag" /> disabled</label>
-      <label><input type="checkbox" id="chkHideTag" /> hidden</label>
-      <label><input type="checkbox" id="chkDeletableTag" /> deletable</label>
+      <label><input type="checkbox" id="chkDisableTag" /> disabled</label><br>
+      <label><input type="checkbox" id="chkHideTag" /> hidden</label><br>
+      <label><input type="checkbox" id="chkDeletableTag" /> deletable</label><br>
       <label><input type="checkbox" id="chkSelectableTag" /> selectable</label><br>
       <label><input type="color" id="chkColorTag" /> color</label><br>
-      <label>label <input id="txtLabelTag" type="text" /></label>
+      <label>label <input id="txtLabelTag" type="text" size="15" maxlength="15" /></label>
+
       <h3>Events</h3>
       <label><input type="checkbox" id="chkEventsTag" checked /> view events (<code>F12</code> opens console)</label>
     </div>
@@ -847,37 +840,57 @@
     <h3>&lt;nel-slicer&gt;</h3>
     <style>
       nel-slicer {
-        --slicer-width: 250px;
+        --width: 250px;
+        --border-color: #00a;
       }
       .slicer-item {
         border: 1px solid #00a;
         border-radius: 5px;
         color: #00a;
         font-weight: bold;
+        margin: 1px;
         padding: 5px;
       }
       .slicer-item:hover {
-        background-color: #00a !important;
-        color: #fff !important;
+        background-color: cornflowerblue;
       }
       .slicer-item.filtered {
         border: 1px solid #999;
         color: #999;
       }
+      .slicer-item.filtered:hover {
+        border: 1px solid #00a;
+        color: #00a;
+      }
+      .slicer-item.selected {
+        background-color: #007 !important;
+        border: 1px solid #99f;
+        color: #fff !important;
+      }
     </style>
     <div class="sample">
-      <nel-slicer id="exampleSlicer" resizable>
+      <nel-slicer id="exampleSlicer">
         <div class="slicer-item">A</div>
         <div class="slicer-item">B</div>
         <div class="slicer-item">C</div>
-      </nel-slicer>      
-      <hr>
+      </nel-slicer>
+
       <button id="addSlicerItem">Add slicer item</button>
-      <input id="addSlicerText" type="text" placeholder="Some label" value="D" maxlength="20" />
+      <input id="addSlicerText" type="text" placeholder="Some label" value="D" maxlength="10" size="10" />
+      <hr>
+      
       <h3>Properties</h3>
-      <label><input type="checkbox" id="chkDisableSlicerItem" /> disabled</label>
-      <label><input type="checkbox" id="chkHideSlicerItem" /> hidden</label>
-      <label><button id="btnClearSlicer"> clear</button>
+      <label><input type="checkbox" id="chkDisableSlicerItem" /> Set disabled</label><br>
+      <label><input type="checkbox" id="chkHideSlicerItem" /> Set hidden</label><br>
+      <label><button id="btnClearSlicer">Run</button> Set clear="true"</label>
+
+      <h3>Styles</h3>
+      <label>--border-color</label> <input id="txtSlicerBorderColor" type="color" value="#0000aa" /><br>
+      <label>--border-style</label> <input id="txtSlicerBorderStyle" type="text" value="solid" /><br>
+      <label>--border-width</label> <input id="txtSlicerBorderWidth" type="text" value="1px" /><br>
+      <label>--padding</label> <input id="txtSlicerPadding" type="text" value="10px" /><br>
+      <label>--width</label> <input id="txtSlicerWidth" type="text" value="250px" />
+
       <h3>Events</h3>
       <label><input type="checkbox" id="chkEventsSlicerItem" checked /> view events (<code>F12</code> opens console)</label>
     </div>    
@@ -893,6 +906,21 @@
 
         var clear = document.getElementById("btnClearSlicer");
         clear.addEventListener("click", function() { ex.clear = true });
+
+        var cssBorderColor = document.getElementById("txtSlicerBorderColor");
+        cssBorderColor.addEventListener("change", function() { ex.style.setProperty("--border-color", cssBorderColor.value); });
+
+        var cssBorderStyle = document.getElementById("txtSlicerBorderStyle");
+        cssBorderStyle.addEventListener("change", function() { ex.style.setProperty("--border-style", cssBorderStyle.value); });
+
+        var cssBorderWidth = document.getElementById("txtSlicerBorderWidth");
+        cssBorderWidth.addEventListener("change", function() { ex.style.setProperty("--border-width", cssBorderWidth.value); });
+
+        var cssPadding = document.getElementById("txtSlicerPadding");
+        cssPadding.addEventListener("change", function() { ex.style.setProperty("--padding", cssPadding.value); });
+
+        var cssWidth = document.getElementById("txtSlicerWidth");
+        cssWidth.addEventListener("change", function() { ex.style.setProperty("--width", cssWidth.value); });
 
         var events = document.getElementById("chkEventsSlicerItem");
         events.addEventListener("change", function() {
@@ -922,18 +950,25 @@
 
         function attachConsole() {
           ex.addEventListener("cleared", onClear);
-          ex.addEventListener("selecteded", onSelect);
+          ex.addEventListener("selected", onSelect);
+          ex.addEventListener("errored", onError);
         }
 
         function detachConsole() {
           ex.removeEventListener("cleared", onClear);
-          ex.removeEventListener("selecteded", onSelect);
+          ex.removeEventListener("selected", onSelect);
+          ex.removeEventListener("errored", onError);
         }
 
         function onClear(ev) { console.log(ev.detail.id + " was cleared") }
         function onSelect(ev) {
-          console.log(ev.detail.id + " was cleared");
+          var msg = "No selection";
+          if (ev.detail.length > 0) {
+            msg = ev.detail + " was selected";
+          }
+          console.log(msg);
         }
+        function onError(ev) { console.warn(ev.detail) }
       })();
     </script>
   </div>
