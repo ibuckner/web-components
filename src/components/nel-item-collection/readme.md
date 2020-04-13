@@ -9,12 +9,12 @@
 
 | Property    | Attribute   | Description                                                             | Type                         | Default      |
 | ----------- | ----------- | ----------------------------------------------------------------------- | ---------------------------- | ------------ |
-| `align`     | `align`     | Aligns child elements within collection. Defaults to vertical list.     | `"horizontal" or "vertical"` | `"vertical"` |
+| `align`     | `align`     | Aligns child elements within collection. Defaults to vertical list.     | `"horizontal" \| "vertical"` | `"vertical"` |
 | `clear`     | `clear`     | Clears out all child elements from collection                           | `boolean`                    | `undefined`  |
 | `disabled`  | `disabled`  | If false, element is partly greyed out and not responding to user input | `boolean`                    | `false`      |
 | `ready`     | `ready`     | True when element can correctly respond to external programmatic access | `boolean`                    | `false`      |
 | `resizable` | `resizable` | Displays the element resize handle (bottom right corner) if true        | `boolean`                    | `false`      |
-| `sort`      | `sort`      | Sorts child elements in collection based on text content                | `"ASC" or "DESC"`            | `"ASC"`      |
+| `sort`      | `sort`      | Sorts child elements in collection based on text content                | `"ASC" \| "DESC"`            | `"ASC"`      |
 
 
 ## Events
