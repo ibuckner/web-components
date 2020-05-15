@@ -6,7 +6,7 @@
     "**/node_modules": true,
   },
   "files.exclude": {
-    ".stencil": false,
+    ".stencil": true,
     "dist": false,
     "loader": true,
     "**/node_modules": true,

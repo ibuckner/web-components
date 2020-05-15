@@ -1,0 +1,15 @@
+.buildcache
+.editorconfig
+.eslintignore
+.eslintre.json
+.github
+.gitignore
+.stencil
+.vscode
+loader
+node_modules
+rollup.config.js
+src
+stencil.config.ts
+tsconfig.json
+www
