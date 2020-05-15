@@ -1,8 +1,14 @@
 {
  "search.exclude": {
+    ".stencil": true,
+    "dist": true,
+    "loader": true,
     "**/node_modules": true,
   },
   "files.exclude": {
+    ".stencil": false,
+    "dist": false,
+    "loader": true,
     "**/node_modules": true,
   },
   "editor.tabSize": 2,
