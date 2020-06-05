@@ -230,6 +230,24 @@ export namespace Components {
          */
         "selectable": boolean;
     }
+    interface NelTip {
+        /**
+          * Hides the visible tip after n milliseconds. 0 (disabled) is default
+         */
+        "expires": number;
+        /**
+          * If true, element is visible
+         */
+        "for": string;
+        /**
+          * True when element can correctly respond to external programmatic access
+         */
+        "ready": boolean;
+        /**
+          * If true, element is visible
+         */
+        "show": boolean;
+    }
 }
 declare global {
     interface HTMLNelExpandItemElement extends Components.NelExpandItem, HTMLStencilElement {
@@ -292,6 +310,12 @@ declare global {
         prototype: HTMLNelTextTagElement;
         new (): HTMLNelTextTagElement;
     };
+    interface HTMLNelTipElement extends Components.NelTip, HTMLStencilElement {
+    }
+    var HTMLNelTipElement: {
+        prototype: HTMLNelTipElement;
+        new (): HTMLNelTipElement;
+    };
     interface HTMLElementTagNameMap {
         "nel-expand-item": HTMLNelExpandItemElement;
         "nel-item-collection": HTMLNelItemCollectionElement;
@@ -303,6 +327,7 @@ declare global {
         "nel-status-badge": HTMLNelStatusBadgeElement;
         "nel-text-input": HTMLNelTextInputElement;
         "nel-text-tag": HTMLNelTextTagElement;
+        "nel-tip": HTMLNelTipElement;
     }
 }
 declare namespace LocalJSX {
@@ -634,6 +659,32 @@ declare namespace LocalJSX {
          */
         "selectable"?: boolean;
     }
+    interface NelTip {
+        /**
+          * Hides the visible tip after n milliseconds. 0 (disabled) is default
+         */
+        "expires"?: number;
+        /**
+          * If true, element is visible
+         */
+        "for"?: string;
+        /**
+          * Fired after element is activated
+         */
+        "onChanged"?: (event: CustomEvent<any>) => void;
+        /**
+          * Fired when element can correctly respond to external programmatic access
+         */
+        "onLoaded"?: (event: CustomEvent<any>) => void;
+        /**
+          * True when element can correctly respond to external programmatic access
+         */
+        "ready"?: boolean;
+        /**
+          * If true, element is visible
+         */
+        "show"?: boolean;
+    }
     interface IntrinsicElements {
         "nel-expand-item": NelExpandItem;
         "nel-item-collection": NelItemCollection;
@@ -645,6 +696,7 @@ declare namespace LocalJSX {
         "nel-status-badge": NelStatusBadge;
         "nel-text-input": NelTextInput;
         "nel-text-tag": NelTextTag;
+        "nel-tip": NelTip;
     }
 }
 export { LocalJSX as JSX };
@@ -661,6 +713,7 @@ declare module "@stencil/core" {
             "nel-status-badge": LocalJSX.NelStatusBadge & JSXBase.HTMLAttributes<HTMLNelStatusBadgeElement>;
             "nel-text-input": LocalJSX.NelTextInput & JSXBase.HTMLAttributes<HTMLNelTextInputElement>;
             "nel-text-tag": LocalJSX.NelTextTag & JSXBase.HTMLAttributes<HTMLNelTextTagElement>;
+            "nel-tip": LocalJSX.NelTip & JSXBase.HTMLAttributes<HTMLNelTipElement>;
         }
     }
 }

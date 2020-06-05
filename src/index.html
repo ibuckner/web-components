@@ -56,9 +56,23 @@
       width: 3rem
     }
 
+    .button {
+      align-items: center;
+      border-radius: 5px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      padding: 10px;
+      user-select: none;
+    }
+
     .center {
       text-align: center;
       width: 100%;
+    }
+
+    .hidden {
+      display: none;
     }
 
     .modal-message {
@@ -79,10 +93,11 @@
     <a href="#modal">nel-modal-view</a>
     <a href="#network">nel-network-connection</a>
     <a href="#onoff">nel-on-off</a>
-    <a href="#textinput">nel-text-input</a>
-    <a href="#statusbadge">nel-status-badge</a>
-    <a href="#texttag">nel-text-tag</a>
     <a href="#slicer">nel-slicer</a>
+    <a href="#statusbadge">nel-status-badge</a>
+    <a href="#textinput">nel-text-input</a>
+    <a href="#texttag">nel-text-tag</a>
+    <a href="#tip">nel-tip</a>
   </aside>
 
   <div class="details" id="expand">
@@ -561,281 +576,6 @@
     </script>
   </div> 
 
-  <div class="details" id="textinput">
-    <h3>&lt;nel-text-input&gt;</h3>
-    <div class="sample">
-      <label>Text entry <nel-text-input cleartext id="txtEntry" mask="^\d+$" pattern=".*" placeholder="Enter some text" width="20" value=""></label>
-      <hr>
-      <h3>Properties</h3>
-      <label><input type="checkbox" id="chkDisableTextInput" /> disabled</label>
-      <label><input type="checkbox" id="chkHideTextInput" /> hidden</label><br>
-      <label><input id="radEntryClear" type="radio" name="radEntry" /> Standard text</label>
-      <label><input id="radEntryPwd" type="radio" name="radEntry" /> Password</label><br>
-      <label>Restrict input text to <input id="textEntryMask" type="text" /></label><br>
-      <label>width <input id="numTextInputWidth" type="number" min="10" max="50" value="20" /></label>
-      <h3>Events</h3>
-      <label><input type="checkbox" id="chkEventsTextInput" checked /> view events (<code>F12</code> opens console)</label>
-    </div>
-    <script type="text/javascript" defer>
-      (function() {
-        var ex = document.getElementById("txtEntry");
-
-        var disable = document.getElementById("chkDisableTextInput");
-        disable.addEventListener("change", function() { ex.disabled = disable.checked });
-
-        var hidden = document.getElementById("chkHideTextInput");
-        hidden.addEventListener("change", function() { ex.hidden = hidden.checked });
-
-        var cleartext = document.getElementById("radEntryClear");
-        cleartext.addEventListener("change", function() { ex.cleartext = cleartext.checked });
-
-        var password = document.getElementById("radEntryPwd");
-        password.addEventListener("change", function() { ex.cleartext = cleartext.checked });
-
-        var mask = document.getElementById("textEntryMask");
-        mask.addEventListener("change", function() { ex.mask = mask.value });
-
-        var width = document.getElementById("numTextInputWidth");
-        width.addEventListener("change", function() { ex.width = width.value });
-
-        var events = document.getElementById("chkEventsTextInput");  
-        events.addEventListener("change", function() {
-          console.clear();
-          events.checked ? attachConsole() : detachConsole();
-        });
-
-        function init() {
-          disable.checked = ex.disabled;
-          hidden.checked = ex.hidden;
-          cleartext.checked = ex.cleartext;
-          password.checked = !ex.cleartext;
-          mask.value = ex.mask;
-          attachConsole();
-        }
-        if (!ex.ready) {
-          ex.addEventListener("loaded", init);
-        } else {
-          init();
-        }
-
-        function attachConsole() {
-          ex.addEventListener("input", onInput);
-        }
-
-        function detachConsole() {
-          ex.removeEventListener("input", onInput);
-        }
-
-        function onInput(ev) {          
-          console.log(ev.target.id + " = " + ev.target.value);
-        }
-      })();
-    </script>
-  </div>
-
-  <div class="details" id="statusbadge">
-    <h3>&lt;nel-status-badge&gt;</h3>
-    <style>
-      nel-status-badge {
-        --background-color: #eee;
-        --color: darkred;
-        --height: 8rem;
-        --width: 8rem;
-      }
-    </style>
-    <div class="sample">
-      <nel-status-badge id="bdgStatus" title="Sales in Q3" label="revenue" pre="" suf="k">24.8</nel-status-badge>
-      <hr>
-
-      <h3>Properties</h3>
-      <label><input type="checkbox" id="chkDisableStatus" /> disabled</label><br>
-      <label><input type="checkbox" id="chkHideStatus" /> hidden</label><br>
-
-      <input type="checkbox" id="chkStatusRAG" checked /> disable 
-      <label>rag <input id="rng-status-rag" type="range" min="-1" max="1" value="-1" disabled /> <span id="num-status-rag"></span></label><br>
-
-      <label title="Prefix">pre <input id="txtStatusPre" type="text" size="1" maxlength="1" value="" /></label><br>
-      <label>text <input id="txtStatusText" type="text" value="24.8" /></label><br>
-      <label title="Suffix">suf <input id="txtStatusSuf" type="text" size="1" maxlength="1" value="k" /></label><br>
-      <label>label <input id="txtStatusLabel" type="text" value="revenue" /></label>
-
-      <h3>Styles</h3>
-      <label>--background-color</label> <input id="txtStatusBGColor" type="color" value="#eeeeee" /><br>
-      <label>--color</label> <input id="txtStatusFGColor" type="color" value="#990000" /><br>
-      <label>--height</label> <input id="txtStatusHeight" type="text" value="8rem" /><br>
-      <label>--width</label> <input id="txtStatusWidth" type="text" value="8rem" />
-    
-      <h3>Events</h3>
-      <label><input type="checkbox" id="chkEventsStatus" checked /> view events (<code>F12</code> opens console)</label>
-    </div>
-    <script type="text/javascript" defer>
-        (function() {
-          var ex = document.getElementById("bdgStatus");
-
-          var pre = document.getElementById("txtStatusPre");
-          pre.addEventListener("input", function() { if (ex) { ex.pre = pre.value } });
-
-          var text = document.getElementById("txtStatusText");
-          text.addEventListener("input", function() { if (ex) { ex.textContent = text.value; } });
-
-          var suf = document.getElementById("txtStatusSuf");
-          suf.addEventListener("input", function() { if (ex) { ex.suf = suf.value } });
-
-          var disable = document.getElementById("chkDisableStatus");
-          disable.addEventListener("change", function() { ex.disabled = disable.checked });
-
-          var hidden = document.getElementById("chkHideStatus");
-          hidden.addEventListener("change", function() { ex.hidden = hidden.checked });
-
-          var label = document.getElementById("txtStatusLabel");
-          label.addEventListener("input", function() { if (ex) { ex.label = label.value } });
-
-          var rag = document.getElementById("rng-status-rag");
-          var ragl = document.getElementById("num-status-rag");
-          rag.addEventListener("change", function() {
-            ex.rag = rag.value;
-            ragl.textContent = ex.rag;
-          });
-
-          var chkStatus = document.getElementById("chkStatusRAG");
-          chkStatus.addEventListener("change", function() {
-            var rag = document.getElementById("rng-status-rag");
-            rag.disabled = chkStatus.checked;
-            if (chkStatus.checked) {
-              ex.rag = undefined;
-              ragl.textContent = "";
-            } else {
-              ex.rag = rag.value;
-              ragl.textContent = ex.rag;
-            }
-          });
-
-          var cssHeight = document.getElementById("txtStatusHeight");
-          cssHeight.addEventListener("input", function() { ex.style.setProperty("--height", cssHeight.value); });
-
-          var cssWidth = document.getElementById("txtStatusWidth");
-          cssWidth.addEventListener("input", function() { ex.style.setProperty("--width", cssWidth.value); });
-
-          var cssBGColor = document.getElementById("txtStatusBGColor");
-          cssBGColor.addEventListener("input", function() { ex.style.setProperty("--background-color", cssBGColor.value); });
-
-          var cssFGColor = document.getElementById("txtStatusFGColor");
-          cssFGColor.addEventListener("input", function() { ex.style.setProperty("--color", cssFGColor.value); });
-
-          var events = document.getElementById("chkEventsStatus");  
-          events.addEventListener("change", function() {
-            console.clear();
-            events.checked ? attachConsole() : detachConsole();
-          });
-
-          function init() {
-            attachConsole();
-          }
-          if (!ex.ready) {
-            ex.addEventListener("loaded", init);
-          } else {
-            init();
-          }
-
-          function attachConsole() {
-            ex.addEventListener("ready", onReady);
-          }
-
-          function detachConsole() {
-            ex.removeEventListener("ready", onReady);
-          }
-
-          function onReady(ev) {
-            console.log(ev.detail.id + " is ready");
-            ev.detail.delete();
-          }
-        })();
-    </script>
-  </div>
-
-  <div class="details" id="texttag">
-    <h3>&lt;nel-text-tag&gt;</h3>
-    <div class="sample">
-      The quick brown <nel-text-tag id="mammalTag" selectable deletable color="#009900" label="Mammal">fox</nel-text-tag>
-      jumped over the gate.
-      <hr>
-      
-      <h3>Properties</h3>
-      <label><input type="checkbox" id="chkDisableTag" /> disabled</label><br>
-      <label><input type="checkbox" id="chkHideTag" /> hidden</label><br>
-      <label><input type="checkbox" id="chkDeletableTag" /> deletable</label><br>
-      <label><input type="checkbox" id="chkSelectableTag" /> selectable</label><br>
-      <label><input type="color" id="chkColorTag" /> color</label><br>
-      <label>label <input id="txtLabelTag" type="text" size="15" maxlength="15" /></label>
-
-      <h3>Events</h3>
-      <label><input type="checkbox" id="chkEventsTag" checked /> view events (<code>F12</code> opens console)</label>
-    </div>
-    <script type="text/javascript" defer>
-      (function() {
-        var ex = document.getElementById("mammalTag");
-
-        var color = document.getElementById("chkColorTag");
-        color.addEventListener("change", function() { if (ex) { ex.color = color.value } });
-
-        var label = document.getElementById("txtLabelTag");
-        label.addEventListener("input", function() { if (ex) { ex.label = label.value } });
-
-        var disable = document.getElementById("chkDisableTag");
-        disable.addEventListener("change", function() { ex.disabled = disable.checked });
-
-        var hidden = document.getElementById("chkHideTag");
-        hidden.addEventListener("change", function() { ex.hidden = hidden.checked });
-
-        var deletable = document.getElementById("chkDeletableTag");
-        deletable.addEventListener("change", function() { ex.deletable = deletable.checked });
-
-        var selectable = document.getElementById("chkSelectableTag");
-        selectable.addEventListener("change", function() { ex.selectable = selectable.checked });
-
-        var events = document.getElementById("chkEventsTag");  
-        events.addEventListener("change", function() {
-          console.clear();
-          events.checked ? attachConsole() : detachConsole();
-        });
-
-        function init() {
-          disable.checked = ex.disabled;
-          hidden.checked = ex.hidden;
-          selectable.checked = ex.selectable;
-          deletable.checked = ex.deletable;
-          color.value = ex.color;
-          label.value = ex.label;
-          attachConsole();
-        }
-        if (!ex.ready) {
-          ex.addEventListener("loaded", init);
-        } else {
-          init();
-        }
-
-        function attachConsole() {
-          ex.addEventListener("deleting", onDeleting);
-          ex.addEventListener("deleted", onDeleted);
-          ex.addEventListener("selected", onSelected);
-        }
-
-        function detachConsole() {
-          ex.removeEventListener("deleting", onDeleting);
-          ex.removeEventListener("deleted", onDeleted);
-          ex.removeEventListener("selected", onSelected);
-        }
-
-        function onDeleting(ev) {
-          console.log(ev.detail.id + " is deleting");
-          ev.detail.delete();
-        }
-        function onDeleted(ev) { console.log(ev.detail.id + " was deleted") }
-        function onSelected(ev) { console.log(ev.detail.id + " was selected") }
-      })();
-    </script>
-  </div>
-
   <div class="details" id="slicer">
     <h3>&lt;nel-slicer&gt;</h3>
     <style>
@@ -969,6 +709,387 @@
           console.log(msg);
         }
         function onError(ev) { console.warn(ev.detail) }
+      })();
+    </script>
+  </div>
+
+  <div class="details" id="statusbadge">
+    <h3>&lt;nel-status-badge&gt;</h3>
+    <style>
+      nel-status-badge {
+        --background-color: #eee;
+        --color: darkred;
+        --height: 8rem;
+        --width: 8rem;
+      }
+    </style>
+    <div class="sample">
+      <nel-status-badge id="bdgStatus" title="Sales in Q3" label="revenue" pre="" suf="k">24.8</nel-status-badge>
+      <hr>
+
+      <h3>Properties</h3>
+      <label><input type="checkbox" id="chkDisableStatus" /> disabled</label><br>
+      <label><input type="checkbox" id="chkHideStatus" /> hidden</label><br>
+
+      <input type="checkbox" id="chkStatusRAG" checked /> disable 
+      <label>rag <input id="rng-status-rag" type="range" min="-1" max="1" value="-1" disabled /> <span id="num-status-rag"></span></label><br>
+
+      <label title="Prefix">pre <input id="txtStatusPre" type="text" size="1" maxlength="1" value="" /></label><br>
+      <label>text <input id="txtStatusText" type="text" value="24.8" /></label><br>
+      <label title="Suffix">suf <input id="txtStatusSuf" type="text" size="1" maxlength="1" value="k" /></label><br>
+      <label>label <input id="txtStatusLabel" type="text" value="revenue" /></label>
+
+      <h3>Styles</h3>
+      <label>--background-color</label> <input id="txtStatusBGColor" type="color" value="#eeeeee" /><br>
+      <label>--color</label> <input id="txtStatusFGColor" type="color" value="#990000" /><br>
+      <label>--height</label> <input id="txtStatusHeight" type="text" value="8rem" /><br>
+      <label>--width</label> <input id="txtStatusWidth" type="text" value="8rem" />
+    
+      <h3>Events</h3>
+      <label><input type="checkbox" id="chkEventsStatus" checked /> view events (<code>F12</code> opens console)</label>
+    </div>
+    <script type="text/javascript" defer>
+        (function() {
+          var ex = document.getElementById("bdgStatus");
+
+          var pre = document.getElementById("txtStatusPre");
+          pre.addEventListener("input", function() { if (ex) { ex.pre = pre.value } });
+
+          var text = document.getElementById("txtStatusText");
+          text.addEventListener("input", function() { if (ex) { ex.textContent = text.value; } });
+
+          var suf = document.getElementById("txtStatusSuf");
+          suf.addEventListener("input", function() { if (ex) { ex.suf = suf.value } });
+
+          var disable = document.getElementById("chkDisableStatus");
+          disable.addEventListener("change", function() { ex.disabled = disable.checked });
+
+          var hidden = document.getElementById("chkHideStatus");
+          hidden.addEventListener("change", function() { ex.hidden = hidden.checked });
+
+          var label = document.getElementById("txtStatusLabel");
+          label.addEventListener("input", function() { if (ex) { ex.label = label.value } });
+
+          var rag = document.getElementById("rng-status-rag");
+          var ragl = document.getElementById("num-status-rag");
+          rag.addEventListener("change", function() {
+            ex.rag = rag.value;
+            ragl.textContent = ex.rag;
+          });
+
+          var chkStatus = document.getElementById("chkStatusRAG");
+          chkStatus.addEventListener("change", function() {
+            var rag = document.getElementById("rng-status-rag");
+            rag.disabled = chkStatus.checked;
+            if (chkStatus.checked) {
+              ex.rag = undefined;
+              ragl.textContent = "";
+            } else {
+              ex.rag = rag.value;
+              ragl.textContent = ex.rag;
+            }
+          });
+
+          var cssHeight = document.getElementById("txtStatusHeight");
+          cssHeight.addEventListener("input", function() { ex.style.setProperty("--height", cssHeight.value); });
+
+          var cssWidth = document.getElementById("txtStatusWidth");
+          cssWidth.addEventListener("input", function() { ex.style.setProperty("--width", cssWidth.value); });
+
+          var cssBGColor = document.getElementById("txtStatusBGColor");
+          cssBGColor.addEventListener("input", function() { ex.style.setProperty("--background-color", cssBGColor.value); });
+
+          var cssFGColor = document.getElementById("txtStatusFGColor");
+          cssFGColor.addEventListener("input", function() { ex.style.setProperty("--color", cssFGColor.value); });
+
+          var events = document.getElementById("chkEventsStatus");  
+          events.addEventListener("change", function() {
+            console.clear();
+            events.checked ? attachConsole() : detachConsole();
+          });
+
+          function init() {
+            attachConsole();
+          }
+          if (!ex.ready) {
+            ex.addEventListener("loaded", init);
+          } else {
+            init();
+          }
+
+          function attachConsole() {
+            ex.addEventListener("ready", onReady);
+          }
+
+          function detachConsole() {
+            ex.removeEventListener("ready", onReady);
+          }
+
+          function onReady(ev) {
+            console.log(ev.detail.id + " is ready");
+            ev.detail.delete();
+          }
+        })();
+    </script>
+  </div>
+
+  <div class="details" id="textinput">
+    <h3>&lt;nel-text-input&gt;</h3>
+    <div class="sample">
+      <label>Text entry <nel-text-input cleartext id="txtEntry" mask="^\d+$" pattern=".*" placeholder="Enter some text" width="20" value=""></label>
+      <hr>
+      <h3>Properties</h3>
+      <label><input type="checkbox" id="chkDisableTextInput" /> disabled</label>
+      <label><input type="checkbox" id="chkHideTextInput" /> hidden</label><br>
+      <label><input id="radEntryClear" type="radio" name="radEntry" /> Standard text</label>
+      <label><input id="radEntryPwd" type="radio" name="radEntry" /> Password</label><br>
+      <label>Restrict input text to <input id="textEntryMask" type="text" /></label><br>
+      <label>width <input id="numTextInputWidth" type="number" min="10" max="50" value="20" /></label>
+      <h3>Events</h3>
+      <label><input type="checkbox" id="chkEventsTextInput" checked /> view events (<code>F12</code> opens console)</label>
+    </div>
+    <script type="text/javascript" defer>
+      (function() {
+        var ex = document.getElementById("txtEntry");
+
+        var disable = document.getElementById("chkDisableTextInput");
+        disable.addEventListener("change", function() { ex.disabled = disable.checked });
+
+        var hidden = document.getElementById("chkHideTextInput");
+        hidden.addEventListener("change", function() { ex.hidden = hidden.checked });
+
+        var cleartext = document.getElementById("radEntryClear");
+        cleartext.addEventListener("change", function() { ex.cleartext = cleartext.checked });
+
+        var password = document.getElementById("radEntryPwd");
+        password.addEventListener("change", function() { ex.cleartext = cleartext.checked });
+
+        var mask = document.getElementById("textEntryMask");
+        mask.addEventListener("change", function() { ex.mask = mask.value });
+
+        var width = document.getElementById("numTextInputWidth");
+        width.addEventListener("change", function() { ex.width = width.value });
+
+        var events = document.getElementById("chkEventsTextInput");  
+        events.addEventListener("change", function() {
+          console.clear();
+          events.checked ? attachConsole() : detachConsole();
+        });
+
+        function init() {
+          disable.checked = ex.disabled;
+          hidden.checked = ex.hidden;
+          cleartext.checked = ex.cleartext;
+          password.checked = !ex.cleartext;
+          mask.value = ex.mask;
+          attachConsole();
+        }
+        if (!ex.ready) {
+          ex.addEventListener("loaded", init);
+        } else {
+          init();
+        }
+
+        function attachConsole() {
+          ex.addEventListener("input", onInput);
+        }
+
+        function detachConsole() {
+          ex.removeEventListener("input", onInput);
+        }
+
+        function onInput(ev) {          
+          console.log(ev.target.id + " = " + ev.target.value);
+        }
+      })();
+    </script>
+  </div>
+
+  <div class="details" id="texttag">
+    <h3>&lt;nel-text-tag&gt;</h3>
+    <div class="sample">
+      The quick brown <nel-text-tag id="mammalTag" selectable deletable color="#009900" label="Mammal">fox</nel-text-tag>
+      jumped over the gate.
+      <hr>
+      
+      <h3>Properties</h3>
+      <label><input type="checkbox" id="chkDisableTag" /> disabled</label><br>
+      <label><input type="checkbox" id="chkHideTag" /> hidden</label><br>
+      <label><input type="checkbox" id="chkDeletableTag" /> deletable</label><br>
+      <label><input type="checkbox" id="chkSelectableTag" /> selectable</label><br>
+      <label><input type="color" id="chkColorTag" /> color</label><br>
+      <label>label <input id="txtLabelTag" type="text" size="15" maxlength="15" /></label>
+
+      <h3>Events</h3>
+      <label><input type="checkbox" id="chkEventsTag" checked /> view events (<code>F12</code> opens console)</label>
+    </div>
+    <script type="text/javascript" defer>
+      (function() {
+        var ex = document.getElementById("mammalTag");
+
+        var color = document.getElementById("chkColorTag");
+        color.addEventListener("change", function() { if (ex) { ex.color = color.value } });
+
+        var label = document.getElementById("txtLabelTag");
+        label.addEventListener("input", function() { if (ex) { ex.label = label.value } });
+
+        var disable = document.getElementById("chkDisableTag");
+        disable.addEventListener("change", function() { ex.disabled = disable.checked });
+
+        var hidden = document.getElementById("chkHideTag");
+        hidden.addEventListener("change", function() { ex.hidden = hidden.checked });
+
+        var deletable = document.getElementById("chkDeletableTag");
+        deletable.addEventListener("change", function() { ex.deletable = deletable.checked });
+
+        var selectable = document.getElementById("chkSelectableTag");
+        selectable.addEventListener("change", function() { ex.selectable = selectable.checked });
+
+        var events = document.getElementById("chkEventsTag");  
+        events.addEventListener("change", function() {
+          console.clear();
+          events.checked ? attachConsole() : detachConsole();
+        });
+
+        function init() {
+          disable.checked = ex.disabled;
+          hidden.checked = ex.hidden;
+          selectable.checked = ex.selectable;
+          deletable.checked = ex.deletable;
+          color.value = ex.color;
+          label.value = ex.label;
+          attachConsole();
+        }
+        if (!ex.ready) {
+          ex.addEventListener("loaded", init);
+        } else {
+          init();
+        }
+
+        function attachConsole() {
+          ex.addEventListener("deleting", onDeleting);
+          ex.addEventListener("deleted", onDeleted);
+          ex.addEventListener("selected", onSelected);
+        }
+
+        function detachConsole() {
+          ex.removeEventListener("deleting", onDeleting);
+          ex.removeEventListener("deleted", onDeleted);
+          ex.removeEventListener("selected", onSelected);
+        }
+
+        function onDeleting(ev) {
+          console.log(ev.detail.id + " is deleting");
+          ev.detail.delete();
+        }
+        function onDeleted(ev) { console.log(ev.detail.id + " was deleted") }
+        function onSelected(ev) { console.log(ev.detail.id + " was selected") }
+      })();
+    </script>
+  </div>
+
+  <div class="details" id="tip">
+    <h3>&lt;nel-tip&gt;</h3>
+    <div class="sample">
+      <nel-tip id="InformationTip" expires="0">This tip is 100% non-information. Citations are required</nel-tip>
+      <div id="tipPanel" class="hidden">
+        <div id="tipItem1" class="button" style="background-color: #900; color: #fff; position: absolute;">Click on me to reveal tip</div>
+        <div id="tipItem2" class="button" style="background-color: #990; color: #fff; position: absolute;">Click on me to reveal tip</div>
+        <div id="tipItem3" class="button" style="background-color: #090; color: #fff; position: absolute;">Click on me to reveal tip</div>
+        <div id="tipItem4" class="button" style="background-color: #009; color: #fff; position: absolute;">Click on me to reveal tip</div>
+        <div id="tipItem5" class="button" style="background-color: #099; color: #fff; position: absolute;">Click on me to reveal tip</div>
+      </div>
+      <hr>
+
+      <h3>Example</h3>
+      <label><input type="checkbox" id="chkExampleTip" /> enable this example</label><br>
+
+      <h3>Properties</h3>
+      <label><input type="input" id="chkExpiresTip" value="0" /> expires (ms)</label><br>
+      <label><input type="checkbox" id="chkShowTip" /> show</label><br>
+
+      <h3>Events</h3>
+      <label><input type="checkbox" id="chkEventsTip" checked /> view events (<code>F12</code> opens console)</label>
+    </div>
+    <script type="text/javascript" defer>
+      (function() {
+        var enableExample = document.getElementById("chkExampleTip");
+        var panel = document.getElementById("tipPanel");
+
+        var ex = document.querySelector("nel-tip");
+        var expires = document.getElementById("textExpiresTip");
+        var show = document.getElementById("chkShowTip");
+        var expires = document.getElementById("chkExpiresTip");
+
+        var events = document.getElementById("chkEventsTip");  
+        events.addEventListener("change", function() {
+          console.clear();
+          events.checked ? attachConsole() : detachConsole();
+        });
+
+        function init() {
+          for (var i = 1; i < 6; i++) {
+            document.getElementById("tipItem" + i)
+              .addEventListener("click", function(e) {
+                ex.show = false;
+                setTimeout(function() {
+                  ex.for = e.target.id;
+                  ex.show = true; }, 650);
+              });
+          }
+
+          expires.addEventListener("input", function(e) {
+            ex.expires = parseInt(e.target.value);
+          });
+
+          show.addEventListener("click", function(e) {
+            ex.show = e.target.checked;
+          });
+          
+          enableExample.addEventListener("change", function(e) {
+            if (e.target.checked) {
+              var btn = document.getElementById("tipItem1");
+              btn.style.left = (10 + window.scrollX) + "px";
+              btn.style.top = (10 + window.scrollY) + "px";
+              btn = document.getElementById("tipItem2");
+              btn.style.right = (10 + window.scrollX) + "px";
+              btn.style.top = (10 + window.scrollY) + "px";
+              btn = document.getElementById("tipItem3");
+              btn.style.left = (10 + window.scrollX) + "px";
+              btn.style.top = (window.scrollY + screen.availHeight - 150) + "px";
+              btn = document.getElementById("tipItem4");
+              btn.style.right = (10 + window.scrollX) + "px";
+              btn.style.top = (window.scrollY + screen.availHeight - 150) + "px";
+              btn = document.getElementById("tipItem5");
+              btn.style.left = (window.scrollX + (screen.availWidth / 2) - 150) + "px";
+              btn.style.top = (window.scrollY + (screen.availHeight / 2) - 50) + "px";
+            
+              panel.classList.remove("hidden");
+            } else {
+              panel.classList.add("hidden");
+            }
+          });
+          attachConsole();
+        }
+
+        if (!ex.ready) {
+          ex.addEventListener("loaded", init);
+        } else {
+          init();
+        }
+
+        function attachConsole() {
+          ex.addEventListener("changed", onChanged);
+        }
+
+        function detachConsole() {
+          ex.removeEventListener("changed", onChanged);
+        }
+
+        function onChanged(ev) {
+          console.log(ev.detail.id + " has changed");
+          show.checked = ex.show;
+        }
       })();
     </script>
   </div>
