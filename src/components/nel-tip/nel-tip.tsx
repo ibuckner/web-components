@@ -16,6 +16,8 @@ import { positionPop, TPosition } from "@buckneri/spline";
 export class Tip implements ComponentInterface {
   @Element() private host: HTMLElement;
   private _for: HTMLElement;
+  private _left: number = 0;
+  private _padding: number = 20;
   private _panel: HTMLElement;
   private _pause: HTMLElement;
   private _paused: boolean = false;
@@ -25,6 +27,7 @@ export class Tip implements ComponentInterface {
   private _progressCount: number;
   private _timerProgress: ReturnType<typeof setInterval>;
   private _tip: HTMLElement;
+  private _top: number = 0;
 
   /**
    * Hides the visible tip after n milliseconds. 0 (disabled) is default
@@ -53,8 +56,16 @@ export class Tip implements ComponentInterface {
     if (this.for) {
       this._for = document.getElementById(this.for);
       this._position = positionPop(this._for as any, this._tip);
-      this._tip.style.top = (this._position.y + (this._position.orientY === "top" ? -20 : 20)) + "px";
-      this._tip.style.left = (this._position.x + (this._position.orientX === "right" ? -40 : 40)) + "px";
+      let adjLeft: number = this._position.orientY === "middle" 
+        ? (this._position.orientX === "left" ? -this._padding : this._padding) * 0.5
+        : (this._position.orientX === "left" ? this._padding : -this._padding) * 1.5;
+      let adjTop: number = this._position.orientY === "top" 
+        ? -this._padding 
+        : this._position.orientY === "bottom" 
+          ? this._padding 
+          : 0;
+      this._top = this._position.y + adjTop;
+      this._left = this._position.x + adjLeft;
       this._pointer = `${this._position.orientY}-${this._position.orientX}`;
     }
   }
@@ -138,13 +149,14 @@ export class Tip implements ComponentInterface {
   }
 
   public render(): JSX.NelTip {
+    const pos: {[key: string]: string } = { left: `${this._left}px`, top: `${this._top}px` };
     const cls: string = `tip`;
     const clsWrapper: string = `tip-wrapper ${this._pointer}`;
     const clsPanel: string = `tip-panel${this.expires ? "" : " hidden"}`;
     const clsBar: string = `tip-progress${this.expires ? "" : " hidden"} ${this._position.orientY}`;
     return (
       <Host>
-        <div class={cls}>
+        <div class={cls} style={pos}>
           <div class={clsWrapper}>
             <progress class={clsBar} max="100" value="0"></progress>
             <div class="tip-message">

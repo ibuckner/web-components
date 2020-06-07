@@ -993,16 +993,23 @@
     <div class="sample">
       <nel-tip id="InformationTip" expires="0">This tip is 100% non-information. Citations are required</nel-tip>
       <div id="tipPanel" class="hidden">
-        <div id="tipItem1" class="button" style="background-color: #900; color: #fff; position: absolute;">Click on me to reveal tip</div>
-        <div id="tipItem2" class="button" style="background-color: #990; color: #fff; position: absolute;">Click on me to reveal tip</div>
-        <div id="tipItem3" class="button" style="background-color: #090; color: #fff; position: absolute;">Click on me to reveal tip</div>
-        <div id="tipItem4" class="button" style="background-color: #009; color: #fff; position: absolute;">Click on me to reveal tip</div>
-        <div id="tipItem5" class="button" style="background-color: #099; color: #fff; position: absolute;">Click on me to reveal tip</div>
+        <div id="tipItem1" class="button" style="background-color: #900; color: #fff; position: absolute; z-index: 11000;">Click on me to reveal tip</div>
+        <div id="tipItem2" class="button" style="background-color: #990; color: #fff; position: absolute; z-index: 11000;">Click on me to reveal tip</div>
+        <div id="tipItem3" class="button" style="background-color: #090; color: #fff; position: absolute; z-index: 11000;">Click on me to reveal tip</div>
+        <div id="tipItem4" class="button" style="background-color: #009; color: #fff; position: absolute; z-index: 11000;">Click on me to reveal tip</div>
+        <div id="tipItem5" class="button" style="background-color: #099; color: #fff; position: absolute; z-index: 11000;">Click on me to reveal tip</div>
       </div>
       <hr>
 
       <h3>Example</h3>
-      <label><input type="checkbox" id="chkExampleTip" /> enable this example</label><br>
+      <svg id="svgTipExample" height="250" width="1000px" style="position: relative; z-index: 10000;">
+        <g>
+          <rect x="0" y="0" height="100%" width="100%" fill="lightyellow"></rect>
+          <circle id="circleTipItem" cx="50" cy="50" r="20" fill="#900"></circle>
+          <rect id="rectTipItem" x="90%" y="50%" height="100" width="30" fill="#009"></rect>
+        </g>
+      </svg>
+      <label><input type="checkbox" id="chkExampleTip" /> show absolute position elements</label><br>
 
       <h3>Properties</h3>
       <label><input type="input" id="chkExpiresTip" value="0" /> expires (ms)</label><br>
@@ -1027,16 +1034,19 @@
           events.checked ? attachConsole() : detachConsole();
         });
 
+        function tipClickHandler(e) {
+          ex.show = false;
+          setTimeout(function() {
+            ex.for = e.target.id;
+            ex.show = true; }, 650);
+        }
+
         function init() {
           for (var i = 1; i < 6; i++) {
-            document.getElementById("tipItem" + i)
-              .addEventListener("click", function(e) {
-                ex.show = false;
-                setTimeout(function() {
-                  ex.for = e.target.id;
-                  ex.show = true; }, 650);
-              });
+            document.getElementById("tipItem" + i).addEventListener("click", tipClickHandler);
           }
+          document.getElementById("circleTipItem").addEventListener("click", tipClickHandler);
+          document.getElementById("rectTipItem").addEventListener("click", tipClickHandler);
 
           expires.addEventListener("input", function(e) {
             ex.expires = parseInt(e.target.value);
