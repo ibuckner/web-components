@@ -3,7 +3,7 @@ import {
   Listen, Prop, Watch
 } from "@stencil/core";
 import { JSX } from "../../components";
-import { Slicer as _Slicer, SlicerModifier } from "@buckneri/js-lib-slicer";
+import { Slicer as _Slicer, SlicerModifier } from "@buckneri/collections";
 
 /**
  * Organises child elements vertically or horizontally
