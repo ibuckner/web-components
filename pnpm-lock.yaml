@@ -5,8 +5,8 @@ dependencies:
   minimist: 1.2.5
   resize-observer: 1.0.0
 devDependencies:
-  '@stencil/core': 1.16.4
-  '@stencil/sass': 1.3.2_@stencil+core@1.16.4
+  '@stencil/core': 1.16.5
+  '@stencil/sass': 1.3.2_@stencil+core@1.16.5
   '@stencil/utils': 0.0.5
   '@types/d3': 5.7.2
   '@types/jest': 26.0.5
@@ -536,7 +536,7 @@ packages:
     dev: true
     resolution:
       integrity: sha512-MZPUxrmFubI36XS1DI3qmI0YdN1gks62JtFZvxR67ljjSNCeK6U08Zx4msEWOXuofgqUt6zPHSi1H9fbjR/NRA==
-  /@stencil/core/1.16.4:
+  /@stencil/core/1.16.5:
     dependencies:
       typescript: 3.9.7
     dev: true
@@ -545,10 +545,10 @@ packages:
       npm: '>=6.0.0'
     hasBin: true
     resolution:
-      integrity: sha512-RN1xoGyzNCXAAzN8HHDDoGEbGrms1YpEnfp86kd37ZHOOwX500GwxjsTOpzFcBOfkUoiuBjKVnONTqWO04H8/Q==
-  /@stencil/sass/1.3.2_@stencil+core@1.16.4:
+      integrity: sha512-70srOdtpEg0sIS2V4x/BJfQpNDJnuMnJXoY3KkKywLE3DdLnM5zQogsfX+NyKzQACx9qLh18sVSBNIartAvjgA==
+  /@stencil/sass/1.3.2_@stencil+core@1.16.5:
     dependencies:
-      '@stencil/core': 1.16.4
+      '@stencil/core': 1.16.5
     dev: true
     peerDependencies:
       '@stencil/core': ^1.0.2
@@ -4869,7 +4869,7 @@ specifiers:
   '@buckneri/collections': ^0.1.1
   '@buckneri/js-lib-color': 0.0.6
   '@buckneri/spline': ^0.7.1
-  '@stencil/core': ^1.16.4
+  '@stencil/core': ^1.16.5
   '@stencil/sass': ^1.3.2
   '@stencil/utils': 0.0.5
   '@types/d3': ^5.7.2
