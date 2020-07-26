@@ -5,12 +5,12 @@ dependencies:
   minimist: 1.2.5
   resize-observer: 1.0.0
 devDependencies:
-  '@stencil/core': 1.16.5
-  '@stencil/sass': 1.3.2_@stencil+core@1.16.5
+  '@stencil/core': 1.17.1
+  '@stencil/sass': 1.3.2_@stencil+core@1.17.1
   '@stencil/utils': 0.0.5
   '@types/d3': 5.7.2
-  '@types/jest': 26.0.5
-  '@types/node': 14.0.24
+  '@types/jest': 26.0.7
+  '@types/node': 14.0.26
   '@types/puppeteer': 3.0.1
   '@typescript-eslint/eslint-plugin': 3.7.0_a7d792035c43f2b80bcf395c5516fe5c
   '@typescript-eslint/parser': 3.7.0_eslint@7.5.0+typescript@3.9.7
@@ -18,7 +18,7 @@ devDependencies:
   eslint-plugin-jsdoc: 30.0.3_eslint@7.5.0
   jest: 26.1.0
   jest-cli: 26.1.0
-  jsdoc: 3.6.4
+  jsdoc: 3.6.5
   puppeteer: 5.2.1
   typescript: 3.9.7
 lockfileVersion: 5.1
@@ -536,7 +536,7 @@ packages:
     dev: true
     resolution:
       integrity: sha512-MZPUxrmFubI36XS1DI3qmI0YdN1gks62JtFZvxR67ljjSNCeK6U08Zx4msEWOXuofgqUt6zPHSi1H9fbjR/NRA==
-  /@stencil/core/1.16.5:
+  /@stencil/core/1.17.1:
     dependencies:
       typescript: 3.9.7
     dev: true
@@ -545,10 +545,10 @@ packages:
       npm: '>=6.0.0'
     hasBin: true
     resolution:
-      integrity: sha512-70srOdtpEg0sIS2V4x/BJfQpNDJnuMnJXoY3KkKywLE3DdLnM5zQogsfX+NyKzQACx9qLh18sVSBNIartAvjgA==
-  /@stencil/sass/1.3.2_@stencil+core@1.16.5:
+      integrity: sha512-1OsRAMP9wo79mmZc4kz2DGnN/hqXLjdrTNGzqXd8K8K/6Mdua3Te+Zb3gmKMGP7ZaIzqIHbWDvCD2XZ4Sb0dFw==
+  /@stencil/sass/1.3.2_@stencil+core@1.17.1:
     dependencies:
-      '@stencil/core': 1.16.5
+      '@stencil/core': 1.17.1
     dev: true
     peerDependencies:
       '@stencil/core': ^1.0.2
@@ -807,13 +807,13 @@ packages:
     dev: true
     resolution:
       integrity: sha512-P/W9yOX/3oPZSpaYOCQzGqgCQRXn0FFO/V8bWrCQs+wLmvVVxk6CRBXALEvNs9OHIatlnlFokfhuDo2ug01ciw==
-  /@types/jest/26.0.5:
+  /@types/jest/26.0.7:
     dependencies:
       jest-diff: 25.5.0
       pretty-format: 25.5.0
     dev: true
     resolution:
-      integrity: sha512-heU+7w8snfwfjtcj2H458aTx3m5unIToOJhx75ebHilBiiQ39OIdA18WkG4LP08YKeAoWAGvWg8s+22w/PeJ6w==
+      integrity: sha512-+x0077/LoN6MjqBcVOe1y9dpryWnfDZ+Xfo3EqGeBcfPRJlQp3Lw62RvNlWxuGv7kOEwlHriAa54updi3Jvvwg==
   /@types/json-schema/7.0.5:
     dev: true
     resolution:
@@ -822,6 +822,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-btt/oNOiDWcSuI721MdL8VQGnjsKjlTMdrKyTcLCKeQp/n4AAMFJ961wMbp+09y8WuGPClDEv07RIItdXKIXAA==
+  /@types/node/14.0.26:
+    dev: true
+    resolution:
+      integrity: sha512-W+fpe5s91FBGE0pEa0lnqGLL4USgpLgs4nokw16SrBBco/gQxuua7KnArSEOd5iaMqbbSHV10vUDkJYJJqpXKA==
   /@types/normalize-package-data/2.4.0:
     dev: true
     resolution:
@@ -3042,7 +3046,7 @@ packages:
     dev: true
     resolution:
       integrity: sha1-peZUwuWi3rXyAdls77yoDA7y9RM=
-  /jsdoc/3.6.4:
+  /jsdoc/3.6.5:
     dependencies:
       '@babel/parser': 7.10.5
       bluebird: 3.7.2
@@ -3063,7 +3067,7 @@ packages:
       node: '>=8.15.0'
     hasBin: true
     resolution:
-      integrity: sha512-3G9d37VHv7MFdheviDCjUfQoIjdv4TC5zTTf5G9VODLtOnVS6La1eoYBDlbWfsRT3/Xo+j2MIqki2EV12BZfwA==
+      integrity: sha512-SbY+i9ONuxSK35cgVHaI8O9senTE4CDYAmGSDJ5l3+sfe62Ff4gy96osy6OW84t4K4A8iGnMrlRrsSItSNp3RQ==
   /jsdoctypeparser/8.0.0:
     dev: true
     engines:
@@ -4869,12 +4873,12 @@ specifiers:
   '@buckneri/collections': ^0.1.1
   '@buckneri/js-lib-color': 0.0.6
   '@buckneri/spline': ^0.7.1
-  '@stencil/core': ^1.16.5
+  '@stencil/core': 1.17.1
   '@stencil/sass': ^1.3.2
   '@stencil/utils': 0.0.5
   '@types/d3': ^5.7.2
-  '@types/jest': ^26.0.5
-  '@types/node': ^14.0.24
+  '@types/jest': 26.0.7
+  '@types/node': 14.0.26
   '@types/puppeteer': ^3.0.1
   '@typescript-eslint/eslint-plugin': ^3.7.0
   '@typescript-eslint/parser': ^3.7.0
@@ -4882,7 +4886,7 @@ specifiers:
   eslint-plugin-jsdoc: 30.0.3
   jest: ^26.1.0
   jest-cli: ^26.1.0
-  jsdoc: ^3.6.4
+  jsdoc: 3.6.5
   minimist: ^1.2.5
   puppeteer: 5.2.1
   resize-observer: ^1.0.0
