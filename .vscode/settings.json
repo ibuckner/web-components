@@ -13,6 +13,5 @@
   },
   "editor.tabSize": 2,
   "editor.formatOnSave": true,
-  "tslint.ignoreDefinitionFiles": true,
-  "typescript.tsdk": "node_modules\\typescript\\lib"
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
