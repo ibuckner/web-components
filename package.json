@@ -21,9 +21,9 @@
     "make": "stencil build --prod --docs",
     "start": "stencil build --dev --watch --serve",
     "test": "stencil test --spec --e2e",
-    "test-upload": "npm publish --dry-run --access public",
+    "test-upload": "pnpm prune & pnpm publish --dry-run --access public",
     "test.watch": "stencil test --spec --e2e --watchAll",
-    "upload": "npm publish --access public"
+    "upload": "pnpm publish --access public"
   },
   "devDependencies": {
     "@stencil/core": "1.17.3",
@@ -33,10 +33,10 @@
     "@types/jest": "26.0.10",
     "@types/node": "14.6.0",
     "@types/puppeteer": "^3.0.1",
-    "@typescript-eslint/eslint-plugin": "^3.9.1",
-    "@typescript-eslint/parser": "^3.9.1",
+    "@typescript-eslint/eslint-plugin": "^3.10.1",
+    "@typescript-eslint/parser": "^3.10.1",
     "eslint": "^7.7.0",
-    "eslint-plugin-jsdoc": "30.2.4",
+    "eslint-plugin-jsdoc": "30.3.0",
     "jest": "^26.4.2",
     "jest-cli": "^26.4.2",
     "jsdoc": "3.6.5",
@@ -47,7 +47,7 @@
   "dependencies": {
     "@buckneri/collections": "^0.1.6",
     "@buckneri/js-lib-color": "0.0.6",
-    "@buckneri/spline": "^0.7.2",
+    "@buckneri/spline": "^0.7.10",
     "minimist": "^1.2.5",
     "resize-observer": "^1.0.0"
   },
