@@ -90,7 +90,13 @@ export class ExpandItem {
       ev.stopPropagation();
       return false;
     }
-    this.open = !(this.host as any).open;
+    if (this.open) {
+      if ((ev.target as Element).slot === "title") {
+        this.open = !(this.host as any).open;
+      }
+    } else {
+      this.open = !(this.host as any).open;
+    }
     return true;
   }
 
