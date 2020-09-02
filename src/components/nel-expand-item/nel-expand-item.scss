@@ -1,4 +1,6 @@
-:host { width: 100% }
+:host {
+  width: 100% 
+}
 
 :host([disabled]), 
 :host([disabled]) > details {
@@ -15,7 +17,8 @@
 details {
   display: block;
   line-height: 1.5;
-  margin-bottom: 8px;
+  margin: 0;
+  padding: 0;
   width: 100%
 }
 

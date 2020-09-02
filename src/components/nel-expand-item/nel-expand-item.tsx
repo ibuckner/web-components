@@ -90,11 +90,8 @@ export class ExpandItem {
       ev.stopPropagation();
       return false;
     }
-    if (this.open) {
-      if ((ev.target as Element).slot === "title") {
-        this.open = !(this.host as any).open;
-      }
-    } else {
+    const e: Element = ev.target as Element;
+    if (e.slot === "title" || e.tagName === "NEL-EXPAND-ITEM") {
       this.open = !(this.host as any).open;
     }
     return true;
@@ -141,7 +138,7 @@ export class ExpandItem {
             <slot name="title"></slot>
           </div>
         </summary>
-        <div style={contentStyle}>
+        <div class="content" style={contentStyle}>
           <slot name="content"></slot>
         </div>
       </details>
