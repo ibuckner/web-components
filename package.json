@@ -15,7 +15,7 @@
   "scripts": {
     "build": "stencil build --docs",
     "docs": "pnpm run docs-a & pnpm run docs-b",
-    "docs-a": "cpy **/www/*.* docs",
+    "docs-a": "cpy **/src/index.html docs",
     "docs-b": "cpy **/www/build/*.* docs/build",
     "eslint": "eslint -c .eslintrc.json --ext .ts --ext .js ./src",
     "generate": "stencil generate",
