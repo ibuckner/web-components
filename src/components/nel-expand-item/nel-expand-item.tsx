@@ -99,7 +99,13 @@ export class ExpandItem {
       return false;
     }
     const e: Element = ev.target as Element;
-    if (e.slot === "title" || e.tagName === "NEL-EXPAND-ITEM") {
+    let p = e.parentNode as Element;
+    if (e.tagName !== "NEL-EXPAND-ITEM") {
+      while (p.slot !== "title" && p.tagName !== "NEL-EXPAND-ITEM") {
+        p = p.parentNode as Element;
+      }
+    }
+    if (e.slot === "title" || e.tagName === "NEL-EXPAND-ITEM" || p.slot === "title") {
       this.open = !(this.host as any).open;
     }
     return true;
