@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
   <title>Web components with Stencil</title>
-  <script type="module" src="../build/web-components.esm.js"></script>
-  <script nomodule src="../build/web-components.js"></script>
+  <script type="module" src="build/web-components.esm.js"></script>
+  <script nomodule src="build/web-components.js"></script>
   <style>
     html, body, input, label, textarea {
       font-family: Arial, Helvetica, sans-serif;
@@ -116,6 +116,7 @@
       <label><input type="checkbox" id="chkDisableExpand" /> disabled</label>
       <label><input type="checkbox" id="chkHideExpand" /> hidden</label>
       <label><input type="checkbox" id="chkToggleExpand" /> open</label>
+      <label><input type="number" id="chkSizeExpand" min="1" max="10" step="1" value="2" /> size</label>
       <h3>Events</h3>
       <label><input type="checkbox" id="chkEventsExpand" checked /> view events (<code>F12</code> opens console)</label>
     </div>    
@@ -134,6 +135,9 @@
 
         var toggle = document.getElementById("chkToggleExpand");
         toggle.addEventListener("change", function() { ex.open = toggle.checked });
+
+        var size = document.getElementById("chkSizeExpand");
+        size.addEventListener("change", function() { ex.size = size.value });
 
         var events = document.getElementById("chkEventsExpand");  
         events.addEventListener("change", function() {
