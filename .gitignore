@@ -1,6 +1,7 @@
 dist/
 loader/
 node_modules/
+www/
 
 *~
 *.sw[mnpcod]
@@ -9,16 +10,10 @@ node_modules/
 *.tmp
 *.tmp.*
 log.txt
-*.sublime-project
-*.sublime-workspace
 
 .idea/
 .sass-cache/
 .stencil/
 .versions/
-$RECYCLE.BIN/
 
-.DS_Store
-Thumbs.db
-UserInterfaceState.xcuserstate
 .env
