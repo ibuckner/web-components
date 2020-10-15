@@ -13,6 +13,7 @@ import { JSX } from "../../components";
 })
 export class ExpandItem {
   @Element() private host: HTMLElement;
+  private _size: number = 1 + (2 * 0.25);
 
   /**
    * If false, element is partly greyed out and not responding to user input
@@ -42,6 +43,13 @@ export class ExpandItem {
    * Adjusts the size of the marker, using CSS rem units of measurement
    */
   @Prop({ reflect: true }) public size: number = 2;
+
+  @Watch("size")
+  validateSize(newValue: string): void {
+    if (+newValue > 0 && +newValue < 11) {
+      this._size = 1 + (Math.ceil(+newValue) * 0.25);
+    }
+  }
 
   /**
    * Fired when element's open property is false either via UI or programmatically
@@ -116,17 +124,17 @@ export class ExpandItem {
   public render(): JSX.NelExpandItem {
     const tab: number = this.disabled ? undefined : 0;
     const contentStyle: any = {
-      padding: `0.75rem 0.75rem 0.75rem ${this.size + 1.5}rem`
+      padding: `0.75rem 0.75rem 0.75rem ${this._size + 1.5}rem`
     };
     const iconStyle: any = {
       "background-image": this.open
-        ? `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' height='${this.size}rem' width='${this.size}rem' aria-hidden='true'%3E%3Ccircle cx='12' cy='12' r='10' fill='%23005eb8'%3E%3C/circle%3E%3Cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M8 12h8'%3E%3C/path%3E%3C/svg%3E%0A")`
-        : `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' height='${this.size}rem' width='${this.size}rem' aria-hidden='true'%3E%3Ccircle cx='12' cy='12' r='10' fill='%23005eb8'%3E%3C/circle%3E%3Cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M12 8v8M8 12h8'%3E%3C/path%3E%3C/svg%3E%0A")`,
+        ? `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' height='${this._size}rem' width='${this._size}rem' aria-hidden='true'%3E%3Ccircle cx='12' cy='12' r='10' fill='%23005eb8'%3E%3C/circle%3E%3Cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M8 12h8'%3E%3C/path%3E%3C/svg%3E%0A")`
+        : `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' height='${this._size}rem' width='${this._size}rem' aria-hidden='true'%3E%3Ccircle cx='12' cy='12' r='10' fill='%23005eb8'%3E%3C/circle%3E%3Cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M12 8v8M8 12h8'%3E%3C/path%3E%3C/svg%3E%0A")`,
       "background-position": "center",
       "background-repeat": "no-repeat",
       "border-radius": "50%",
-      height: `${this.size}rem`,
-      width: `${this.size}rem`
+      height: `${this._size}rem`,
+      width: `${this._size}rem`
     };
     return (
       <details tabindex={tab} open={this.open}>

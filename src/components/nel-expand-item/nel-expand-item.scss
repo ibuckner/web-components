@@ -1,7 +1,4 @@
-:host {
-  width: 100% 
-}
-
+:host { width: 100% }
 :host([disabled]), 
 :host([disabled]) > details {
   cursor: not-allowed;
@@ -9,10 +6,7 @@
   pointer-events: none;
   user-select: none
 }
-
-:host([hidden]) {
-  display: none !important
-}
+:host([hidden]) { display: none !important }
 
 details {
   display: block;
@@ -27,6 +21,7 @@ summary {
   cursor: pointer;
   display: flex;
   justify-content: center;
+  margin: 0;
   padding: 0.5rem 0.5rem 0.5rem 1rem
 }
 
@@ -37,10 +32,8 @@ summary::-webkit-details-marker { display: none }
 .title { width: 100% }
 
 .title > ::slotted(*) {
-  align-items: center;
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
+  display: inline-block;
   padding-left: 10px;
-  user-select: none
+  user-select: none;
+  vertical-align: middle;
 }
