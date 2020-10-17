@@ -32,7 +32,7 @@
     "@stencil/utils": "0.0.5",
     "@types/d3": "^5.16.3",
     "@types/jest": "26.0.14",
-    "@types/node": "14.11.8",
+    "@types/node": "14.11.10",
     "@types/puppeteer": "^3.0.2",
     "@typescript-eslint/eslint-plugin": "^4.4.1",
     "@typescript-eslint/parser": "^4.4.1",

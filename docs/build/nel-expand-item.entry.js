@@ -67,7 +67,13 @@ const ExpandItem = class {
       return false;
     }
     const e = ev.target;
-    if (e.slot === "title" || e.tagName === "NEL-EXPAND-ITEM") {
+    let p = e.parentNode;
+    if (e.tagName !== "NEL-EXPAND-ITEM") {
+      while (p.slot !== "title" && p.tagName !== "NEL-EXPAND-ITEM") {
+        p = p.parentNode;
+      }
+    }
+    if (e.slot === "title" || e.tagName === "NEL-EXPAND-ITEM" || p.slot === "title") {
       this.open = !this.host.open;
     }
     return true;
