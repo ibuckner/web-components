@@ -906,8 +906,8 @@
           ex.removeEventListener("input", onInput);
         }
 
-        function onInput(ev) {          
-          console.log(ev.target.id + " = " + ev.target.value);
+        function onInput(ev) {
+          console.log(`INPUT event [${ev.target.id} = ${ev.target.value}]`);
         }
       })();
     </script>
